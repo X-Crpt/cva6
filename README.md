@@ -46,7 +46,7 @@ source verif/regress/initial_test.sh
 ### 2️. Crypto Coprocessor Using CVA6 Register File  
 - Implemented a **64-bit RISC-V Cryptographic Extensions** coprocessor based on [riscv-crypto](https://github.com/riscv/riscv-crypto).  
 - Integrated the coprocessor following the **CV-X-IF** protocol, using the **CVA6 core's internal register file (RF)** for data processing.
-- More details can be found in the respective branch. [branch-name](https://github.com/your-repo-name/tree/branch-name)
+- More details can be found in the respective branch. [crypto-coproc](https://github.com/X-Crpt/cva6/tree/crypto-coproc)
 
 ### 3. Crypto Coprocessor with Dedicated Register File  
 - Extended the implementation to a cryptographic coprocessor that operates **exclusively with an external register file**, independent of CVA6's RF.  
