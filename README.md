@@ -40,7 +40,7 @@ source verif/regress/initial_test.sh
 ### 1. Basic CV-X-IF Coprocessor Test  
 - Implemented a simple coprocessor using CV-X-IF with custom instructions for **XOR, AND, and OR** operations.  
 - Validated functionality through initial hardware/software testing.  
-- More details can be found in the respective branch. [branch-name](https://github.com/your-repo-name/tree/branch-name)
+- More details can be found in the respective branch. [simple-coproc](https://github.com/X-Crpt/cva6/tree/simple-coproc)
 
 
 ### 2️. Crypto Coprocessor Using CVA6 Register File  
