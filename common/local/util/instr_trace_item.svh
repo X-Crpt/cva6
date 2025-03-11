@@ -362,6 +362,56 @@ class instr_trace_item #(
             instr_tracer_pkg::C_ADDW:         s = this.printRInstr("c.addw");
             instr_tracer_pkg::C_NOP:          s = this.printMnemonic("c.nop");
             instr_tracer_pkg::C_EBREAK:       s = this.printMnemonic("c.ebreak");
+            // Scalar Cryptography Extension
+            instr_tracer_pkg::INSTR_ANDN:     s = this.printRInstr("andn");
+            instr_tracer_pkg::INSTR_BREV8:    s = this.printR1Instr("brev8");
+            instr_tracer_pkg::INSTR_ORN:      s = this.printRInstr("orn");
+            instr_tracer_pkg::INSTR_PACK:     s = this.printRInstr("pack");
+            instr_tracer_pkg::INSTR_PACKH:    s = this.printRInstr("packh");
+            instr_tracer_pkg::INSTR_PACKW:    s = this.printRInstr("packw");
+            instr_tracer_pkg::INSTR_REV8:     s = this.printR1Instr("rev8");
+            instr_tracer_pkg::INSTR_ROL:      s = this.printRInstr("rol");
+            instr_tracer_pkg::INSTR_ROLW:     s = this.printRInstr("rolw");
+            instr_tracer_pkg::INSTR_ROR:      s = this.printRInstr("ror");
+            instr_tracer_pkg::INSTR_RORI:     s = this.printMnemonic("rori");
+            instr_tracer_pkg::INSTR_RORIW:    s = this.printMnemonic("roriw");
+            instr_tracer_pkg::INSTR_RORW:     s = this.printRInstr("rorw");
+            instr_tracer_pkg::INSTR_XNOR:     s = this.printRInstr("xnor");
+            instr_tracer_pkg::INSTR_ZIP:      s = this.printR1Instr("zip");
+            instr_tracer_pkg::INSTR_UNZIP:    s = this.printR1Instr("unzip");
+            instr_tracer_pkg::INSTR_CLMUL:    s = this.printRInstr("clmul");
+            instr_tracer_pkg::INSTR_CLMULH:   s = this.printRInstr("clmulh");
+            instr_tracer_pkg::INSTR_XPERM8:   s = this.printRInstr("xperm8");
+            instr_tracer_pkg::INSTR_XPERM4:   s = this.printRInstr("xperm4");
+            instr_tracer_pkg::INSTR_AES32DSI: s = this.printRInstr_plus_bs("aes32dsi");
+            instr_tracer_pkg::INSTR_AES32DSMI:s = this.printRInstr_plus_bs("aes32dsmi");
+            instr_tracer_pkg::INSTR_AES64DS:  s = this.printRInstr("aes64ds");
+            instr_tracer_pkg::INSTR_AES64DSM: s = this.printRInstr("aes64dsm");
+            instr_tracer_pkg::INSTR_AES64IM:  s = this.printR1Instr("aes64im");
+            instr_tracer_pkg::INSTR_AES64KS2: s = this.printRInstr("aes64ks2");
+            instr_tracer_pkg::INSTR_AES64KS1I:s = this.printAES64KS1Instr("aes64ks1i");
+            instr_tracer_pkg::INSTR_AES32ESI: s = this.printRInstr_plus_bs("aes32esi");
+            instr_tracer_pkg::INSTR_AES32ESMI:s = this.printRInstr_plus_bs("aes32esmi");
+            instr_tracer_pkg::INSTR_AES64ES:  s = this.printRInstr("aes64es");
+            instr_tracer_pkg::INSTR_AES64ESM: s = this.printRInstr("aes64esm");
+            instr_tracer_pkg::INSTR_SHA256SIG0:   s = this.printR1Instr("sha256sig0");
+            instr_tracer_pkg::INSTR_SHA256SIG1:   s = this.printR1Instr("sha256sig1");
+            instr_tracer_pkg::INSTR_SHA256SUM0:   s = this.printR1Instr("sha256sum0");
+            instr_tracer_pkg::INSTR_SHA256SUM1:   s = this.printR1Instr("sha256sum1");
+            instr_tracer_pkg::INSTR_SHA512SIG0H:  s = this.printRInstr("sha512sig0h");
+            instr_tracer_pkg::INSTR_SHA512SIG0L:  s = this.printRInstr("sha512sig0l");
+            instr_tracer_pkg::INSTR_SHA512SIG1H:  s = this.printRInstr("sha512sig1h");
+            instr_tracer_pkg::INSTR_SHA512SIG1L:  s = this.printRInstr("sha512sig1l");
+            instr_tracer_pkg::INSTR_SHA512SUM0R:  s = this.printRInstr("sha512sum0r");
+            instr_tracer_pkg::INSTR_SHA512SUM1R:  s = this.printRInstr("sha512sum1r");
+            instr_tracer_pkg::INSTR_SHA512SIG0:   s = this.printR1Instr("sha512sig0");
+            instr_tracer_pkg::INSTR_SHA512SIG1:   s = this.printR1Instr("sha512sig1");
+            instr_tracer_pkg::INSTR_SHA512SUM0:   s = this.printR1Instr("sha512sum0");
+            instr_tracer_pkg::INSTR_SHA512SUM1:   s = this.printR1Instr("sha512sum1");
+            instr_tracer_pkg::INSTR_SM4ED:   s = this.printRInstr_plus_bs("sm4ed");
+            instr_tracer_pkg::INSTR_SM4KS:   s = this.printRInstr_plus_bs("sm4ks");
+            instr_tracer_pkg::INSTR_SM3P0:   s = this.printR1Instr("sm3p0");
+            instr_tracer_pkg::INSTR_SM3P1:   s = this.printR1Instr("sm3p1");
             default:                          s = this.printMnemonic("INVALID");
         endcase
 
@@ -722,5 +772,39 @@ class instr_trace_item #(
         if (is_op32) s = {s, "w"};
         return this.printRInstr(s);
     endfunction
+    
+    //Cryptography Extension
+    function string printRInstr_plus_bs(input string mnemonic);
+
+        result_regs.push_back(rd);
+        result_fpr.push_back(1'b0);
+        read_regs.push_back(rs1);
+        read_fpr.push_back(1'b0);
+        read_regs.push_back(rs2);
+        read_fpr.push_back(1'b0);
+
+        return $sformatf("%-12s %4s, %s, %s, %d", mnemonic, regAddrToStr(rd), regAddrToStr(rs1), regAddrToStr(rs2), instr[31:30]);
+    endfunction // printRInstr_plus_bs
+
+    function string printR1Instr(input string mnemonic);
+
+        result_regs.push_back(rd);
+        result_fpr.push_back(1'b0);
+        read_regs.push_back(rs1);
+        read_fpr.push_back(1'b0);
+
+        return $sformatf("%-12s %4s, %s", mnemonic, regAddrToStr(rd), regAddrToStr(rs1));
+    endfunction // printR1Instr
+
+    function string printAES64KS1Instr(input string mnemonic);
+
+        result_regs.push_back(rd);
+        result_fpr.push_back(1'b0);
+        read_regs.push_back(rs1);
+        read_fpr.push_back(1'b0);
+
+        return $sformatf("%-12s %4s, %s, %d", mnemonic, regAddrToStr(rd), regAddrToStr(rs1), instr[23:20]);
+    endfunction // printAES64KS1Instr
+
   endclass
 `endif

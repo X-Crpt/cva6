@@ -198,5 +198,56 @@ package instr_tracer_pkg;
   parameter [31:0] C_LDSP = 32'b????????????????011???????????10;
   parameter [31:0] C_SDSP = 32'b????????????????111???????????10;
 
+  //Scalar Cryptography Extension
+  parameter INSTR_ANDN = {7'b0100000, 5'b?, 5'b?, 3'b111, 5'b?, 7'b0110011};
+  parameter INSTR_BREV8 = {7'b0110100, 5'b00111, 5'b?, 3'b101, 5'b?, 7'b0010011};
+  parameter INSTR_ORN = {7'b0100000, 5'b?, 5'b?, 3'b110, 5'b?, 7'b0110011};
+  parameter INSTR_PACK = {7'b0000100, 5'b?, 5'b?, 3'b100, 5'b?, 7'b0110011};
+  parameter INSTR_PACKH = {7'b0000100, 5'b?, 5'b?, 3'b111, 5'b?, 7'b0110011};
+  parameter INSTR_PACKW = {7'b0000100, 5'b?, 5'b?, 3'b100, 5'b?, 7'b0111011};
+  parameter INSTR_REV8 = {7'b0110101, 5'b11000, 5'b?, 3'b101, 5'b?, 7'b0010011};
+  parameter INSTR_ROL = {7'b0110000, 5'b?, 5'b?, 3'b001, 5'b?, 7'b0110011};
+  parameter INSTR_ROLW = {7'b0110000, 5'b?, 5'b?, 3'b001, 5'b?, 7'b0111011};
+  parameter INSTR_ROR = {7'b0110000, 5'b?, 5'b?, 3'b101, 5'b?, 7'b0110011};
+  parameter INSTR_RORI = {6'b011000, 6'b?, 5'b?, 3'b101, 5'b?, 7'b0010011};
+  parameter INSTR_RORIW = {7'b0110000, 5'b?, 5'b?, 3'b101, 5'b?, 7'b0011011};
+  parameter INSTR_RORW = {7'b0110000, 5'b?, 5'b?, 3'b101, 5'b?, 7'b0111011};
+  parameter INSTR_XNOR = {7'b0100000, 5'b?, 5'b?, 3'b100, 5'b?, 7'b0110011};
+  parameter INSTR_ZIP = {7'b0000100, 5'b01111, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_UNZIP = {7'b0000100, 5'b01111, 5'b?, 3'b101, 5'b?, 7'b0010011};
+  parameter INSTR_CLMUL = {7'b0000101, 5'b?, 5'b?, 3'b001, 5'b?, 7'b0110011};
+  parameter INSTR_CLMULH = {7'b0000101, 5'b?, 5'b?, 3'b011, 5'b?, 7'b0110011};
+  parameter INSTR_XPERM8 = {7'b0010100, 5'b?, 5'b?, 3'b100, 5'b?, 7'b0110011};
+  parameter INSTR_XPERM4 = {7'b0010100, 5'b?, 5'b?, 3'b010, 5'b?, 7'b0110011};
+  parameter INSTR_AES32DSI = {2'b?,5'b10101, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES32DSMI = {2'b?,5'b10111, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES64DS = {7'b0011101, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};    
+  parameter INSTR_AES64DSM = {7'b0011111, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES64IM = {7'b0011000, 5'b00000, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_AES64KS2 = {7'b0111111, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES64KS1I = {7'b0011000, 1'b1, 4'b?, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_AES32ESI = {2'b?,5'b10001, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES32ESMI = {2'b?,5'b10011, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES64ES = {7'b0011001, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_AES64ESM = {7'b0011011, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA256SIG0 = {7'b0001000, 5'b00010, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA256SIG1 = {7'b0001000, 5'b00011, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA256SUM0 = {7'b0001000, 5'b00000, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA256SUM1 = {7'b0001000, 5'b00001, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA512SIG0H = {7'b0101110, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SIG0L = {7'b0101010, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SIG1H = {7'b0101111, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SIG1L = {7'b0101011, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SUM0R = {7'b0101000, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SUM1R = {7'b0101001, 5'b?, 5'b?, 3'b000, 5'b?, 7'b0110011};
+  parameter INSTR_SHA512SIG0 = {7'b0001000, 5'b00110, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA512SIG1 = {7'b0001000, 5'b00111, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA512SUM0 = {7'b0001000, 5'b00100, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SHA512SUM1 = {7'b0001000, 5'b00101, 5'b?, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SM4ED = {2'b?,5'b11000, 5'b?, 5'b?, 3'b000, 5'b11000, 7'b0110011};
+  parameter INSTR_SM4KS = {2'b?,5'b11010, 5'b?, 5'b?, 3'b000, 5'b11010, 7'b0110011};
+  parameter INSTR_SM3P0 = {7'b0001000, 5'b?, 5'b01000, 3'b001, 5'b?, 7'b0010011};
+  parameter INSTR_SM3P1 = {7'b0001000, 5'b?, 5'b01001, 3'b001, 5'b?, 7'b0010011};
+  
 endpackage
 `endif
