@@ -26,12 +26,18 @@ ${CVA6_REPO_DIR}/core/include/std_cache_pkg.sv
 ${CVA6_REPO_DIR}/core/include/instr_tracer_pkg.sv
 ${CVA6_REPO_DIR}/core/include/build_config_pkg.sv
 
+
 //CVXIF
+${CVA6_REPO_DIR}/core/cvxif_compressed_if_driver.sv
+${CVA6_REPO_DIR}/core/cvxif_issue_register_commit_if_driver.sv
+
+//CVXIF - CVXIF Example Accelerator
 ${CVA6_REPO_DIR}/core/cvxif_example/include/cvxif_instr_pkg.sv
-${CVA6_REPO_DIR}/core/cvxif_example/cvxif_example_coprocessor.sv
-${CVA6_REPO_DIR}/core/cvxif_example/instr_decoder.sv
+${CVA6_REPO_DIR}/core/cvxif_fu.sv
 ${CVA6_REPO_DIR}/core/cvxif_example/compressed_instr_decoder.sv
 ${CVA6_REPO_DIR}/core/cvxif_example/copro_alu.sv
+${CVA6_REPO_DIR}/core/cvxif_example/cvxif_example_coprocessor.sv
+${CVA6_REPO_DIR}/core/cvxif_example/instr_decoder.sv
 
 
 // Common Cells

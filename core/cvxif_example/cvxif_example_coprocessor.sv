@@ -7,6 +7,8 @@
 //
 // Original Author: Guillaume Chauvon
 
+// Modified by: Alessandra Dolmeta
+
 module cvxif_example_coprocessor
   import cvxif_instr_pkg::*;
 #(
@@ -58,12 +60,8 @@ module cvxif_example_coprocessor
 
   // Issue and Register interface
   // Mandatory when X_ISSUE_REGISTER_SPLIT = 0
-  assign cvxif_resp_o.compressed_ready = compressed_ready;
-  assign cvxif_resp_o.compressed_resp  = compressed_resp;
-  assign cvxif_resp_o.issue_ready      = issue_ready;
-  assign cvxif_resp_o.issue_resp       = issue_resp;
-  assign cvxif_resp_o.register_ready   = cvxif_resp_o.issue_ready;
 
+  //Inputs coming from CV-X-IF interface
   assign compressed_req                = cvxif_req_i.compressed_req;
   assign compressed_valid              = cvxif_req_i.compressed_valid;
   assign issue_req                     = cvxif_req_i.issue_req;
@@ -71,20 +69,40 @@ module cvxif_example_coprocessor
   assign register                      = cvxif_req_i.register;
   assign register_valid                = cvxif_req_i.register_valid;
 
-  compressed_instr_decoder #(
-      .copro_compressed_resp_t(cvxif_instr_pkg::copro_compressed_resp_t),
-      .NbInstr(cvxif_instr_pkg::NbCompInstr),
-      .CoproInstr(cvxif_instr_pkg::CoproCompInstr),
-      .x_compressed_req_t(x_compressed_req_t),
-      .x_compressed_resp_t(x_compressed_resp_t)
-  ) compressed_instr_decoder_i (
-      .clk_i             (clk_i),
-      .rst_ni            (rst_ni),
-      .compressed_valid_i(compressed_valid),
-      .compressed_req_i  (compressed_req),
-      .compressed_ready_o(compressed_ready),
-      .compressed_resp_o (compressed_resp)
-  );
+  assign cvxif_resp_o.compressed_ready = '0;
+  assign cvxif_resp_o.compressed_resp  = '0;
+
+  //Outputs going to CV-X-IF interface
+  assign cvxif_resp_o.issue_ready      = issue_ready;
+  assign cvxif_resp_o.issue_resp       = issue_resp;
+  assign cvxif_resp_o.register_ready   = cvxif_resp_o.issue_ready;
+  
+  assign cvxif_resp_o.result_valid  = alu_valid;  //TODO Should wait for ready from CPU
+  assign cvxif_resp_o.result.hartid = hartid;
+  assign cvxif_resp_o.result.id     = id;
+  assign cvxif_resp_o.result.data   = result;
+  assign cvxif_resp_o.result.rd     = rd;
+  assign cvxif_resp_o.result.we     = we;
+
+
+  //assign cvxif_resp_o.issue_ready      = alu_valid;
+  //assign cvxif_resp_o.register_ready   = alu_valid;
+
+
+  //compressed_instr_decoder #(
+  //    .copro_compressed_resp_t(cvxif_instr_pkg::copro_compressed_resp_t),
+  //    .NbInstr(cvxif_instr_pkg::NbCompInstr),
+  //    .CoproInstr(cvxif_instr_pkg::CoproCompInstr),
+  //    .x_compressed_req_t(x_compressed_req_t),
+  //    .x_compressed_resp_t(x_compressed_resp_t)
+  //) compressed_instr_decoder_i (
+  //    .clk_i             (clk_i),
+  //    .rst_ni            (rst_ni),
+  //    .compressed_valid_i(compressed_valid),
+  //    .compressed_req_i  (compressed_req),
+  //    .compressed_ready_o(compressed_ready),
+  //    .compressed_resp_o (compressed_resp)
+  //);
 
   instr_decoder #(
       .copro_issue_resp_t (cvxif_instr_pkg::copro_issue_resp_t),
@@ -123,29 +141,20 @@ module cvxif_example_coprocessor
       .id_t(id_t),
       .registers_t(registers_t)
   ) i_copro_alu (
-      .clk_i      (clk_i),
-      .rst_ni     (rst_ni),
-      .registers_i(registers),
-      .opcode_i   (opcode),
-      .hartid_i   (issue_hartid),
-      .id_i       (issue_id),
-      .rd_i       (issue_rd),
-      .hartid_o   (hartid),
-      .id_o       (id),
-      .result_o   (result),
-      .valid_o    (alu_valid),
-      .rd_o       (rd),
-      .we_o       (we)
+      .clk_i          (clk_i),
+      .rst_ni         (rst_ni),
+      .registers_i    (registers),
+      .opcode_i       (opcode),
+      .hartid_i       (issue_hartid),
+      .id_i           (issue_id),
+      .rd_i           (issue_rd),
+      .hartid_o       (hartid),
+      .id_o           (id),
+      .result_o       (result),
+      .valid_o        (alu_valid),
+      .rd_o           (rd),
+      .we_o           (we)
   );
-
-  always_comb begin
-    cvxif_resp_o.result_valid  = alu_valid;  //TODO Should wait for ready from CPU
-    cvxif_resp_o.result.hartid = hartid;
-    cvxif_resp_o.result.id     = id;
-    cvxif_resp_o.result.data   = result;
-    cvxif_resp_o.result.rd     = rd;
-    cvxif_resp_o.result.we     = we;
-  end
 
 
 

@@ -163,8 +163,6 @@ core/pmp/src/pmp.sv
 core/pmp/src/pmp_entry.sv
 core/pmp/src/pmp_data_if.sv
 common/local/util/instr_tracer.sv
-core/cvxif_example/cvxif_example_coprocessor.sv
-core/cvxif_example/instr_decoder.sv
 vendor/pulp-platform/common_cells/src/counter.sv
 vendor/pulp-platform/common_cells/src/delta_counter.sv
 core/cvxif_fu.sv
