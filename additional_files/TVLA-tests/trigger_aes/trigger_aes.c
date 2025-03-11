@@ -26,7 +26,6 @@ int main() {
     };
     uint8_t ciphertext[AES_BLOCK_SIZE];     // Cipertext to be saved between on execution and another
     uint8_t plaintext[32] = {0};            //Plaintext is always zero
-    uint8_t seed_input[AES_BLOCK_SIZE] = {0};
     uint32_t res;
 
     AES_CTX ctx;
@@ -36,30 +35,28 @@ int main() {
     *trigger = 1 << TRIGGER_CTRL_STOP; //Putting low the trigger
     asm volatile ("": : : "memory");
 
-    //Initialization UART
-    uint32_t freq, baud;  //TO BE SET
-    freq = 50000000;    //50 MHz
-    baud = 115200;      //115200 bps
-    init_uart(freq, baud);
-
-    read_seed_input_from_uart(seed_input, AES_BLOCK_SIZE);
+    uint8_t seed_input[AES_BLOCK_SIZE] = {
+        0x0f, 0x47, 0x0e, 0x7f, 0x75, 0x9c, 0x47, 0x0f,
+        0x42, 0xc6, 0xd3, 0x9c, 0xbc, 0x8e, 0x23, 0x25
+    };
     memcpy(iv, seed_input, AES_BLOCK_SIZE);
+
     AES_EncryptInit(&ctx, key, iv);
 
-    while(1){
-        uint32_t num_traces = read_uint32_from_uart();
 
-        for (uint32_t i = 0; i < num_traces; i++) {
-            
-            AES_Encrypt(&ctx, plaintext, ciphertext);      
-            uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
-            *trigger = 1 << TRIGGER_CTRL_START;
+    uint32_t num_traces = 20;
 
-            asm volatile ("": : : "memory");
-            *trigger = 1 << TRIGGER_CTRL_STOP;
-            asm volatile ("": : : "memory");
-        }
+    for (uint32_t i = 0; i < num_traces; i++) {
+        
+        
+        *trigger = 1 << TRIGGER_CTRL_START;
+
+        AES_Encrypt(&ctx, plaintext, ciphertext);  
+
+        *trigger = 1 << TRIGGER_CTRL_STOP;
+
     }
+    
 
     return 0;
 }

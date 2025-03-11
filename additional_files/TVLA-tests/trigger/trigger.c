@@ -18,26 +18,25 @@ int main() {
 
 
     uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
+    uint32_t a,b,c;
 
     asm volatile ("": : : "memory");
     *trigger = 1 << TRIGGER_CTRL_START;
     asm volatile ("": : : "memory");
     *trigger = 1 << TRIGGER_CTRL_STOP;
     asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_START;
-    asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_STOP;
-    asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_START;
-    asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_STOP;
-    asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_START;
-    asm volatile ("": : : "memory");
-    *trigger = 1 << TRIGGER_CTRL_STOP;
-    
 
-    print_uart("Hi Telsy! :)");
+    c = a +b;
+
+    *trigger = 1 << TRIGGER_CTRL_START;
+    asm volatile ("": : : "memory");
+    *trigger = 1 << TRIGGER_CTRL_STOP;
+    asm volatile ("": : : "memory");
+    *trigger = 1 << TRIGGER_CTRL_START;
+    asm volatile ("": : : "memory");
+    *trigger = 1 << TRIGGER_CTRL_STOP;
+    asm volatile ("": : : "memory");
+
 
     return 0;
 }
