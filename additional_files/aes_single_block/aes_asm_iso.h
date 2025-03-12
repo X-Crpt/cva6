@@ -181,15 +181,26 @@ void AES_ENC(uint32_t* state,  uint8_t* Key)
         // Add-Key RK10
         ".insn r 0x7B, 1, 11, x0, x0, x15\n"  
 
+        //Store the final-state
+        ".insn r 0x7B, 1, 9, x15, x0, x0\n"
+        ".insn r 0x7B, 1, 9, x16, x10, x0\n"
+
+        //store
+"sd x15, 0(%[state])\n"
+"sd x16, 8(%[state])\n"
+
 
         : [a2] "+r" (a2), [a3] "+r" (a3), [a4] "+r" (a4), [a5] "+r" (a5), [a6] "+r" (a6), [t0] "+r" (t0)
         : [key] "r" (Key), [state] "r" (state)
         : "memory"
     );
-    
-    //".insn r 0x7B, 1, 9, %[t5], x0, x0\n" 
+
 
 }
+
+
+
+
 
 void AES_ENC_masked(uint32_t* state,  uint8_t* Key)
 {
