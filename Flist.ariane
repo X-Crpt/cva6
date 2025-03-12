@@ -163,8 +163,6 @@ core/pmp/src/pmp.sv
 core/pmp/src/pmp_entry.sv
 core/pmp/src/pmp_data_if.sv
 common/local/util/instr_tracer.sv
-core/cvxif_example/cvxif_example_coprocessor.sv
-core/cvxif_example/instr_decoder.sv
 core/crypto/include/crypto_instr_pkg.sv
 core/crypto/instr_decoder.sv
 core/crypto/crypto_sboxes.sv
@@ -179,7 +177,9 @@ core/crypto/crypto_sm3.sv
 core/crypto/crypto_sm4.sv
 core/crypto/crypto_xperm.sv
 core/crypto/crypto_zip.sv
-core/crypto/crypto_scalar_fu.sv
+core/crypto/masked/rf.sv
+core/crypto/masked/prng.sv
+core/crypto/masked/crypto_scalar_fu.sv
 core/crypto/crypto_coprocessor.sv
 vendor/pulp-platform/common_cells/src/counter.sv
 vendor/pulp-platform/common_cells/src/delta_counter.sv

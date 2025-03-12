@@ -63,6 +63,8 @@ module crypto_coprocessor
   assign register                      = cvxif_req_i.register;
   assign register_valid                = cvxif_req_i.register_valid;
 
+
+
   instr_decoder #(
       .copro_issue_resp_t (crypto_instr_pkg::copro_issue_resp_t),
       .opcode_t (crypto_instr_pkg::opcode_t),
@@ -99,30 +101,31 @@ module crypto_coprocessor
       .id_t(id_t),
       .registers_t(registers_t)
   ) i_copro_alu (
-      .clk_i      (clk_i),
-      .rst_ni     (rst_ni),
-      .registers_i(registers),
-      .opcode_i   (opcode),
-      .hartid_i   (issue_hartid),
-      .id_i       (issue_id),
-      .rd_i       (issue_rd),
-      .instr_i    (issue_req.instr),
-      .hartid_o   (hartid),
-      .id_o       (id),
-      .result_o   (result),
-      .valid_o    (alu_valid),
-      .rd_o       (rd),
-      .we_o       (we)
+      .clk_i          (clk_i),
+      .rst_ni         (rst_ni),
+      .issue_ready_i  (issue_ready),
+      .registers_i    (registers),
+      .opcode_i       (opcode),
+      .hartid_i       (issue_hartid),
+      .id_i           (issue_id),
+      .rd_i           (issue_rd),
+      .instr_i        (issue_req.instr),
+      .hartid_o       (hartid),
+      .id_o           (id),
+      .result_o       (result),
+      .valid_o        (alu_valid),
+      .rd_o           (rd),
+      .we_o           (we)
   );
 
   //////////////////////////////////////////////////////////////////////////////////////
   always_comb begin
-    cvxif_resp_o.result_valid  = alu_valid;  //TODO Should wait for ready from CPU
-    cvxif_resp_o.result.hartid = hartid;
-    cvxif_resp_o.result.id     = id;
-    cvxif_resp_o.result.data   = result;
-    cvxif_resp_o.result.rd     = rd;
-    cvxif_resp_o.result.we     = we;
+      cvxif_resp_o.result_valid  = alu_valid;  //TODO Should wait for ready from CPU
+      cvxif_resp_o.result.hartid = hartid;
+      cvxif_resp_o.result.id     = id;
+      cvxif_resp_o.result.data   = result;
+      cvxif_resp_o.result.rd     = rd;
+      cvxif_resp_o.result.we     = we;
   end
 
 endmodule

@@ -53,7 +53,7 @@ In additional_files/fpga_tests/aes you can find the test performed on the CW305 
 ### 3. Crypto Coprocessor with Dedicated Register File  
 - Extended the implementation to a cryptographic coprocessor that operates **exclusively with an external register file**, independent of CVA6's RF.  
 - Added custom instructions to correctly manage data within the dedicated register file.
-- More details can be found in the respective branch. [branch-name](https://github.com/your-repo-name/tree/branch-name)
+- More details can be found in the respective branch. [iso-crypto-coproc](https://github.com/X-Crpt/cva6/tree/iso-crypto-coproc)
 
 # Acknowledgements
 

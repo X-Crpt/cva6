@@ -9,7 +9,8 @@
 
 source ./verif/sim/setup-env.sh
 
-export DV_SIMULATORS=veri-testharness,spike
+#export DV_SIMULATORS=veri-testharness,spike
+export DV_SIMULATORS=veri-testharness
 export DV_TARGET=cv64a6_imafdc_sv39
 
 cd ./verif/sim
@@ -19,7 +20,7 @@ export TRACE_FAST=1
 
 
 python3 cva6.py --target $DV_TARGET --iss=$DV_SIMULATORS --iss_yaml=cva6.yaml \
-    --c_tests ../../ad_tests/cryptogtaphy/aes_single_block/aes_c_single_decryption.c \
+    --c_tests ../../additional_files/aes_single_block/aes_asm_iso_single_encryption.c \
     --isa_extension zbkb_zbkc_zbkx_zknd_zkne_zknh_zksed_zksh \
     --linker=../tests/custom/common/test.ld \
     --gcc_opts="-static -mcmodel=medany -fvisibility=hidden -nostdlib \

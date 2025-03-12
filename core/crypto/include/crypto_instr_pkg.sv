@@ -7,26 +7,33 @@
 package crypto_instr_pkg;
   
   localparam XLEN = riscv::XLEN;
-  parameter bit MAES = 1;            // AES Algorithm
-  parameter bit MSHA2 = 1;           // SHA2 Algorithm
-  parameter bit MSM4  = 1;           // SM4 Algorithm
-  parameter bit MSM3  = 1;           // SM3 Algorithm
-  parameter bit METC = 0;            // Other useful instructions for Cryptography ( Bitmanip, Carry-less multiply, Crossbar permutation )
- 
-  typedef enum logic[3:0] {
-    ILLEGAL = 4'b0000,
-    AES32   = 4'b0001,
-    AES64_1 = 4'b0010,
-    AES64_2 = 4'b0011,
-    BREV8   = 4'b0100,
-    CLMUL   = 4'b0101,
-    PACK    = 4'b0110,
-    SHA256  = 4'b0111,
-    SHA512  = 4'b1000,
-    SM3     = 4'b1001,
-    SM4     = 4'b1010,
-    XPERM   = 4'b1011,
-    ZIP     = 4'b1100
+  parameter bit MAES   = 1;            // AES Algorithm
+  parameter bit MSHA2  = 1;           // SHA2 Algorithm
+  parameter bit MSM4   = 1;           // SM4 Algorithm
+  parameter bit MSM3   = 1;           // SM3 Algorithm
+  parameter bit METC   = 0;            // Other useful instructions for Cryptography ( Bitmanip, Carry-less multiply, Crossbar permutation )
+  parameter bit RANDOM = 1;
+  parameter bit MASKED = 1;
+
+  typedef enum logic[4:0] {
+    ILLEGAL   = 5'b00000,
+    AES32     = 5'b00001,
+    AES64_1   = 5'b00010,
+    AES64_2   = 5'b00011,
+    BREV8     = 5'b00100,
+    CLMUL     = 5'b00101,
+    PACK      = 5'b00110,
+    SHA256    = 5'b00111,
+    SHA512    = 5'b01000,
+    SM3       = 5'b01001,
+    SM4       = 5'b01010,
+    XPERM     = 5'b01011,
+    ZIP       = 5'b01100,
+    PRNG      = 5'b01101,  //13
+    LOAD      = 5'b01110,  //14
+    STORE     = 5'b01111,  //15
+    XOR_R     = 5'b10000,  //16
+    ADD_RK    = 5'b10001  //17
   } opcode_t;
 
   typedef enum {  
@@ -38,6 +45,12 @@ package crypto_instr_pkg;
     aes64_im,
     aes64_ks1i
   } aes64_t;
+
+  typedef enum {  
+    prng64_seed, 
+    prng64_enable,
+    prng64_rst 
+  } prng_t;
 
   typedef enum { 
     sha512_SIG0H,   
@@ -64,7 +77,13 @@ package crypto_instr_pkg;
   } copro_issue_resp_t;
 
   // 10 Types Possible instructions 
-  parameter int unsigned NbInstr = 11;
+  //parameter int unsigned NbInstr = 11;
+  //parameter int unsigned NbInstr = 14; //+ 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+  parameter int unsigned NbInstr = 18; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+                                       // +1 custom load
+                                       // +1 custom store
+                                       // +1 custom xor_r
+                                       // +1 custom add_rk (add_round_key)
 
   parameter copro_issue_resp_t CoproInstr[NbInstr] = '{
         '{        
@@ -119,14 +138,14 @@ package crypto_instr_pkg;
         '{
           instr: 32'b00110_01_00000_00000_0_00_00000_0110011,  // AES64 opcode - 5 Instructions
           mask:  32'b10110_01_00000_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
+          resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
           opcode : AES64_1
         },
 
         '{
           instr: 32'b00110_00_00000_00000_0_01_00000_0010011,  // AES64 opcode - 2 Instructions im-ks1i
           mask:  32'b11111_11_00000_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
+          resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b0, 1'b1}},
           opcode : AES64_2
         },
 
@@ -142,6 +161,57 @@ package crypto_instr_pkg;
           mask:  32'b11111_11_11111_00000_1_11_00000_1111111,  
           resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
           opcode : BREV8
+        },
+
+        //------AD: new custom instruction---------------------
+        '{
+            instr:
+            32'b00001_01_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : PRNG
+        },
+        '{
+            instr:
+            32'b00001_10_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : PRNG
+        },
+        '{
+            instr:
+            32'b00001_11_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : PRNG
+        },
+        '{
+            instr:
+            32'b00010_00_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : LOAD
+        },
+        '{
+            instr:
+            32'b00010_01_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : STORE
+        },
+        '{
+            instr:
+            32'b00010_10_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : XOR_R
+        },
+        '{
+            instr:
+            32'b00010_11_00000_00000_0_01_00000_1111011,  // custom3 opcode
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : ADD_RK
         }
 
   };
