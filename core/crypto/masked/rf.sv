@@ -27,11 +27,21 @@ module rf (
 
     always_comb begin
       begin
-        if (write_en_i && add_round_key_i) begin
+        if (write_en_i && random_i) begin
+            addr_1a <= addr_i;
+            addr_2a <= addr_i + 1;
+            addr_3a <= addr_i + 2;
+            addr_4a <= addr_i + 3;
+
+        end else if (write_en_i && add_round_key_i) begin
             addr_1a <= input0_i[4:0];
             addr_2a <= input0_i[4:0] + 1;
+            addr_3a <= input0_i[4:0] + 2;
+            addr_4a <= input0_i[4:0] + 3;
             addr_1b <= input1_i[4:0];
             addr_2b <= input1_i[4:0] + 1;
+            addr_3b <= input1_i[4:0] + 2;
+            addr_4b <= input1_i[4:0] + 3;
 
         end else if (read_en_i && aes_round_i) begin
             addr_1a <= input1_i[4:0];
@@ -54,12 +64,22 @@ module rf (
         if (!rst_ni) begin
             register_array <= '{default: '0}; // Reset all registers to 0
         end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~aes_round_i && ~aes_key_exp_i) begin
-            register_array[addr_i]     <= input0_i; 
-            register_array[addr_i + 1] <= input1_i;
+            register_array[addr_i]     <= {input0_i[7:0], input0_i[15:8], input0_i[23:16], input0_i[31:24], 
+                                            input0_i[39:32], input0_i[47:40], input0_i[55:48], input0_i[63:56]};
+            register_array[addr_i + 1] <= {input1_i[7:0], input1_i[15:8], input1_i[23:16], input1_i[31:24], 
+                                            input1_i[39:32], input1_i[47:40], input1_i[55:48], input1_i[63:56]};
+
+        end else if (write_en_i && random_i) begin
+            register_array[addr_1a] <= register_array[addr_1a] ^ input1_i; 
+            register_array[addr_2a] <= register_array[addr_2a] ^ input2_i;
+            register_array[addr_3a] <= input1_i;
+            register_array[addr_4a] <= input2_i;
 
         end else if (write_en_i && add_round_key_i) begin
             register_array[addr_1a] <= register_array[addr_1a] ^ register_array[addr_1b]; 
             register_array[addr_2a] <= register_array[addr_2a] ^ register_array[addr_2b]; 
+            register_array[addr_3a] <= register_array[addr_3a] ^ register_array[addr_3b]; 
+            register_array[addr_4a] <= register_array[addr_4a] ^ register_array[addr_4b]; 
 
         end else if (write_en_i && aes_round_i) begin    
             register_array[addr_3a] <= input2_i; 

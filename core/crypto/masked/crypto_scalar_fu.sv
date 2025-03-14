@@ -175,7 +175,7 @@ module crypto_scalar_fu
           address_RF    = registers_i[0][4:0];
           input_RF_0    = {59'b0, registers_i[1][4:0]};
           input_RF_1    = prng_result_o[63:0];
-          input_RF_2    = prng_result_o[123:64];
+          input_RF_2    = prng_result_o[127:64];
           random        = 1'b1;
           write_en      = 1'b1;
           add_round_key = 0;
