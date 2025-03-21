@@ -8,7 +8,8 @@ module rf (
     input  logic        random_i,
     input  logic        add_round_key_i,
     input  logic        aes_round_i,
-    input  logic        aes_key_exp_i,
+    input  logic        aes_key_exp_ks1_i,
+    input  logic        aes_key_exp_ks2_i,
     input  logic        write_en_i,  // Enable signal for writing
     input  logic        read_en_i,   // Enable signal for reading
     output logic [63:0] aes_comb_out0_o,
@@ -24,7 +25,7 @@ module rf (
 
     logic [63:0] temp1, temp2, temp3, temp4;
 
-
+    //Synchronous read - combinatorial 
     always_comb begin
       begin
         if (write_en_i && random_i) begin
@@ -48,7 +49,13 @@ module rf (
             addr_2a <= input1_i[4:0] + 1;
             addr_3a <= input0_i[4:0];
 
-        end else if (read_en_i && aes_key_exp_i) begin
+        end else if (read_en_i && aes_key_exp_ks1_i) begin
+            addr_1a <= input0_i[4:0];
+            addr_2a <= input0_i[4:0] + 2;
+            
+            addr_3a <= input1_i[4:0];
+
+        end else if (read_en_i && aes_key_exp_ks2_i) begin
             addr_1a <= input0_i[4:0];
             addr_2a <= input1_i[4:0];
 
@@ -59,15 +66,15 @@ module rf (
       end
     end
 
-    // Synchronous write
+    // Synchronous write - next clock cycles, of 6-clock cycle after
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (!rst_ni) begin
             register_array <= '{default: '0}; // Reset all registers to 0
-        end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~aes_round_i && ~aes_key_exp_i) begin
-            register_array[addr_i]     <= {input0_i[7:0], input0_i[15:8], input0_i[23:16], input0_i[31:24], 
-                                            input0_i[39:32], input0_i[47:40], input0_i[55:48], input0_i[63:56]};
-            register_array[addr_i + 1] <= {input1_i[7:0], input1_i[15:8], input1_i[23:16], input1_i[31:24], 
-                                            input1_i[39:32], input1_i[47:40], input1_i[55:48], input1_i[63:56]};
+            register_array[addr_i]      <= input0_i;
+
+        end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
+            register_array[addr_i]      <= input0_i;
+            register_array[addr_i + 1]  <= input1_i;
 
         end else if (write_en_i && random_i) begin
             register_array[addr_1a] <= register_array[addr_1a] ^ input1_i; 
@@ -87,11 +94,95 @@ module rf (
             register_array[addr_2a] <= register_array[addr_1a];
             register_array[addr_1a] <= register_array[addr_2a];
 
-        end else if (write_en_i && aes_key_exp_i) begin
+        end else if (write_en_q6 && aes_key_exp_ks1_q6) begin
+            register_array[input1_q6] <= input2_q6;
+        
+        end else if (write_en_i && aes_key_exp_ks2_i) begin
             register_array[addr_2a] <= input2_i;
-
         end 
     end
+
+
+    logic [4:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5, input0_q6;
+    logic [4:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5, input1_q6;
+    logic [4:0] input2_q1, input2_q2, input2_q3, input2_q4, input2_q5, input2_q6;
+    logic write_en_q1, write_en_q2, write_en_q3, write_en_q4, write_en_q5, write_en_q6;
+    logic aes_key_exp_ks1_q1, aes_key_exp_ks1_q2, aes_key_exp_ks1_q3, aes_key_exp_ks1_q4, aes_key_exp_ks1_q5, aes_key_exp_ks1_q6;
+    logic aes_round_q1, aes_round_q2, aes_round_q3, aes_round_q4, aes_round_q5, aes_round_q6;
+
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+        if (~rst_ni) begin
+            // Reset all pipeline stages
+            input0_q1 <= '0;  input1_q1 <= '0;  input2_q1 <= '0;
+            write_en_q1 <= '0;  aes_key_exp_ks1_q1 <= '0;  aes_round_q1 <= '0;
+
+            input0_q2 <= '0;  input1_q2 <= '0;  input2_q2 <= '0;
+            write_en_q2 <= '0;  aes_key_exp_ks1_q2 <= '0;  aes_round_q2 <= '0;
+
+            input0_q3 <= '0;  input1_q3 <= '0;  input2_q3 <= '0;
+            write_en_q3 <= '0; aes_key_exp_ks1_q3 <= '0;  aes_round_q3 <= '0;
+
+            input0_q4 <= '0;  input1_q4 <= '0;  input2_q4 <= '0;
+            write_en_q4 <= '0;  aes_key_exp_ks1_q4 <= '0;  aes_round_q4 <= '0;
+
+            input0_q5 <= '0;  input1_q5 <= '0;  input2_q5 <= '0;
+            write_en_q5 <= '0; aes_key_exp_ks1_q5 <= '0;  aes_round_q5 <= '0;
+
+            input0_q6 <= '0;  input1_q6 <= '0;  input2_q6 <= '0;
+            write_en_q6 <= '0;  aes_key_exp_ks1_q6 <= '0;  aes_round_q6 <= '0;
+
+        end
+        else begin
+            // Pipeline stage 1
+            input0_q1           <= input0_i[4:0];
+            input1_q1           <= input1_i[4:0];
+            input2_q1           <= input2_i[4:0];
+            write_en_q1         <= write_en_i;
+            aes_key_exp_ks1_q1  <= aes_key_exp_ks1_i;
+            aes_round_q1        <= aes_round_i;
+
+            // Pipeline stage 2
+            input0_q2          <= input0_q1;
+            input1_q2          <= input1_q1;
+            input2_q2          <= input2_q1;
+            write_en_q2        <= write_en_q1;
+            aes_key_exp_ks1_q2 <= aes_key_exp_ks1_q1;
+            aes_round_q2       <= aes_round_q1;
+
+            // Pipeline stage 3
+            input0_q3 <= input0_q2;
+            input1_q3 <= input1_q2;
+            input2_q3 <= input2_q2;
+            write_en_q3 <= write_en_q2;
+            aes_key_exp_ks1_q3 <= aes_key_exp_ks1_q2;
+            aes_round_q3 <= aes_round_q2;
+
+            // Pipeline stage 4
+            input0_q4 <= input0_q3;
+            input1_q4 <= input1_q3;
+            input2_q4 <= input2_q3;
+            write_en_q4 <= write_en_q3;
+            aes_key_exp_ks1_q4 <= aes_key_exp_ks1_q3;
+            aes_round_q4 <= aes_round_q3;
+
+            // Pipeline stage 5
+            input0_q5 <= input0_q4;
+            input1_q5 <= input1_q4;
+            input2_q5 <= input2_q4;
+            write_en_q5 <= write_en_q4;
+            aes_key_exp_ks1_q5 <= aes_key_exp_ks1_q4;
+            aes_round_q5 <= aes_round_q4;
+
+            // Pipeline stage 6
+            input0_q6 <= input0_q5;
+            input1_q6 <= input1_q5;
+            input2_q6 <= input2_q5;
+            write_en_q6 <= write_en_q5;
+            aes_key_exp_ks1_q6 <= aes_key_exp_ks1_q5;
+            aes_round_q6 <= aes_round_q5;
+        end
+    end
+
 
     // Read logic
     always_comb begin

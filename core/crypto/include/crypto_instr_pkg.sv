@@ -17,18 +17,8 @@ package crypto_instr_pkg;
 
   typedef enum logic[4:0] {
     ILLEGAL   = 5'b00000,
-    AES32     = 5'b00001,
     AES64_1   = 5'b00010,
     AES64_2   = 5'b00011,
-    BREV8     = 5'b00100,
-    CLMUL     = 5'b00101,
-    PACK      = 5'b00110,
-    SHA256    = 5'b00111,
-    SHA512    = 5'b01000,
-    SM3       = 5'b01001,
-    SM4       = 5'b01010,
-    XPERM     = 5'b01011,
-    ZIP       = 5'b01100,
     PRNG      = 5'b01101,  //13
     LOAD      = 5'b01110,  //14
     STORE     = 5'b01111,  //15
@@ -52,17 +42,6 @@ package crypto_instr_pkg;
     prng64_rst 
   } prng_t;
 
-  typedef enum { 
-    sha512_SIG0H,   
-    sha512_SIG0L, 
-    sha512_SIG1H,   
-    sha512_SIG1L,
-    sha512_SUM0, //SUM0R in RV32
-    sha512_SUM1, //SUM1R in RV32
-    sha512_SIG0,
-    sha512_SIG1
-  } sha512_t;  
-
   typedef struct packed {
     logic accept;
     logic writeback;  // TODO depends on dualwrite
@@ -79,62 +58,13 @@ package crypto_instr_pkg;
   // 10 Types Possible instructions 
   //parameter int unsigned NbInstr = 11;
   //parameter int unsigned NbInstr = 14; //+ 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
-  parameter int unsigned NbInstr = 18; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+  parameter int unsigned NbInstr = 9; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
                                        // +1 custom load
                                        // +1 custom store
                                        // +1 custom xor_r
                                        // +1 custom add_rk (add_round_key)
 
   parameter copro_issue_resp_t CoproInstr[NbInstr] = '{
-        '{        
-          instr: 32'b00010_00_00000_00000_0_01_00000_0010011,  // SHA256 opcode - 4 Instructions
-          mask:  32'b11111_11_11100_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
-          opcode : SHA256
-        },
-
-        '{
-          instr: 32'b01010_00_00000_00000_0_00_00000_0110011,  // SHA512-RS1/2 Operands opcode - 6 Instructions 
-          mask:  32'b11110_11_00000_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
-          opcode : SHA512
-        },
-
-        '{
-          instr: 32'b00010_00_00100_00000_0_01_00000_0010011,  // SHA512-RS1 Operands opcode - 4 Instructions
-          mask:  32'b11111_11_11100_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
-          opcode : SHA512
-        },
-
-        '{
-          instr: 32'b00010_00_01000_00000_0_01_00000_0010011,  // SM3 opcode - 2 Instructions
-          mask:  32'b11111_11_11110_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
-          opcode : SM3
-        },
-
-        '{
-          instr: 32'b00101_00_00000_00000_0_00_00000_0110011,  // xperm opcode - 2 Instructions
-          mask:  32'b11111_11_00000_00000_0_01_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
-          opcode : XPERM
-        },
-
-        '{
-          instr: 32'b00110_00_00000_00000_0_00_00000_0110011,  // SM4 opcode - 2 Instructions
-          mask:  32'b00111_01_00000_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
-          opcode : SM4
-        },
-
-        '{
-          instr: 32'b00100_00_00000_00000_0_00_00000_0110011,  // AES32 opcode - 4 Instructions 
-          mask:  32'b00110_00_00000_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
-          opcode : AES32
-        },
-
         '{
           instr: 32'b00110_01_00000_00000_0_00_00000_0110011,  // AES64 opcode - 5 Instructions
           mask:  32'b10110_01_00000_00000_1_11_00000_1111111,  
@@ -147,20 +77,6 @@ package crypto_instr_pkg;
           mask:  32'b11111_11_00000_00000_1_11_00000_1111111,  
           resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b0, 1'b1}},
           opcode : AES64_2
-        },
-
-        '{
-          instr: 32'b00001_00_00000_00000_1_00_00000_0110011,  // PACK opcode - 3 Instructions 
-          mask:  32'b11111_11_00000_00000_1_00_00000_1110111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b1, 1'b1}},
-          opcode : PACK
-        },
-
-        '{
-          instr: 32'b01101_00_00111_00000_1_01_00000_0010011,  // brev8 opcode - 1 Instructions 
-          mask:  32'b11111_11_11111_00000_1_11_00000_1111111,  
-          resp : '{accept : 1'b1, writeback : 1'b1, register_read : {1'b0, 1'b0, 1'b1}},
-          opcode : BREV8
         },
 
         //------AD: new custom instruction---------------------

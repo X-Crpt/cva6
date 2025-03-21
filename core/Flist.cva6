@@ -78,22 +78,31 @@ ${CVA6_REPO_DIR}/core/cvxif_issue_register_commit_if_driver.sv
 
 //CVXIF - Cryptography Accelerator
 ${CVA6_REPO_DIR}/core/crypto/include/crypto_instr_pkg.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/aes_pkg.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/affine_transformation_addition.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/affine_transformation_multiplication.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_after_reg_gf4.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_after_reg_gf16.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_before_reg_gf4.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_before_reg_gf16.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_gf4.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_multiplication_gf16.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/dom_sbox.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/inverse_affine_transformation_addition.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/inverse_affine_transformation_multiplication.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/inverse_isomorphic_mapping.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/isomorphic_mapping.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/multiplication_gf4.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/multiplication_gf16.sv
+${CVA6_REPO_DIR}/core/crypto/dom-aes-sbox/src/square_scale_gf16.sv
 ${CVA6_REPO_DIR}/core/cvxif_fu.sv
 ${CVA6_REPO_DIR}/core/crypto/instr_decoder.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_sboxes.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_aes_mix_columns.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_aes32.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_aes64.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_brev8.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_pack.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_sha256.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_sha512.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_sm3.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_sm4.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_xperm.sv
-${CVA6_REPO_DIR}/core/crypto/crypto_zip.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/rf.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/prng.sv
+${CVA6_REPO_DIR}/core/crypto/masked/aes64_pipeline.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/crypto_scalar_fu.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_coprocessor.sv
 

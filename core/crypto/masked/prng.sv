@@ -36,5 +36,6 @@ module simple_prng (
     //end
 
     assign prng_o = lfsr;
+    //assign prng_o = 128'h1234567812345678deadbeafdeadbeaf;
 
 endmodule

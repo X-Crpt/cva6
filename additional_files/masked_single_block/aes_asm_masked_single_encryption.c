@@ -57,13 +57,13 @@ int main(int argc, char* arg[])
 
     *trigger = 1 << TRIGGER_CTRL_START;
  
-    AES_ENC_masked((uint32_t*)pt, key);
+    AES_ENC_masked_dom((uint32_t*)pt, key);
     //AES_ENC((uint32_t*)pt, key);
 
     *trigger = 1 << TRIGGER_CTRL_STOP;
 
-    print_uart_block(pt, AES_BLOCK_SIZE);
-    print_uart_block(ct, AES_BLOCK_SIZE);
+    //print_uart_block(pt, AES_BLOCK_SIZE);
+    //print_uart_block(ct, AES_BLOCK_SIZE);
 
     return 0;
 }

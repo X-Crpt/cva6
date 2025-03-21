@@ -14,7 +14,6 @@ module dom_sbox import aes_pkg::*;
     // Output signals
     output logic valid_o,
     input   wire ready_for_sbox_o,
-    output logic [X_ID_WIDTH-1:0] instr_id_o,
     output logic [7:0] shareA_out,
     output logic [7:0] shareB_out
 );
