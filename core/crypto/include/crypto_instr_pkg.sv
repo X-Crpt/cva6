@@ -27,6 +27,7 @@ package crypto_instr_pkg;
   } opcode_t;
 
   typedef enum {  
+    aes64_none,
     aes64_ds, 
     aes64_dsm,
     aes64_es, 

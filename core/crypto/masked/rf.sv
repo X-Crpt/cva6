@@ -5,6 +5,7 @@ module rf (
     input  logic [63:0] input0_i,    // Input data 1
     input  logic [63:0] input1_i,    // Input data 2
     input  logic [63:0] input2_i,
+    input  logic [63:0] input3_i,
     input  logic        random_i,
     input  logic        add_round_key_i,
     input  logic        aes_round_i,
@@ -14,6 +15,8 @@ module rf (
     input  logic        read_en_i,   // Enable signal for reading
     output logic [63:0] aes_comb_out0_o,
     output logic [63:0] aes_comb_out1_o,
+    output logic [63:0] aes_comb_out2_o,
+    output logic [63:0] aes_comb_out3_o,
     output logic [63:0] output_o     // Output data
 );
 
@@ -47,6 +50,9 @@ module rf (
         end else if (read_en_i && aes_round_i) begin
             addr_1a <= input1_i[4:0];
             addr_2a <= input1_i[4:0] + 1;
+            addr_1b <= input1_i[4:0] + 2;
+            addr_2b <= input1_i[4:0] + 3;
+            
             addr_3a <= input0_i[4:0];
 
         end else if (read_en_i && aes_key_exp_ks1_i) begin
@@ -54,6 +60,7 @@ module rf (
             addr_2a <= input0_i[4:0] + 2;
             
             addr_3a <= input1_i[4:0];
+            addr_4a <= input1_i[4:0];
 
         end else if (read_en_i && aes_key_exp_ks2_i) begin
             addr_1a <= input0_i[4:0];
@@ -88,14 +95,19 @@ module rf (
             register_array[addr_3a] <= register_array[addr_3a] ^ register_array[addr_3b]; 
             register_array[addr_4a] <= register_array[addr_4a] ^ register_array[addr_4b]; 
 
-        end else if (write_en_i && aes_round_i) begin    
-            register_array[addr_3a] <= input2_i; 
-            
+        end else if (write_en_i && aes_round_i) begin     
             register_array[addr_2a] <= register_array[addr_1a];
             register_array[addr_1a] <= register_array[addr_2a];
+            register_array[addr_2b] <= register_array[addr_1b];
+            register_array[addr_1b] <= register_array[addr_2b];
 
-        end else if (write_en_q6 && aes_key_exp_ks1_q6) begin
-            register_array[input1_q6] <= input2_q6;
+        end else if (write_en_q5 && aes_round_q5) begin    
+            register_array[input0_q5]      <= input2_i; 
+            register_array[input0_q5 + 2 ] <= input3_i; 
+
+        end else if (write_en_q5 && aes_key_exp_ks1_q5) begin
+            register_array[input1_q5]     <= input2_i;
+            register_array[input1_q5 + 1] <= input3_i;
         
         end else if (write_en_i && aes_key_exp_ks2_i) begin
             register_array[addr_2a] <= input2_i;
@@ -105,7 +117,8 @@ module rf (
 
     logic [4:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5, input0_q6;
     logic [4:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5, input1_q6;
-    logic [4:0] input2_q1, input2_q2, input2_q3, input2_q4, input2_q5, input2_q6;
+    logic [63:0] input2_q1, input2_q2, input2_q3, input2_q4, input2_q5, input2_q6;
+    logic [63:0] input3_q1, input3_q2, input3_q3, input3_q4, input3_q5, input3_q6;
     logic write_en_q1, write_en_q2, write_en_q3, write_en_q4, write_en_q5, write_en_q6;
     logic aes_key_exp_ks1_q1, aes_key_exp_ks1_q2, aes_key_exp_ks1_q3, aes_key_exp_ks1_q4, aes_key_exp_ks1_q5, aes_key_exp_ks1_q6;
     logic aes_round_q1, aes_round_q2, aes_round_q3, aes_round_q4, aes_round_q5, aes_round_q6;
@@ -113,22 +126,22 @@ module rf (
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (~rst_ni) begin
             // Reset all pipeline stages
-            input0_q1 <= '0;  input1_q1 <= '0;  input2_q1 <= '0;
+            input0_q1 <= '0;  input1_q1 <= '0;  input2_q1 <= '0; input3_q1 <= '0;
             write_en_q1 <= '0;  aes_key_exp_ks1_q1 <= '0;  aes_round_q1 <= '0;
 
-            input0_q2 <= '0;  input1_q2 <= '0;  input2_q2 <= '0;
+            input0_q2 <= '0;  input1_q2 <= '0;  input2_q2 <= '0; input3_q2 <= '0;
             write_en_q2 <= '0;  aes_key_exp_ks1_q2 <= '0;  aes_round_q2 <= '0;
 
-            input0_q3 <= '0;  input1_q3 <= '0;  input2_q3 <= '0;
+            input0_q3 <= '0;  input1_q3 <= '0;  input2_q3 <= '0; input3_q3 <= '0;
             write_en_q3 <= '0; aes_key_exp_ks1_q3 <= '0;  aes_round_q3 <= '0;
 
-            input0_q4 <= '0;  input1_q4 <= '0;  input2_q4 <= '0;
+            input0_q4 <= '0;  input1_q4 <= '0;  input2_q4 <= '0; input3_q4 <= '0;
             write_en_q4 <= '0;  aes_key_exp_ks1_q4 <= '0;  aes_round_q4 <= '0;
 
-            input0_q5 <= '0;  input1_q5 <= '0;  input2_q5 <= '0;
+            input0_q5 <= '0;  input1_q5 <= '0;  input2_q5 <= '0; input3_q5 <= '0;
             write_en_q5 <= '0; aes_key_exp_ks1_q5 <= '0;  aes_round_q5 <= '0;
 
-            input0_q6 <= '0;  input1_q6 <= '0;  input2_q6 <= '0;
+            input0_q6 <= '0;  input1_q6 <= '0;  input2_q6 <= '0; input3_q6 <= '0;
             write_en_q6 <= '0;  aes_key_exp_ks1_q6 <= '0;  aes_round_q6 <= '0;
 
         end
@@ -136,7 +149,8 @@ module rf (
             // Pipeline stage 1
             input0_q1           <= input0_i[4:0];
             input1_q1           <= input1_i[4:0];
-            input2_q1           <= input2_i[4:0];
+            input2_q1           <= input2_i;
+            input3_q1           <= input3_i;
             write_en_q1         <= write_en_i;
             aes_key_exp_ks1_q1  <= aes_key_exp_ks1_i;
             aes_round_q1        <= aes_round_i;
@@ -145,41 +159,46 @@ module rf (
             input0_q2          <= input0_q1;
             input1_q2          <= input1_q1;
             input2_q2          <= input2_q1;
+            input3_q2          <= input3_q1;
             write_en_q2        <= write_en_q1;
             aes_key_exp_ks1_q2 <= aes_key_exp_ks1_q1;
             aes_round_q2       <= aes_round_q1;
 
             // Pipeline stage 3
-            input0_q3 <= input0_q2;
-            input1_q3 <= input1_q2;
-            input2_q3 <= input2_q2;
-            write_en_q3 <= write_en_q2;
+            input0_q3          <= input0_q2;
+            input1_q3          <= input1_q2;
+            input2_q3          <= input2_q2;
+            input3_q3          <= input3_q2;
+            write_en_q3        <= write_en_q2;
             aes_key_exp_ks1_q3 <= aes_key_exp_ks1_q2;
-            aes_round_q3 <= aes_round_q2;
+            aes_round_q3       <= aes_round_q2;
 
             // Pipeline stage 4
-            input0_q4 <= input0_q3;
-            input1_q4 <= input1_q3;
-            input2_q4 <= input2_q3;
-            write_en_q4 <= write_en_q3;
+            input0_q4          <= input0_q3;
+            input1_q4          <= input1_q3;
+            input2_q4          <= input2_q3;
+            input3_q4          <= input3_q3;
+            write_en_q4        <= write_en_q3;
             aes_key_exp_ks1_q4 <= aes_key_exp_ks1_q3;
-            aes_round_q4 <= aes_round_q3;
+            aes_round_q4       <= aes_round_q3;
 
             // Pipeline stage 5
-            input0_q5 <= input0_q4;
-            input1_q5 <= input1_q4;
-            input2_q5 <= input2_q4;
-            write_en_q5 <= write_en_q4;
+            input0_q5          <= input0_q4;
+            input1_q5          <= input1_q4;
+            input2_q5          <= input2_q4;
+            input3_q5          <= input3_q5;
+            write_en_q5        <= write_en_q4;
             aes_key_exp_ks1_q5 <= aes_key_exp_ks1_q4;
-            aes_round_q5 <= aes_round_q4;
+            aes_round_q5       <= aes_round_q4;
 
             // Pipeline stage 6
-            input0_q6 <= input0_q5;
-            input1_q6 <= input1_q5;
-            input2_q6 <= input2_q5;
-            write_en_q6 <= write_en_q5;
+            input0_q6          <= input0_q5;
+            input1_q6          <= input1_q5;
+            input2_q6          <= input2_q5;
+            input3_q6          <= input3_q5;
+            write_en_q6        <= write_en_q5;
             aes_key_exp_ks1_q6 <= aes_key_exp_ks1_q5;
-            aes_round_q6 <= aes_round_q5;
+            aes_round_q6       <= aes_round_q5;
         end
     end
 
@@ -190,6 +209,8 @@ module rf (
             output_o        = register_array[addr_i];
             aes_comb_out0_o = register_array[addr_1a];
             aes_comb_out1_o = register_array[addr_2a];
+            aes_comb_out2_o = register_array[addr_1b];
+            aes_comb_out3_o = register_array[addr_2b];
         end else begin
             output_o        = 64'b0;
             aes_comb_out0_o = 64'b0;

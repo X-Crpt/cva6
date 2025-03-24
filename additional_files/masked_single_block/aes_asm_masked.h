@@ -70,20 +70,293 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x19, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x20, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+
+        //---- ROUND 2 ---------------------------------------------------------------
+        //Key Expansion 2 -----------------------
+        "aes64ks1i x7, x15, 1\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        //"aes64ks1i x9, x12, 0\n"
-        //"aes64ks2  x0, x12, x17\n"
-        //"aes64ks2  x0, x17, x18\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
 
+        //aes64-esm
+        "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x10, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+
+        //---- ROUND 3 ---------------------------------------------------------------
+        //Key Expansion 3 -----------------------
+        "aes64ks1i x7, x15, 2\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x19, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x20, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+
+        //---- ROUND 4 ---------------------------------------------------------------
+        //Key Expansion 4 -----------------------
+        "aes64ks1i x7, x15, 3\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x10, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+
+        //---- ROUND 5 ---------------------------------------------------------------
+        //Key Expansion 5 -----------------------
+        "aes64ks1i x7, x15, 4\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x19, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x20, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+
+        //---- ROUND 6 ---------------------------------------------------------------
+        //Key Expansion 6 -----------------------
+        "aes64ks1i x7, x15, 5\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x10, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+
+        //---- ROUND 7 ---------------------------------------------------------------
+        //Key Expansion 7 -----------------------
+        "aes64ks1i x7, x15, 6\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x19, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x20, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+
+        //---- ROUND 8 ---------------------------------------------------------------
+        //Key Expansion 8 -----------------------
+        "aes64ks1i x7, x15, 7\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x10, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+
+        //---- ROUND 9 ---------------------------------------------------------------
+        //Key Expansion 9 -----------------------
+        "aes64ks1i x7, x15, 8\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-esm
+        "aes64esm x0, x19, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64esm x0, x20, x0\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+
+        //---- ROUND 10 ---------------------------------------------------------------
+        //Key Expansion 10 -----------------------
+        "aes64ks1i x7, x15, 9\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64ks2  x0, x15, x16\n"
+        "aes64ks2  x0, x16, x13\n"
+        "aes64ks2  x0, x12, x17\n"
+        "aes64ks2  x0, x17, x18\n"
+
+        //aes64-es
+        "aes64es x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "aes64es x0, x10, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+
+        //unmasking
+        ".insn r 0x7B, 1, 11, x0, x0, x14\n"
+
+        //Store the final-state
+        ".insn r 0x7B, 1, 9, x15, x0, x0\n"
+        ".insn r 0x7B, 1, 9, x16, x10, x10\n"
+        
+        //store
+        "sd x15, 0(%[state])\n"
+        "sd x16, 8(%[state])\n"
 
         : [a2] "+r" (a2), [a3] "+r" (a3), [a4] "+r" (a4), [a5] "+r" (a5), [a6] "+r" (a6), [t0] "+r" (t0)
         : [key] "r" (Key), [state] "r" (state)
-        : "memory"
+        : "x15", "x16", "memory"
     );
-    
-    //".insn r 0x7B, 1, 9, %[t5], x0, x0\n" 
 
 }
 
