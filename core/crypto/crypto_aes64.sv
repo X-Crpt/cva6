@@ -417,11 +417,8 @@ module crypto_aes64
     assign result_ks1_share0 = {ks1_sbout_share0, ks1_sbout_share0};
     assign result_ks1_share1 = {ks1_sbout_share1, ks1_sbout_share1};
 
-    logic [63:0] result_ks2, result_ks2_share0, result_ks2_share1;
-    assign result_ks2 = {
-        aes64_rs1_i[63:32] ^ aes64_rs2_i[63:32] ^ aes64_rs2_i[31:0],
-        aes64_rs1_i[63:32] ^ aes64_rs2_i[31:0]
-    };
+    logic [63:0] result_ks2_share0, result_ks2_share1;
+
     assign result_ks2_share0 = {
         input0_share0[63:32] ^ input1_share0[63:32] ^ input1_share0[31:0],
         input0_share0[63:32] ^ input1_share0[31:0]

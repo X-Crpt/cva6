@@ -72,8 +72,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x19, x0\n"
@@ -100,8 +98,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
@@ -128,8 +124,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x19, x0\n"
@@ -156,8 +150,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
@@ -184,8 +176,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x19, x0\n"
@@ -212,8 +202,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
@@ -240,8 +228,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x19, x0\n"
@@ -268,8 +254,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
@@ -296,8 +280,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-esm
         "aes64esm x0, x19, x0\n"
@@ -324,8 +306,6 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
-        "aes64ks2  x0, x12, x17\n"
-        "aes64ks2  x0, x17, x18\n"
 
         //aes64-es
         "aes64es x0, x0, x19\n"

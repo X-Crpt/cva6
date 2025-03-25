@@ -27,6 +27,14 @@ module rf (
     logic [4:0] addr_1b, addr_2b, addr_3b, addr_4b;
 
     logic [63:0] temp1, temp2, temp3, temp4;
+    logic aes64ks2_first;
+
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni)
+        aes64ks2_first <= 1'b0; // Initialize to 0 on reset
+    else if (aes_key_exp_ks2_i)
+        aes64ks2_first <= ~aes64ks2_first; // Toggle when aes_key_exp_ks2_i is 1
+    end
 
     //Synchronous read - combinatorial 
     always_comb begin
@@ -65,6 +73,15 @@ module rf (
         end else if (read_en_i && aes_key_exp_ks2_i) begin
             addr_1a <= input0_i[4:0];
             addr_2a <= input1_i[4:0];
+
+            if (aes64ks2_first) begin
+                addr_1b <= input0_i[4:0] + 2;
+            end else begin
+                addr_1b <= input0_i[4:0] + 1;
+            end 
+
+            addr_2b <= input1_i[4:0] + 2;
+
 
         end else begin
             addr_1a <= 0;
@@ -111,6 +128,7 @@ module rf (
         
         end else if (write_en_i && aes_key_exp_ks2_i) begin
             register_array[addr_2a] <= input2_i;
+            register_array[addr_2b] <= input3_i;
         end 
     end
 

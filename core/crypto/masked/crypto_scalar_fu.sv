@@ -222,6 +222,7 @@ module crypto_scalar_fu
               input_RF_0      = registers_i[0];
               input_RF_1      = registers_i[1];
               input_RF_2      = aes64_result_share0_o;  
+              input_RF_3      = aes64_result_share1_o;  
               aes_key_exp_ks2 = 1'b1;
               read_en         = 1'b1;
               write_en        = 1'b1;
@@ -336,11 +337,13 @@ endgenerate
 
         if (opcode_i == AES64_1) begin
             aes64_en = 1'b1;
-            if (instr_i[30] == 1'b1) begin
+            if (instr_i[30] == 1'b1) begin  // - If instr_i[30] == 1 => aes64_ks2
                 aes64_op_i = aes64_ks2;
                 valid_i    = 1'b0;
                 aes64_rs1  = aes_comb_out0;
                 aes64_rs2  = aes_comb_out1;
+                aes64_rs3  = aes_comb_out2;
+                aes64_rs4  = aes_comb_out3;
             end else begin
                 case (instr_i[27:26])
                     2'b00: begin
