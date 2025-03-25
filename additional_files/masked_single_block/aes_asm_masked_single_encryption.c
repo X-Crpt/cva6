@@ -12,21 +12,9 @@
 #include "aes_asm_masked.h"
 #include "trigger_auto.h"
 #include "uart.h"
+#include <time.h>
 
 #define AES_BLOCK_SIZE 16
-
-void cv_xif_prng_init(uint64_t* a, uint64_t* b)
-{
-    asm volatile (
-        "lw a1, %[input_a]\n"               //a0: x10
-        "lw a0, %[input_b]\n"               //a1: x11
-        ".insn r 0x7B, 1, 5, x0, a0, a1\n"  
-        :     
-        : [input_a] "m" (*a), [input_b] "m" (*b) // Input operands
-        : 
-    );
-}
-
 
 void reverse_pt(uint32_t *pt) {
     uint32_t temp[4];  // Temporary buffer for the reversed values
@@ -42,6 +30,28 @@ void reverse_pt(uint32_t *pt) {
 
     // Copy back the reversed data into pt
     memcpy(pt, temp, AES_BLOCK_SIZE);
+}
+
+static uint32_t xorshift32(void)
+{
+    // You can pick any nonzero initial seed.
+    static uint32_t state = 0x12345678u;
+
+    uint32_t x = state;
+    x ^= x << 13;
+    x ^= x >> 17;
+    x ^= x << 5;
+    state = x;
+
+    return x;
+}
+
+// Combine two 32-bit xorshift outputs into one 64-bit value.
+static uint64_t getRandom64(void)
+{
+    uint64_t high = (uint64_t)xorshift32();
+    uint64_t low  = (uint64_t)xorshift32();
+    return (high << 32) | low;
 }
 
 
@@ -65,8 +75,13 @@ int main(int argc, char* arg[])
 
     uint64_t rs1_fixed = 0x1234567812345678;
     uint64_t rs2_fixed = 0x1234567812345678;
-    
-    //cv_xif_prng_init((uint64_t*)rs1_fixed, (uint64_t*)rs2_fixed);
+    //uint64_t rs1_fixed = 0xdeadbeefdeadbeaf;
+    //uint64_t rs2_fixed = 0x1234567812345678;
+
+    //uint64_t rs1_fixed = getRandom64();
+    //uint64_t rs2_fixed = getRandom64();
+
+    //cv_xif_prng_init
     asm volatile (
         ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
         :     

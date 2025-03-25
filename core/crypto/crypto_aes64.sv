@@ -141,32 +141,28 @@ module crypto_aes64
     end
 
 
-    assign ks1_sb3_share0 = rcon_rot ? input0_share0[39:32] : input0_share0[63:56];
-    assign ks1_sb3_share1 = rcon_rot ? input0_share1[39:32] : input0_share1[63:56];
+    assign ks1_sb3_share0 = input0_share0[39:32];
+    assign ks1_sb3_share1 = input0_share1[39:32];
 
-    assign ks1_sb2_share0 = rcon_rot ? input0_share0[63:56] : input0_share0[55:48];
-    assign ks1_sb2_share1 = rcon_rot ? input0_share1[63:56] : input0_share1[55:48];
+    assign ks1_sb2_share0 = input0_share0[63:56];
+    assign ks1_sb2_share1 = input0_share1[63:56];
 
-    assign ks1_sb1_share0 = rcon_rot ? input0_share0[55:48] : input0_share0[47:40];
-    assign ks1_sb1_share1 = rcon_rot ? input0_share1[55:48] : input0_share1[47:40];
+    assign ks1_sb1_share0 = input0_share0[55:48];
+    assign ks1_sb1_share1 = input0_share1[55:48];
 
-    assign ks1_sb0_share0 = rcon_rot ? input0_share0[47:40] : input0_share0[39:32];
-    assign ks1_sb0_share1 = rcon_rot ? input0_share1[47:40] : input0_share1[39:32];
+    assign ks1_sb0_share0 = input0_share0[47:40];
+    assign ks1_sb0_share1 = input0_share1[47:40];
 
     assign ks1_sbout_share0 = e_sbout_share0[31:0]^{24'b0, rconst_q5};
     assign ks1_sbout_share1 = e_sbout_share1[31:0];
 
     // --------------------------- Constructing rows from input registers ----------------------------
 
-    logic [31:0] row_0, row_0_share0, row_0_share1;
-    logic [31:0] row_1, row_1_share0, row_1_share1;
-    logic [31:0] row_2, row_2_share0, row_2_share1;
-    logic [31:0] row_3, row_3_share0, row_3_share1;
+    logic [31:0] row_0_share0, row_0_share1;
+    logic [31:0] row_1_share0, row_1_share1;
+    logic [31:0] row_2_share0, row_2_share1;
+    logic [31:0] row_3_share0, row_3_share1;
 
-    assign  row_0   = {`BY(aes64_rs1_i,0),`BY(aes64_rs1_i,4),`BY(aes64_rs2_i,0),`BY(aes64_rs2_i,4)};
-    assign  row_1   = {`BY(aes64_rs1_i,1),`BY(aes64_rs1_i,5),`BY(aes64_rs2_i,1),`BY(aes64_rs2_i,5)};
-    assign  row_2   = {`BY(aes64_rs1_i,2),`BY(aes64_rs1_i,6),`BY(aes64_rs2_i,2),`BY(aes64_rs2_i,6)};
-    assign  row_3   = {`BY(aes64_rs1_i,3),`BY(aes64_rs1_i,7),`BY(aes64_rs2_i,3),`BY(aes64_rs2_i,7)};
 
     assign  row_0_share0   = {`BY(input0_share0,0),`BY(input0_share0,4),`BY(input1_share0,0),`BY(input1_share0,4)};
     assign  row_1_share0   = {`BY(input0_share0,1),`BY(input0_share0,5),`BY(input1_share0,1),`BY(input1_share0,5)};
@@ -180,15 +176,10 @@ module crypto_aes64
 
     // --------------------------------------- Encryption Phase ---------------------------------------
     //Shift rows
-    logic [31:0] fsh_0, fsh_0_share0, fsh_0_share1;                      
-    logic [31:0] fsh_1, fsh_1_share0, fsh_1_share1;
-    logic [31:0] fsh_2, fsh_2_share0, fsh_2_share1;
-    logic [31:0] fsh_3, fsh_3_share0, fsh_3_share1;
-
-    assign  fsh_0   =  row_0;                      
-    assign  fsh_1   = {row_1[23: 0], row_1[31:24]};
-    assign  fsh_2   = {row_2[15: 0], row_2[31:16]};
-    assign  fsh_3   = {row_3[ 7: 0], row_3[31: 8]};
+    logic [31:0] fsh_0_share0, fsh_0_share1;                      
+    logic [31:0] fsh_1_share0, fsh_1_share1;
+    logic [31:0] fsh_2_share0, fsh_2_share1;
+    logic [31:0] fsh_3_share0, fsh_3_share1;
 
     assign  fsh_0_share0   =  row_0_share0;                      
     assign  fsh_1_share0   = {row_1_share0[23: 0], row_1_share0[31:24]};
@@ -201,11 +192,8 @@ module crypto_aes64
     assign  fsh_3_share1   = {row_3_share1[ 7: 0], row_3_share1[31: 8]};
 
     //Re-construct columns from rows
-    logic [31:0] f_col_1, f_col_1_share0, f_col_1_share1;
-    logic [31:0] f_col_0, f_col_0_share0, f_col_0_share1;
-
-    assign  f_col_1 = {`BY(fsh_3,2),`BY(fsh_2,2),`BY(fsh_1,2),`BY(fsh_0,2)};
-    assign  f_col_0 = {`BY(fsh_3,3),`BY(fsh_2,3),`BY(fsh_1,3),`BY(fsh_0,3)};
+    logic [31:0] f_col_1_share0, f_col_1_share1;
+    logic [31:0] f_col_0_share0, f_col_0_share1;
 
     assign  f_col_1_share0 = {`BY(fsh_3_share0,2),`BY(fsh_2_share0,2),`BY(fsh_1_share0,2),`BY(fsh_0_share0,2)};
     assign  f_col_0_share0 = {`BY(fsh_3_share0,3),`BY(fsh_2_share0,3),`BY(fsh_1_share0,3),`BY(fsh_0_share0,3)};
@@ -214,8 +202,7 @@ module crypto_aes64
     assign  f_col_0_share1 = {`BY(fsh_3_share1,3),`BY(fsh_2_share1,3),`BY(fsh_1_share1,3),`BY(fsh_0_share1,3)};
 
 
-    logic [63:0] shiftrows_enc, shiftrows_enc_share0, shiftrows_enc_share1 ;
-    assign  shiftrows_enc = {f_col_1, f_col_0};
+    logic [63:0] shiftrows_enc_share0, shiftrows_enc_share1 ;
 
     assign  shiftrows_enc_share0 = {f_col_1_share0, f_col_0_share0};
     assign  shiftrows_enc_share1 = {f_col_1_share1, f_col_0_share1};
@@ -235,6 +222,14 @@ module crypto_aes64
     assign randombits_i[5] = '0;
     assign randombits_i[6] = '0;
     assign randombits_i[7] = '0;
+    //assign randombits_i[0] = 18'h12345;
+    //assign randombits_i[1] = 18'h1A2B3;
+    //assign randombits_i[2] = 18'h2BCD0;
+    //assign randombits_i[3] = 18'h17DEF;
+    //assign randombits_i[4] = 18'h0ACE5;
+    //assign randombits_i[5] = 18'h3F3F3;
+    //assign randombits_i[6] = 18'h15555;
+    //assign randombits_i[7] = 18'h3ABCD;
 
     assign      sb_fwd_in_share0[0]= (aes64_op_i == aes64_ks1i) ? ks1_sb0_share0 : `BY(shiftrows_enc_share0, 0);
     assign      sb_fwd_in_share1[0]= (aes64_op_i == aes64_ks1i) ? ks1_sb0_share1 : `BY(shiftrows_enc_share1, 0);
