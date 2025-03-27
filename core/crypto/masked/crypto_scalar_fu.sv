@@ -34,7 +34,6 @@ module crypto_scalar_fu
 
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
   logic [127:0]  prng_result_o;
-  logic [155:0]  trng_result_o;
   logic [127:0]  seed, seed_reg;
   prng_t prng_op_i;
   logic prng_en, prng_rst, prng_seed;
@@ -109,13 +108,6 @@ module crypto_scalar_fu
         .prng_o(prng_result_o)                      // 64-bit pseudo-random output
       );
 
-      trng trng_inst (
-        .clk_i(clk_i),                              
-        .rst(prng_rst_global),                      
-        .init_i(prng_active),                       
-        .en_i(prng_en),                                            
-        .out_data(trng_result_o)                              
-      );
 
     end
   endgenerate
