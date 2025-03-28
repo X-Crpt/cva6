@@ -20,7 +20,7 @@ export TRACE_FAST=1
 
 
 python3 cva6.py --target $DV_TARGET --iss=$DV_SIMULATORS --iss_yaml=cva6.yaml \
-    --c_tests ../../additional_files/masked_single_block/aes64-fix-r-zero-r/aes_asm_masked_single_encryption.c \
+    --c_tests ../../additional_files/masked_single_block/aes64-rand-r-rand-r/aes_asm_masked_single_encryption.c \
     --isa_extension zbkb_zbkc_zbkx_zknd_zkne_zknh_zksed_zksh \
     --linker=../tests/custom/common/test.ld \
     --gcc_opts="-static -mcmodel=medany -fvisibility=hidden -nostdlib \
