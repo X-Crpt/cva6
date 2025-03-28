@@ -32,6 +32,10 @@ module crypto_scalar_fu
   logic [4:0] rd_n, rd_q;
   logic we_n, we_q;
 
+  logic prng_global_en, prng_aes_en;
+
+  assign prng_global_en = prng_en || prng_aes_en;
+
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
   logic [127:0]  prng_result_o;
   logic [127:0]  seed, seed_reg;
@@ -99,11 +103,11 @@ module crypto_scalar_fu
       
       assign prng_rst_global = prng_rst || ~rst_ni;
 
-      simple_prng co_simple_prng (
+      prng prng_i (
         .clk(clk_i),                                // Clock input
         .rst(prng_rst_global),                      // Reset input (active high)
         .init_i(prng_active),                       // Set seed
-        .en_i(prng_en),                             // Enable input
+        .en_i(prng_global_en),                             // Enable input
         .seed_i(seed_reg),                          // 128-bit seed
         .prng_o(prng_result_o)                      // 64-bit pseudo-random output
       );
@@ -172,6 +176,8 @@ module crypto_scalar_fu
         input_RF_2       = '0;
         input_RF_3       = '0;
 
+        prng_aes_en      = '0;
+
         //----------------------------------
         // A) READ logic (use opcode_i, instr_i)
         //----------------------------------
@@ -229,6 +235,8 @@ module crypto_scalar_fu
               aes_round         = 1'b1;
               read_en           = 1'b1;
               write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
+
+              prng_aes_en      = 1'b1;
             end
           end
 
@@ -239,6 +247,7 @@ module crypto_scalar_fu
             read_en           = 1'b1;
             write_en          = 1'b1;
             aes_key_exp_ks1   = 1'b1;
+            prng_aes_en       = 1'b1;
           end
 
           default: begin
@@ -312,6 +321,7 @@ endgenerate
   aes64_t aes64_op_i;
   logic aes64_en;
   logic valid_i;
+  logic [17:0] randombits_i [7:0];
 
   logic [63:0] aes64_rs1, aes64_rs2, aes64_rs3, aes64_rs4;
 
@@ -371,21 +381,48 @@ endgenerate
         end
     end
 
+    //Let’s divide the 128 bits into eight 16-bit slices, and add one extra bit from the remaining bits per chunk.
+    assign randombits_i[0] = {prng_result_o[127],    prng_result_o[111:96]};   // 1 + 16 = 17
+    assign randombits_i[1] = {prng_result_o[126],    prng_result_o[95:80]};
+    assign randombits_i[2] = {prng_result_o[125],    prng_result_o[79:64]};
+    assign randombits_i[3] = {prng_result_o[124],    prng_result_o[63:48]};
+    assign randombits_i[4] = {prng_result_o[123],    prng_result_o[47:32]};
+    assign randombits_i[5] = {prng_result_o[122],    prng_result_o[31:16]};
+    assign randombits_i[6] = {prng_result_o[121],    prng_result_o[15:0]};
+    assign randombits_i[7] = {prng_result_o[120],    prng_result_o[119:104]};
 
-      crypto_aes64 co_crypto_aes64(
-      .clk_i(clk_i),
-      .rst_ni(rst_ni),
-      .aes64_en_i(aes64_en),
-      .aes64_op_i(aes64_op_i),
-      .aes64_rs1_i(aes64_rs1),
-      .aes64_rs2_i(aes64_rs2),
-      .aes64_rs3_i(aes64_rs3),
-      .aes64_rs4_i(aes64_rs4),
-      .valid_i(valid_i),
-      .aes64_rnum_i(instr_i[23:20]),
-      .aes64_result_share0_o(aes64_result_share0_o),
-      .aes64_result_share1_o(aes64_result_share1_o)
-      );
+    //assign randombits_i[0] = '0;
+    //assign randombits_i[1] = '0;
+    //assign randombits_i[2] = '0;
+    //assign randombits_i[3] = '0;
+    //assign randombits_i[4] = '0;
+    //assign randombits_i[5] = '0;
+    //assign randombits_i[6] = '0;
+    //assign randombits_i[7] = '0;
+    //assign randombits_i[0] = 18'h12345;
+    //assign randombits_i[1] = 18'h1A2B3;
+    //assign randombits_i[2] = 18'h2BCD0;
+    //assign randombits_i[3] = 18'h17DEF;
+    //assign randombits_i[4] = 18'h0ACE5;
+    //assign randombits_i[5] = 18'h3F3F3;
+    //assign randombits_i[6] = 18'h15555;
+    //assign randombits_i[7] = 18'h3ABCD;
+
+    crypto_aes64 co_crypto_aes64(
+    .clk_i(clk_i),
+    .rst_ni(rst_ni),
+    .aes64_en_i(aes64_en),
+    .aes64_op_i(aes64_op_i),
+    .aes64_rs1_i(aes64_rs1),
+    .aes64_rs2_i(aes64_rs2),
+    .aes64_rs3_i(aes64_rs3),
+    .aes64_rs4_i(aes64_rs4),
+    .valid_i(valid_i),
+    .aes64_rnum_i(instr_i[23:20]),
+    .randombits_i(randombits_i),
+    .aes64_result_share0_o(aes64_result_share0_o),
+    .aes64_result_share1_o(aes64_result_share1_o)
+    );
     end
   endgenerate
 

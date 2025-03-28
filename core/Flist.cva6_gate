@@ -55,6 +55,7 @@ ${CVA6_REPO_DIR}/core/crypto/crypto_sboxes.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_aes_mix_columns.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_aes64.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/rf.sv
+${CVA6_REPO_DIR}/additional_files/ghash/sv/src/ghash.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/prng.sv
 ${CVA6_REPO_DIR}/core/crypto/masked/crypto_scalar_fu.sv
 ${CVA6_REPO_DIR}/core/crypto/crypto_coprocessor.sv

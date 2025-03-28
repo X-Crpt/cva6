@@ -4,7 +4,7 @@
 // Project: SERICS-SANDSTORM
 
 
-module simple_prng (
+module prng (
     input  logic        clk,      // Clock input
     input  logic        rst,      // Reset input (active high)
     input  logic        init_i, 
@@ -14,28 +14,45 @@ module simple_prng (
 );
 
     logic [127:0] lfsr;
+    logic [127:0] feedback_q, feedback_d;
+    logic [127:0] result_ghash;
+    logic enable_ghash;
 
     always_comb begin
       if (rst) begin
-            lfsr <= 0;  
+            lfsr       = 0;  
         end else if (init_i) begin
-            lfsr <= seed_i;
+            lfsr       = seed_i;
         end else if (en_i) begin
-            lfsr <= {lfsr[126:0], lfsr[127] ^ lfsr[63] ^ lfsr[31] ^ lfsr[0]};
+            lfsr       = seed_i;
         end
     end
 
-    //always_ff @(posedge clk or posedge rst) begin
-    //    if (rst) begin
-    //        lfsr <= 0;  
-    //    end else if (init_i) begin
-    //        lfsr <= seed_i;
-    //    end else if (en_i) begin
-    //        lfsr <= {lfsr[126:0], lfsr[127] ^ lfsr[63] ^ lfsr[31] ^ lfsr[0]};
-    //    end
-    //end
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            feedback_q   <= 128'b0;
+            enable_ghash <= 1'b0;
+        end else if (init_i) begin
+            feedback_q   <= seed_i;
+            enable_ghash <= 1'b1;
+        end else if (en_i) begin
+            feedback_q   <= result_ghash;
+            enable_ghash <= 1'b1;
+        end else begin
+            // No init, no enable => keep the old feedback, or do something else
+            feedback_q   <= feedback_q; 
+            enable_ghash <= 1'b0;
+        end
+    end
 
-    assign prng_o = lfsr;
-    //assign prng_o = 128'h1234567812345678deadbeafdeadbeaf;
+
+    ghash ghash_i (
+        .x(lfsr),
+        .y(feedback_q),
+        .enable_i(enable_ghash),
+        .res(result_ghash)
+    );
+
+    assign prng_o = result_ghash;
 
 endmodule

@@ -186,6 +186,7 @@ core/crypto/crypto_sboxes.sv
 core/crypto/crypto_aes_mix_columns.sv
 core/crypto/crypto_aes64.sv
 core/crypto/masked/rf.sv
+additional_files/ghash/sv/src/ghash.sv
 core/crypto/masked/prng.sv
 core/crypto/masked/crypto_scalar_fu.sv
 core/crypto/crypto_coprocessor.sv

@@ -83,6 +83,7 @@ module crypto_aes64
     input  logic [XLEN-1:0]  aes64_rs4_i,
     input logic              valid_i,
     input  logic [3:0]       aes64_rnum_i,
+    input  logic [17:0]      randombits_i [7:0],
     output logic [XLEN-1:0]  aes64_result_share0_o, 
     output logic [XLEN-1:0]  aes64_result_share1_o
 );
@@ -212,24 +213,6 @@ module crypto_aes64
     logic [ 7:0] sb_fwd_out_share0 [7:0];
     logic [ 7:0] sb_fwd_in_share1  [7:0];
     logic [ 7:0] sb_fwd_out_share1 [7:0];
-    logic [17:0] randombits_i [7:0];
-
-    assign randombits_i[0] = '0;
-    assign randombits_i[1] = '0;
-    assign randombits_i[2] = '0;
-    assign randombits_i[3] = '0;
-    assign randombits_i[4] = '0;
-    assign randombits_i[5] = '0;
-    assign randombits_i[6] = '0;
-    assign randombits_i[7] = '0;
-    //assign randombits_i[0] = 18'h12345;
-    //assign randombits_i[1] = 18'h1A2B3;
-    //assign randombits_i[2] = 18'h2BCD0;
-    //assign randombits_i[3] = 18'h17DEF;
-    //assign randombits_i[4] = 18'h0ACE5;
-    //assign randombits_i[5] = 18'h3F3F3;
-    //assign randombits_i[6] = 18'h15555;
-    //assign randombits_i[7] = 18'h3ABCD;
 
     assign      sb_fwd_in_share0[0]= (aes64_op_i == aes64_ks1i) ? ks1_sb0_share0 : `BY(shiftrows_enc_share0, 0);
     assign      sb_fwd_in_share1[0]= (aes64_op_i == aes64_ks1i) ? ks1_sb0_share1 : `BY(shiftrows_enc_share1, 0);
