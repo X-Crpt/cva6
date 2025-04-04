@@ -37,7 +37,7 @@ module crypto_scalar_fu
   assign prng_global_en = prng_en || prng_aes_en;
 
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
-  logic [127:0]  prng_result_o;
+  logic [135:0]  prng_result_o;
   logic [127:0]  seed, seed_reg;
   prng_t prng_op_i;
   logic prng_en, prng_rst, prng_seed;
@@ -107,7 +107,7 @@ module crypto_scalar_fu
         .clk(clk_i),                                // Clock input
         .rst(prng_rst_global),                      // Reset input (active high)
         .init_i(prng_active),                       // Set seed
-        .en_i(prng_global_en),                             // Enable input
+        .en_i(prng_global_en),                      // Enable input
         .seed_i(seed_reg),                          // 128-bit seed
         .prng_o(prng_result_o)                      // 64-bit pseudo-random output
       );
@@ -382,14 +382,14 @@ endgenerate
     end
 
     //Let’s divide the 128 bits into eight 16-bit slices, and add one extra bit from the remaining bits per chunk.
-    assign randombits_i[0] = {prng_result_o[127],    prng_result_o[111:96]};   // 1 + 16 = 17
-    assign randombits_i[1] = {prng_result_o[126],    prng_result_o[95:80]};
-    assign randombits_i[2] = {prng_result_o[125],    prng_result_o[79:64]};
-    assign randombits_i[3] = {prng_result_o[124],    prng_result_o[63:48]};
-    assign randombits_i[4] = {prng_result_o[123],    prng_result_o[47:32]};
-    assign randombits_i[5] = {prng_result_o[122],    prng_result_o[31:16]};
-    assign randombits_i[6] = {prng_result_o[121],    prng_result_o[15:0]};
-    assign randombits_i[7] = {prng_result_o[120],    prng_result_o[119:104]};
+    assign randombits_i[0] = prng_result_o[135:119];  // Bits 135 down to 119
+    assign randombits_i[1] = prng_result_o[118:102];  // Bits 118 down to 102
+    assign randombits_i[2] = prng_result_o[101:85];   // Bits 101 down to 85
+    assign randombits_i[3] = prng_result_o[84:68];    // Bits 84 down to 68
+    assign randombits_i[4] = prng_result_o[67:51];    // Bits 67 down to 51
+    assign randombits_i[5] = prng_result_o[50:34];    // Bits 50 down to 34
+    assign randombits_i[6] = prng_result_o[33:17];    // Bits 33 down to 17
+    assign randombits_i[7] = prng_result_o[16:0];     // Bits 16 down to 0
 
     //assign randombits_i[0] = '0;
     //assign randombits_i[1] = '0;

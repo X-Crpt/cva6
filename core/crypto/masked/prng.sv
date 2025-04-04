@@ -9,13 +9,13 @@ module prng (
     input  logic        rst,      // Reset input (active high)
     input  logic        init_i, 
     input  logic        en_i,       // Enable input
-    input  logic [127:0] seed_i,    // 128-bit seed
-    output logic [127:0]  prng_o // 64-bit pseudo-random output
+    input  logic [127:0]  seed_i,    // 128-bit seed
+    output logic [135:0]  prng_o // 64-bit pseudo-random output
 );
 
     logic [127:0] lfsr;
     logic [127:0] feedback_q, feedback_d;
-    logic [127:0] result_ghash;
+    logic [127:0] result_ghash1, result_ghash2;
     logic enable_ghash;
 
     always_comb begin
@@ -36,7 +36,7 @@ module prng (
             feedback_q   <= seed_i;
             enable_ghash <= 1'b1;
         end else if (en_i) begin
-            feedback_q   <= result_ghash;
+            feedback_q   <= result_ghash1;
             enable_ghash <= 1'b1;
         end else begin
             // No init, no enable => keep the old feedback, or do something else
@@ -46,13 +46,20 @@ module prng (
     end
 
 
-    ghash ghash_i (
+    ghash ghash_i1 (
         .x(lfsr),
         .y(feedback_q),
         .enable_i(enable_ghash),
-        .res(result_ghash)
+        .res(result_ghash1)
     );
 
-    assign prng_o = result_ghash;
+    ghash ghash_i2 (
+        .x(lfsr),
+        .y(feedback_q),
+        .enable_i(enable_ghash),
+        .res(result_ghash2)
+    );
+
+    assign prng_o = {result_ghash1, result_ghash2[7:0]};
 
 endmodule
