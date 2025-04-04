@@ -75,14 +75,12 @@ int main(int argc, char* arg[])
 
     uint64_t rs1_fixed = getRandom64();
     uint64_t rs2_fixed = getRandom64();
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) :  );
+    
+    rs1_fixed = getRandom64();
+    rs2_fixed = getRandom64();
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) :  );
 
-    //cv_xif_prng_init
-    asm volatile (
-        ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
-        :     
-        : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
-        : 
-    );
 
     *trigger = 1 << TRIGGER_CTRL_START;
  

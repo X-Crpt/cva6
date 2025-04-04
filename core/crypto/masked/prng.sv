@@ -13,49 +13,61 @@ module prng (
     output logic [135:0]  prng_o // 64-bit pseudo-random output
 );
 
-    logic [127:0] lfsr;
-    logic [127:0] feedback_q, feedback_d;
+    logic [127:0] seed1, seed2;
+    logic [127:0] feedback_q1, feedback_q2;
     logic [127:0] result_ghash1, result_ghash2;
     logic enable_ghash;
 
     always_comb begin
       if (rst) begin
-            lfsr       = 0;  
+            seed1       = 0;  
         end else if (init_i) begin
-            lfsr       = seed_i;
+            seed1       = seed_i;
         end else if (en_i) begin
-            lfsr       = seed_i;
+            seed1       = seed_i;
         end
     end
 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
-            feedback_q   <= 128'b0;
-            enable_ghash <= 1'b0;
+            seed1         <= 128'b0;
+            seed2         <= 128'b0;
+            feedback_q1   <= 128'b0;
+            feedback_q2   <= 128'b0;
+            enable_ghash  <= 1'b0;
         end else if (init_i) begin
-            feedback_q   <= seed_i;
+            seed1         <= seed_i;
+            seed2         <= seed1;
+            feedback_q1   <= seed_i;
+            feedback_q2   <= feedback_q1;
             enable_ghash <= 1'b1;
         end else if (en_i) begin
-            feedback_q   <= result_ghash1;
+            seed1         <= seed1;
+            seed2         <= seed2;
+            feedback_q1   <= result_ghash1;
+            feedback_q2   <= result_ghash2;
             enable_ghash <= 1'b1;
         end else begin
             // No init, no enable => keep the old feedback, or do something else
-            feedback_q   <= feedback_q; 
+            seed1         <= seed1;
+            seed2         <= seed2;
+            feedback_q1   <= feedback_q1; 
+            feedback_q2   <= feedback_q2; 
             enable_ghash <= 1'b0;
         end
     end
 
 
     ghash ghash_i1 (
-        .x(lfsr),
-        .y(feedback_q),
+        .x(seed1),
+        .y(feedback_q1),
         .enable_i(enable_ghash),
         .res(result_ghash1)
     );
 
     ghash ghash_i2 (
-        .x(lfsr),
-        .y(feedback_q),
+        .x(seed2),
+        .y(feedback_q2),
         .enable_i(enable_ghash),
         .res(result_ghash2)
     );
