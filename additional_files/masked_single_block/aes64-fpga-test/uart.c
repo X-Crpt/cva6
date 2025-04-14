@@ -7,9 +7,9 @@
 
 
 void read_seed_input_from_uart(uint8_t *seed_input, size_t size) {
-    print_uart("Please send the seed input (");
-    print_uart_int(size);
-    print_uart(" bytes in hexadecimal format):\n");
+    //print_uart("Please send the seed input (");
+    //print_uart_int(size);
+    //print_uart(" bytes in hexadecimal format):\n");
 
     for (size_t i = 0; i < size; i++) {
         uint8_t byte_received;
@@ -19,9 +19,9 @@ void read_seed_input_from_uart(uint8_t *seed_input, size_t size) {
         seed_input[i] = byte_received;
 
         // Echo received byte as hexadecimal for confirmation
-        print_uart("Received byte ");
-        print_uart_byte(byte_received);
-        print_uart("\n");
+        //print_uart("Received byte ");
+        //print_uart_byte(byte_received);
+        //print_uart("\n");
     }
 }
 
@@ -34,9 +34,9 @@ uint32_t read_uint32_from_uart() {
             // Wait for data
         }
         value |= (byte_received << (i * 8));
-        print_uart("Received byte for num_traces: ");
-        print_uart_byte(byte_received);
-        print_uart("\n");
+        //print_uart("Received byte for num_traces: ");
+        //print_uart_byte(byte_received);
+        //print_uart("\n");
     }
     return value;
 }

@@ -5,42 +5,6 @@
 #include <stdio.h>
 #include "uart.h"
 
-
-void read_seed_input_from_uart(uint8_t *seed_input, size_t size) {
-    print_uart("Please send the seed input (");
-    print_uart_int(size);
-    print_uart(" bytes in hexadecimal format):\n");
-
-    for (size_t i = 0; i < size; i++) {
-        uint8_t byte_received;
-        while (!read_serial(&byte_received)) {
-            // Wait for data
-        }
-        seed_input[i] = byte_received;
-
-        // Echo received byte as hexadecimal for confirmation
-        print_uart("Received byte ");
-        print_uart_byte(byte_received);
-        print_uart("\n");
-    }
-}
-
-// Function to read a 32-bit integer (uint32_t) from UART
-uint32_t read_uint32_from_uart() {
-    uint32_t value = 0;
-    for (int i = 0; i < 4; i++) {
-        uint8_t byte_received;
-        while (!read_serial(&byte_received)) {
-            // Wait for data
-        }
-        value |= (byte_received << (i * 8));
-        print_uart("Received byte for num_traces: ");
-        print_uart_byte(byte_received);
-        print_uart("\n");
-    }
-    return value;
-}
-
 /********************************ORIGINAL FILE***************************************/
 void write_reg_u8(uintptr_t addr, uint8_t value)
 {

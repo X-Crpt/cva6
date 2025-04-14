@@ -10,7 +10,7 @@ module prng (
     input  logic        init_i, 
     input  logic        en_i,       // Enable input
     input  logic [127:0]  seed_i,    // 128-bit seed
-    output logic [135:0]  prng_o // 64-bit pseudo-random output
+    output logic [143:0]  prng_o // 64-bit pseudo-random output
 );
 
     logic [127:0] seed1, seed2;
@@ -72,6 +72,6 @@ module prng (
         .res(result_ghash2)
     );
 
-    assign prng_o = {result_ghash1, result_ghash2[7:0]};
+    assign prng_o = {result_ghash1, result_ghash2[15:0]};
 
 endmodule

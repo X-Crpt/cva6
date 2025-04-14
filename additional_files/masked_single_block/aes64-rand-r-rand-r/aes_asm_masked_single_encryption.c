@@ -9,10 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "util.h"
 #include "aes_asm_masked.h"
 #include "trigger_auto.h"
 #include "uart.h"
 #include <time.h>
+
 
 #define AES_BLOCK_SIZE 16
 
@@ -70,6 +72,8 @@ int main(int argc, char* arg[])
     uint8_t  pt  [16] = {0x32 ,0x43 ,0xf6 ,0xa8 ,0x88 ,0x5a ,0x30 ,0x8d ,0x31 ,0x31 ,0x98 ,0xa2 ,0xe0 ,0x37 ,0x07 ,0x34};
     uint8_t  ct_ref[16] = {0x39, 0x25, 0x84, 0x1D, 0x02, 0xDC, 0x09, 0xFB, 0xDC, 0x11, 0x85, 0x97, 0x19, 0x6A, 0x0B, 0x32};
     uint8_t ct[16] = {};
+    uint64_t start_cycles, end_cycles;
+    uint64_t total_enc_cycles = 0;
     
     uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
 
@@ -83,15 +87,26 @@ int main(int argc, char* arg[])
 
 
     *trigger = 1 << TRIGGER_CTRL_START;
- 
+    start_cycles = read_csr(mcycle);
     AES_ENC_masked_dom((uint32_t*)pt, key);
-    //AES_ENC((uint32_t*)pt, key);
+    end_cycles = read_csr(mcycle);
 
     *trigger = 1 << TRIGGER_CTRL_STOP;
     //reverse_pt(pt);
 
+    total_enc_cycles = (end_cycles - start_cycles);
+
+    print_uart_block((uint8_t *)&total_enc_cycles, sizeof(total_enc_cycles));
     print_uart_block(pt, AES_BLOCK_SIZE);
     print_uart_block(ct_ref, AES_BLOCK_SIZE);
 
     return 0;
 }
+
+
+
+
+
+
+
+

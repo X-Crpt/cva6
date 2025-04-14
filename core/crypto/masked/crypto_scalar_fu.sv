@@ -37,7 +37,7 @@ module crypto_scalar_fu
   assign prng_global_en = prng_en || prng_aes_en;
 
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
-  logic [135:0]  prng_result_o;
+  logic [143:0]  prng_result_o;
   logic [127:0]  seed, seed_reg;
   prng_t prng_op_i;
   logic prng_en, prng_rst, prng_seed;
@@ -381,15 +381,16 @@ endgenerate
         end
     end
 
-    //Let’s divide the 128 bits into eight 16-bit slices, and add one extra bit from the remaining bits per chunk.
-    assign randombits_i[0] = prng_result_o[135:119];  // Bits 135 down to 119
-    assign randombits_i[1] = prng_result_o[118:102];  // Bits 118 down to 102
-    assign randombits_i[2] = prng_result_o[101:85];   // Bits 101 down to 85
-    assign randombits_i[3] = prng_result_o[84:68];    // Bits 84 down to 68
-    assign randombits_i[4] = prng_result_o[67:51];    // Bits 67 down to 51
-    assign randombits_i[5] = prng_result_o[50:34];    // Bits 50 down to 34
-    assign randombits_i[6] = prng_result_o[33:17];    // Bits 33 down to 17
-    assign randombits_i[7] = prng_result_o[16:0];     // Bits 16 down to 0
+
+  assign randombits_i[0] = prng_result_o[143:126];  // Bits 143 down to 126
+  assign randombits_i[1] = prng_result_o[125:108];  // Bits 125 down to 108
+  assign randombits_i[2] = prng_result_o[107:90];   // Bits 107 down to 90
+  assign randombits_i[3] = prng_result_o[89:72];    // Bits 89 down to 72
+  assign randombits_i[4] = prng_result_o[71:54];    // Bits 71 down to 54
+  assign randombits_i[5] = prng_result_o[53:36];    // Bits 53 down to 36
+  assign randombits_i[6] = prng_result_o[35:18];    // Bits 35 down to 18
+  assign randombits_i[7] = prng_result_o[17:0];     // Bits 17 down to 0
+
 
     //assign randombits_i[0] = '0;
     //assign randombits_i[1] = '0;
