@@ -88,7 +88,8 @@ int main(int argc, char* arg[])
 
     *trigger = 1 << TRIGGER_CTRL_START;
     start_cycles = read_csr(mcycle);
-    AES_ENC_masked_dom((uint32_t*)pt, key);
+    //AES_ENC_masked_dom((uint32_t*)pt, key);
+    AES_ENC_masked_dom_more_rand((uint32_t*)pt, key);
     end_cycles = read_csr(mcycle);
 
     *trigger = 1 << TRIGGER_CTRL_STOP;
@@ -96,7 +97,7 @@ int main(int argc, char* arg[])
 
     total_enc_cycles = (end_cycles - start_cycles);
 
-    print_uart_block((uint8_t *)&total_enc_cycles, sizeof(total_enc_cycles));
+    //print_uart_block((uint8_t *)&total_enc_cycles, sizeof(total_enc_cycles));
     print_uart_block(pt, AES_BLOCK_SIZE);
     print_uart_block(ct_ref, AES_BLOCK_SIZE);
 
