@@ -528,6 +528,7 @@ module ariane_testharness #(
     .axi_slave    (master[ariane_soc::Trigger])
   );
 
+
   localparam axi_pkg::xbar_cfg_t AXI_XBAR_CFG = '{
     NoSlvPorts: unsigned'(ariane_soc::NrSlaves),
     NoMstPorts: unsigned'(ariane_soc::NB_PERIPHERALS),

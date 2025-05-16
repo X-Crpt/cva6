@@ -196,6 +196,14 @@ module ariane_xilinx (
 function automatic config_pkg::cva6_cfg_t build_fpga_config(config_pkg::cva6_user_cfg_t CVA6UserCfg);
   config_pkg::cva6_user_cfg_t cfg = CVA6UserCfg;
   cfg.RVZiCond = bit'(0);
+  `ifdef CW305
+	  cfg.RVF = 0;
+	  cfg.RVD = 0;
+	  cfg.XF16 = 0;
+	  cfg.XF16ALT = 0;
+	  cfg.XF8 = 0;
+	  cfg.XFVec = 0;
+  `endif
   cfg.NrNonIdempotentRules = unsigned'(1);
   cfg.NonIdempotentAddrBase = 1024'({64'b0});
   cfg.NonIdempotentLength = 1024'({ariane_soc::DRAMBase});
