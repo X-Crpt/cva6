@@ -1,4 +1,5 @@
-// Author: Alessandra Dolmeta {alessandra.dolmeta@polito.it}
+// Author: Alessandra Dolmeta {alessandra.dolmeta@polito.it}, Davide Bellizia
+// {davide.bellizia@telsy.it}
 // Company: PoliTO - Telsy S.p.A.
 // Date: 28-March-2025
 // Project: SERICS-SANDSTORM
@@ -6,7 +7,6 @@
 module ghash (
     input  wire [127:0] x,
     input  wire [127:0] y,
-    input  wire         enable_i,
     output reg  [127:0] res
 );
 
@@ -17,20 +17,18 @@ module ghash (
     reg [127:0] result;
 
     always @(*) begin
-        if (enable_i) begin 
-            x_reg = x;
-            result = 128'b0;
+        x_reg = x;
+        result = 128'b0;
 
-            for (i = 127; i >= 0; i = i - 1) begin
-                if (y[i])
-                    result = result ^ x_reg;
+        for (i = 127; i >= 0; i = i - 1) begin
+            if (y[i])
+                result = result ^ x_reg;
 
-                if (x_reg[0] == 1'b1)
-                    x_reg = (x_reg >> 1) ^ RED_POLY;
-                else
-                    x_reg = x_reg >> 1;
-            end
-        end
+            if (x_reg[0] == 1'b1)
+        	x_reg = (x_reg >> 1) ^ RED_POLY;
+            else
+        	x_reg = x_reg >> 1;
+    	end
     end
 
     assign res = result;
