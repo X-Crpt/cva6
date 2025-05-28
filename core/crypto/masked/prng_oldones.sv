@@ -61,14 +61,12 @@ module prng (
     ghash ghash_i1 (
         .x(seed1),
         .y(feedback_q1),
-        .enable_i(enable_ghash),
         .res(result_ghash1)
     );
 
     ghash ghash_i2 (
         .x(seed2),
         .y(feedback_q2),
-        .enable_i(enable_ghash),
         .res(result_ghash2)
     );
 

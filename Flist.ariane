@@ -183,6 +183,7 @@ core/crypto/dom-aes-sbox/src/multiplication_gf16.sv
 core/crypto/dom-aes-sbox/src/square_scale_gf16.sv
 core/crypto/instr_decoder.sv
 core/crypto/crypto_sboxes.sv
+core/crypto/masked/Bivium.vhd
 core/crypto/crypto_aes_mix_columns.sv
 core/crypto/crypto_aes64.sv
 core/crypto/masked/rf.sv

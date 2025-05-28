@@ -16,7 +16,7 @@ module prng (
 
 
     Bivium #(
-	.output_bits(144)	    
+	.OUTPUT_BITS(144)	    
     ) stream_i (
 	.clk(clk),
 	.rst(rst),

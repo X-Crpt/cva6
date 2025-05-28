@@ -48,6 +48,12 @@ module crypto_scalar_fu
 
     always_comb
       begin
+        prng_en   = 0;
+        prng_op_i = prng64_none;
+        prng_seed = 0;
+        prng_rst  = 0;
+        seed      = 0;
+        
         if (opcode_i==PRNG) begin
             if (instr_i[27:25]==3'b101) begin
               prng_op_i = prng64_seed;
@@ -68,12 +74,6 @@ module crypto_scalar_fu
               prng_seed = 0;
               prng_rst  = 1'b1;
             end
-        end
-        else begin
-          prng_en   = 0;
-          prng_seed = 0;
-          prng_rst  = 0;
-          seed      = 0;
         end 
       end
 

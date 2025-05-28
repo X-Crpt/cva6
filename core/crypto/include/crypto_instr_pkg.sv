@@ -38,6 +38,7 @@ package crypto_instr_pkg;
   } aes64_t;
 
   typedef enum {  
+    prng64_none,
     prng64_seed, 
     prng64_enable,
     prng64_rst 

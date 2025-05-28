@@ -23,8 +23,8 @@ module rf (
     parameter NUM_REGS = 14;  // 14 registers
     
     logic [63:0] register_array [0:NUM_REGS-1];
-    logic [4:0] addr_1a, addr_2a, addr_3a, addr_4a;
-    logic [4:0] addr_1b, addr_2b, addr_3b, addr_4b;
+    logic [3:0] addr_1a, addr_2a, addr_3a, addr_4a;
+    logic [3:0] addr_1b, addr_2b, addr_3b, addr_4b;
 
     logic [63:0] temp1, temp2, temp3, temp4;
     logic aes64ks2_first;
@@ -39,53 +39,55 @@ module rf (
     //Synchronous read - combinatorial 
     always_comb begin
       begin
+        addr_1a = 0;
+        addr_2a = 0;
+        addr_3a = 0;
+        addr_4a = 0;
+        addr_1b = 0;
+        addr_2b = 0;
+        addr_3b = 0;
+        addr_4b = 0;
+
         if (write_en_i && random_i) begin
-            addr_1a <= addr_i;
-            addr_2a <= addr_i + 1;
-            addr_3a <= addr_i + 2;
-            addr_4a <= addr_i + 3;
+            addr_1a = addr_i;
+            addr_2a = addr_i + 1;
+            addr_3a = addr_i + 2;
+            addr_4a = addr_i + 3;
 
         end else if (write_en_i && add_round_key_i) begin
-            addr_1a <= input0_i[4:0];
-            addr_2a <= input0_i[4:0] + 1;
-            addr_3a <= input0_i[4:0] + 2;
-            addr_4a <= input0_i[4:0] + 3;
-            addr_1b <= input1_i[4:0];
-            addr_2b <= input1_i[4:0] + 1;
-            addr_3b <= input1_i[4:0] + 2;
-            addr_4b <= input1_i[4:0] + 3;
+            addr_1a = input0_i[3:0];
+            addr_2a = input0_i[3:0] + 1;
+            addr_3a = input0_i[3:0] + 2;
+            addr_4a = input0_i[3:0] + 3;
+            addr_1b = input1_i[3:0];
+            addr_2b = input1_i[3:0] + 1;
+            addr_3b = input1_i[3:0] + 2;
+            addr_4b = input1_i[3:0] + 3;
 
         end else if (read_en_i && aes_round_i) begin
-            addr_1a <= input1_i[4:0];
-            addr_2a <= input1_i[4:0] + 1;
-            addr_1b <= input1_i[4:0] + 2;
-            addr_2b <= input1_i[4:0] + 3;
-            
-            addr_3a <= input0_i[4:0];
+            addr_1a = input1_i[3:0];
+            addr_2a = input1_i[3:0] + 1;
+            addr_1b = input1_i[3:0] + 2;
+            addr_2b = input1_i[3:0] + 3;
+            addr_3a = input0_i[3:0];
 
         end else if (read_en_i && aes_key_exp_ks1_i) begin
-            addr_1a <= input0_i[4:0];
-            addr_2a <= input0_i[4:0] + 2;
-            
-            addr_3a <= input1_i[4:0];
-            addr_4a <= input1_i[4:0];
+            addr_1a = input0_i[3:0];
+            addr_2a = input0_i[3:0] + 2;
+            addr_3a = input1_i[3:0];
+            addr_4a = input1_i[3:0];
 
         end else if (read_en_i && aes_key_exp_ks2_i) begin
-            addr_1a <= input0_i[4:0];
-            addr_2a <= input1_i[4:0];
+            addr_1a = input0_i[3:0];
+            addr_2a = input1_i[3:0];
 
             if (aes64ks2_first) begin
-                addr_1b <= input0_i[4:0] + 2;
+                addr_1b = input0_i[3:0] + 2;
             end else begin
-                addr_1b <= input0_i[4:0] + 1;
+                addr_1b = input0_i[3:0] + 1;
             end 
+            addr_2b = input1_i[3:0] + 2;
 
-            addr_2b <= input1_i[4:0] + 2;
-
-
-        end else begin
-            addr_1a <= 0;
-            addr_2a <= 0;
         end
       end
     end
@@ -133,8 +135,8 @@ module rf (
     end
 
 
-    logic [4:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5, input0_q6;
-    logic [4:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5, input1_q6;
+    logic [3:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5, input0_q6;
+    logic [3:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5, input1_q6;
     logic [63:0] input2_q1, input2_q2, input2_q3, input2_q4, input2_q5, input2_q6;
     logic [63:0] input3_q1, input3_q2, input3_q3, input3_q4, input3_q5, input3_q6;
     logic write_en_q1, write_en_q2, write_en_q3, write_en_q4, write_en_q5, write_en_q6;
@@ -165,8 +167,8 @@ module rf (
         end
         else begin
             // Pipeline stage 1
-            input0_q1           <= input0_i[4:0];
-            input1_q1           <= input1_i[4:0];
+            input0_q1           <= input0_i[3:0];
+            input1_q1           <= input1_i[3:0];
             input2_q1           <= input2_i;
             input3_q1           <= input3_i;
             write_en_q1         <= write_en_i;
@@ -233,6 +235,8 @@ module rf (
             output_o        = 64'b0;
             aes_comb_out0_o = 64'b0;
             aes_comb_out1_o = 64'b0;
+            aes_comb_out2_o = 64'b0;
+            aes_comb_out3_o = 64'b0;
         end
     end
 
