@@ -135,42 +135,35 @@ module rf (
     end
 
 
-    logic [3:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5, input0_q6;
-    logic [3:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5, input1_q6;
-    logic [63:0] input2_q1, input2_q2, input2_q3, input2_q4, input2_q5, input2_q6;
-    logic [63:0] input3_q1, input3_q2, input3_q3, input3_q4, input3_q5, input3_q6;
-    logic write_en_q1, write_en_q2, write_en_q3, write_en_q4, write_en_q5, write_en_q6;
-    logic aes_key_exp_ks1_q1, aes_key_exp_ks1_q2, aes_key_exp_ks1_q3, aes_key_exp_ks1_q4, aes_key_exp_ks1_q5, aes_key_exp_ks1_q6;
-    logic aes_round_q1, aes_round_q2, aes_round_q3, aes_round_q4, aes_round_q5, aes_round_q6;
+    logic [3:0] input0_q1, input0_q2, input0_q3, input0_q4, input0_q5;
+    logic [3:0] input1_q1, input1_q2, input1_q3, input1_q4, input1_q5;
+    logic write_en_q1, write_en_q2, write_en_q3, write_en_q4, write_en_q5;
+    logic aes_key_exp_ks1_q1, aes_key_exp_ks1_q2, aes_key_exp_ks1_q3, aes_key_exp_ks1_q4, aes_key_exp_ks1_q5;
+    logic aes_round_q1, aes_round_q2, aes_round_q3, aes_round_q4, aes_round_q5;
 
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (~rst_ni) begin
             // Reset all pipeline stages
-            input0_q1 <= '0;  input1_q1 <= '0;  input2_q1 <= '0; input3_q1 <= '0;
+            input0_q1 <= '0;  input1_q1 <= '0; 
             write_en_q1 <= '0;  aes_key_exp_ks1_q1 <= '0;  aes_round_q1 <= '0;
 
-            input0_q2 <= '0;  input1_q2 <= '0;  input2_q2 <= '0; input3_q2 <= '0;
+            input0_q2 <= '0;  input1_q2 <= '0;  
             write_en_q2 <= '0;  aes_key_exp_ks1_q2 <= '0;  aes_round_q2 <= '0;
 
-            input0_q3 <= '0;  input1_q3 <= '0;  input2_q3 <= '0; input3_q3 <= '0;
+            input0_q3 <= '0;  input1_q3 <= '0;
             write_en_q3 <= '0; aes_key_exp_ks1_q3 <= '0;  aes_round_q3 <= '0;
 
-            input0_q4 <= '0;  input1_q4 <= '0;  input2_q4 <= '0; input3_q4 <= '0;
+            input0_q4 <= '0;  input1_q4 <= '0;  
             write_en_q4 <= '0;  aes_key_exp_ks1_q4 <= '0;  aes_round_q4 <= '0;
 
-            input0_q5 <= '0;  input1_q5 <= '0;  input2_q5 <= '0; input3_q5 <= '0;
+            input0_q5 <= '0;  input1_q5 <= '0; 
             write_en_q5 <= '0; aes_key_exp_ks1_q5 <= '0;  aes_round_q5 <= '0;
-
-            input0_q6 <= '0;  input1_q6 <= '0;  input2_q6 <= '0; input3_q6 <= '0;
-            write_en_q6 <= '0;  aes_key_exp_ks1_q6 <= '0;  aes_round_q6 <= '0;
 
         end
         else begin
             // Pipeline stage 1
             input0_q1           <= input0_i[3:0];
             input1_q1           <= input1_i[3:0];
-            input2_q1           <= input2_i;
-            input3_q1           <= input3_i;
             write_en_q1         <= write_en_i;
             aes_key_exp_ks1_q1  <= aes_key_exp_ks1_i;
             aes_round_q1        <= aes_round_i;
@@ -178,8 +171,6 @@ module rf (
             // Pipeline stage 2
             input0_q2          <= input0_q1;
             input1_q2          <= input1_q1;
-            input2_q2          <= input2_q1;
-            input3_q2          <= input3_q1;
             write_en_q2        <= write_en_q1;
             aes_key_exp_ks1_q2 <= aes_key_exp_ks1_q1;
             aes_round_q2       <= aes_round_q1;
@@ -187,8 +178,6 @@ module rf (
             // Pipeline stage 3
             input0_q3          <= input0_q2;
             input1_q3          <= input1_q2;
-            input2_q3          <= input2_q2;
-            input3_q3          <= input3_q2;
             write_en_q3        <= write_en_q2;
             aes_key_exp_ks1_q3 <= aes_key_exp_ks1_q2;
             aes_round_q3       <= aes_round_q2;
@@ -196,8 +185,6 @@ module rf (
             // Pipeline stage 4
             input0_q4          <= input0_q3;
             input1_q4          <= input1_q3;
-            input2_q4          <= input2_q3;
-            input3_q4          <= input3_q3;
             write_en_q4        <= write_en_q3;
             aes_key_exp_ks1_q4 <= aes_key_exp_ks1_q3;
             aes_round_q4       <= aes_round_q3;
@@ -205,20 +192,9 @@ module rf (
             // Pipeline stage 5
             input0_q5          <= input0_q4;
             input1_q5          <= input1_q4;
-            input2_q5          <= input2_q4;
-            input3_q5          <= input3_q5;
             write_en_q5        <= write_en_q4;
             aes_key_exp_ks1_q5 <= aes_key_exp_ks1_q4;
             aes_round_q5       <= aes_round_q4;
-
-            // Pipeline stage 6
-            input0_q6          <= input0_q5;
-            input1_q6          <= input1_q5;
-            input2_q6          <= input2_q5;
-            input3_q6          <= input3_q5;
-            write_en_q6        <= write_en_q5;
-            aes_key_exp_ks1_q6 <= aes_key_exp_ks1_q5;
-            aes_round_q6       <= aes_round_q5;
         end
     end
 
