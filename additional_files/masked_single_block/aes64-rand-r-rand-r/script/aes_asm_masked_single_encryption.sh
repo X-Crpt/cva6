@@ -11,7 +11,7 @@ source ./verif/sim/setup-env.sh
 
 #export DV_SIMULATORS=veri-testharness,spike
 export DV_SIMULATORS=veri-testharness
-export DV_TARGET=cv64a6_imafdc_sv39
+export DV_TARGET=cv64a6_imac_crypto
 
 cd ./verif/sim
 
