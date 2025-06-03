@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "uart.h"
-#include "spi.h"
-#include "sd.h"
-#include "gpt.h"
+//#include "spi.h"
+//#include "sd.h"
+//#include "gpt.h"
 
 // 1 second at 50MHz
 #define SECOND_CYCLES   (50 * 1000 * 1000)
 #define WAIT_SECONDS    (5)
-
+/*
 static inline uintptr_t get_cycle_count() {
     uintptr_t cycle;
     __asm__ volatile ("csrr %0, cycle" : "=r" (cycle));
@@ -41,18 +41,19 @@ int update(uint8_t *dest)
     print_uart(" done!\r\n");
     return 0;
 }
-
+*/
 int main()
 {
     int i, ret = 0;
     uint8_t uart_res = 0;
-    uintptr_t start;
+    //uintptr_t start;
 
     #ifndef PLAT_AGILEX
     init_uart(CLOCK_FREQUENCY, UART_BITRATE); //not needed in intel setup as UART IP is already configured via HW
     #endif 
     print_uart("Hello World!\r\n");
 
+    /*
     // See if we should enter update mode
     print_uart("Hit any key to enter update mode ");
     for(i = 0; i < WAIT_SECONDS && !ret; i++) {
@@ -87,14 +88,17 @@ int main()
             "jr s0");
     }
     #endif 
-
+    */
     while (1)
     {
         // do nothing
     }
-}
+    
 
+}
+/*
 void handle_trap(void)
 {
     // print_uart("trap\r\n");
 }
+*/

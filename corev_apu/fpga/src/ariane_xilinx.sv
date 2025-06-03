@@ -203,6 +203,8 @@ function automatic config_pkg::cva6_cfg_t build_fpga_config(config_pkg::cva6_use
 	  cfg.XF16ALT = 0;
 	  cfg.XF8 = 0;
 	  cfg.XFVec = 0;
+	  cfg.PerfCounterEn = 0;
+	  cfg.MmuPresent = 0;
   `endif
   cfg.NrNonIdempotentRules = unsigned'(1);
   cfg.NonIdempotentAddrBase = 1024'({64'b0});
