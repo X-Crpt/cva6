@@ -10,7 +10,7 @@
 # Make sure to source this script from the root directory 
 # to correctly set the environment variables related to the tools
 source ./verif/sim/setup-env.sh
-DV_TARGET=cv64a6_imafdc_sv39
+DV_TARGET=cv64a6_imac_crypto
 
 # Set the NUM_JOBS variable to increase the number of parallel make jobs
 # export NUM_JOBS=
