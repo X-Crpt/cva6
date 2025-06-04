@@ -123,8 +123,8 @@ int main(int argc, char* arg[])
             *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
             asm volatile ("": : : "memory");
 
-            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            //AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
 
             asm volatile ("": : : "memory");
             *trigger = 1 << TRIGGER_CTRL_STOP;
