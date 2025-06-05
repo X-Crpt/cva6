@@ -112,6 +112,8 @@ int main(int argc, char* arg[])
 
     while(1){
         uint32_t num_traces = read_uint32_from_uart();
+        print_uart("Okay\n");
+
         //uint32_t num_traces = 1;
 
         for (uint32_t i = 0; i < num_traces; i++) {
@@ -123,8 +125,8 @@ int main(int argc, char* arg[])
             *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
             asm volatile ("": : : "memory");
 
-            AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-            //AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
+            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
 
             asm volatile ("": : : "memory");
             *trigger = 1 << TRIGGER_CTRL_STOP;
