@@ -103,23 +103,23 @@ int main(int argc, char* arg[])
 
     AES_EncryptInit(&ctx, key, iv);
 
-    //uint64_t rs1_randomness_seed;
-    //uint64_t rs2_randomness_seed;
-    //rs1_randomness_seed = getRandom64();
-    //rs2_randomness_seed = getRandom64();
-    //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
-    //rs1_randomness_seed = getRandom64();
-    //rs2_randomness_seed = getRandom64();
-    //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+    uint64_t rs1_randomness_seed;
+    uint64_t rs2_randomness_seed;
+    rs1_randomness_seed = getRandom64();
+    rs2_randomness_seed = getRandom64();
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+    rs1_randomness_seed = getRandom64();
+    rs2_randomness_seed = getRandom64();
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
 
-    uint64_t rs1_fixed = 0x1234567812345678;
-    uint64_t rs2_fixed = 0x1234567812345678;
-    asm volatile (
-        ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
-        :     
-        : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
-        : 
-    );
+    //uint64_t rs1_fixed = 0x1234567812345678;
+    //uint64_t rs2_fixed = 0x1234567812345678;
+    //asm volatile (
+    //    ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
+    //    :     
+    //    : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
+    //    : 
+    //);
 
 
 

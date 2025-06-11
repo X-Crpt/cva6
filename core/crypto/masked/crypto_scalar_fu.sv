@@ -34,7 +34,8 @@ module crypto_scalar_fu
 
   logic prng_global_en, prng_aes_en;
 
-  assign prng_global_en = prng_en || prng_aes_en;
+  assign prng_global_en = prng_en || prng_aes_en || prng_aes_en_q1 || prng_aes_en_q2 ||
+                          prng_aes_en_q3 || prng_aes_en_q4 || prng_aes_en_q5;
 
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
   logic [143:0]  prng_result_o;
@@ -135,27 +136,34 @@ module crypto_scalar_fu
   
   logic [4:0] opcode_q1, opcode_q2, opcode_q3, opcode_q4, opcode_q5;
   logic [2:0] instr_q1, instr_q2, instr_q3, instr_q4, instr_q5;
+  logic prng_aes_en_q1, prng_aes_en_q2, prng_aes_en_q3, prng_aes_en_q4, prng_aes_en_q5;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
       opcode_q1 <= '0;       opcode_q2 <= '0;       opcode_q3 <= '0;       opcode_q4 <= '0;       opcode_q5 <= '0; 
-      instr_q1  <= '0;       instr_q2  <= '0;       instr_q3  <= '0;       instr_q4  <= '0;       instr_q5  <= '0; 
+      instr_q1  <= '0;       instr_q2  <= '0;       instr_q3  <= '0;       instr_q4  <= '0;       instr_q5  <= '0;
+      prng_aes_en_q1 <= '0; prng_aes_en_q2 <= '0; prng_aes_en_q3 <= '0; prng_aes_en_q4 <= '0; prng_aes_en_q5 <= '0; 
       end
       else begin
         opcode_q1 <= opcode_i;
         instr_q1  <= {instr_i[30], instr_i[27:26]};
+        prng_aes_en_q1 <= prng_aes_en;
 
         opcode_q2 <= opcode_q1;
         instr_q2  <= instr_q1;
-        
+        prng_aes_en_q2 <= prng_aes_en_q1;
+
         opcode_q3 <= opcode_q2;
         instr_q3  <= instr_q2;
-        
+        prng_aes_en_q3 <= prng_aes_en_q2;
+
         opcode_q4 <= opcode_q3;
         instr_q4  <= instr_q3;
+        prng_aes_en_q4 <= prng_aes_en_q3;
 
         opcode_q5 <= opcode_q4;
         instr_q5  <= instr_q4;
+        prng_aes_en_q5 <= prng_aes_en_q4;
       end
   end
 
