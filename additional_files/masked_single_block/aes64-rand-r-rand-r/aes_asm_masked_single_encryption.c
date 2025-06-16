@@ -77,25 +77,27 @@ int main(int argc, char* arg[])
     
     uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
 
-    uint64_t rs1_fixed = getRandom64();
-    uint64_t rs2_fixed = getRandom64();
-    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) :  );
-    
-    rs1_fixed = getRandom64();
-    rs2_fixed = getRandom64();
-    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) :  );
+    uint64_t rs1_random = getRandom64();
+    uint64_t rs2_random = getRandom64();
+    uint64_t rs3_random = getRandom64();
+    uint64_t rs4_random = getRandom64();
+
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_random), [input_b] "r" (rs2_random) :  );
+    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs3_random), [input_b] "r" (rs4_random) :  );
 
 
     *trigger = 1 << TRIGGER_CTRL_START;
-    start_cycles = read_csr(mcycle);
+    //start_cycles = read_csr(mcycle);
     //AES_ENC_masked_dom((uint32_t*)pt, key);
     AES_ENC_masked_dom_more_rand((uint32_t*)pt, key);
-    end_cycles = read_csr(mcycle);
+    //end_cycles = read_csr(mcycle);
 
     *trigger = 1 << TRIGGER_CTRL_STOP;
     //reverse_pt(pt);
 
-    total_enc_cycles = (end_cycles - start_cycles);
+    asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+
+    //total_enc_cycles = (end_cycles - start_cycles);
 
     //print_uart_block((uint8_t *)&total_enc_cycles, sizeof(total_enc_cycles));
     print_uart_block(pt, AES_BLOCK_SIZE);

@@ -45,9 +45,9 @@ void AES_ENC_masked_dom_more_rand(uint32_t* state,  uint8_t* Key)
         ".insn r 0x7B, 1, 8, x0, x10, x11\n" // Load the state into reg0-reg1
         ".insn r 0x7B, 1, 8, x6, x12, x13\n" // Load the key   into reg6-reg7
         
-        ".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x0, x0\n"
-        ".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x16, x16\n"
 
         "li x10, 1\n"
@@ -364,9 +364,9 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         ".insn r 0x7B, 1, 8, x0, x10, x11\n" // Load the state into reg0-reg1
         ".insn r 0x7B, 1, 8, x6, x12, x13\n" // Load the key   into reg6-reg7
         
-        ".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x0, x0\n"
-        ".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x16, x16\n"
 
         "li x10, 1\n"

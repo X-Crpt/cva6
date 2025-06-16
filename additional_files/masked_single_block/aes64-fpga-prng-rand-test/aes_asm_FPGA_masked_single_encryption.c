@@ -105,10 +105,7 @@ int main(int argc, char* arg[])
 
     uint64_t rs1_randomness_seed;
     uint64_t rs2_randomness_seed;
-    rs1_randomness_seed = getRandom64();
-    rs2_randomness_seed = getRandom64();
-    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
-    
+
     //rs1_randomness_seed = getRandom64();
     //rs2_randomness_seed = getRandom64();
     //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
@@ -135,6 +132,11 @@ int main(int argc, char* arg[])
             int lsb_check = ciphertext[0] & 0x01; // Check the LSB of the last byte (most significant byte of the 128-bit value)
             
             if (lsb_check) {
+
+                rs1_randomness_seed = getRandom64();
+                rs2_randomness_seed = getRandom64();
+                asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+                
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
                 asm volatile ("": : : "memory");
@@ -145,8 +147,15 @@ int main(int argc, char* arg[])
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_STOP;
                 asm volatile ("": : : "memory");
-            } else {
 
+                asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+
+            } else {
+                
+                rs1_randomness_seed = getRandom64();
+                rs2_randomness_seed = getRandom64();
+                asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+                
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
                 asm volatile ("": : : "memory");
@@ -157,12 +166,14 @@ int main(int argc, char* arg[])
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_STOP;
                 asm volatile ("": : : "memory");
+
+                asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+
             }
 
         }
     }
 
-    asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
 
     //print_uart_block(ciphertext, AES_BLOCK_SIZE);
     //print_uart_block(ct_ref, AES_BLOCK_SIZE);

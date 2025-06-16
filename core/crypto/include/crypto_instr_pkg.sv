@@ -60,7 +60,7 @@ package crypto_instr_pkg;
   // 10 Types Possible instructions 
   //parameter int unsigned NbInstr = 11;
   //parameter int unsigned NbInstr = 14; //+ 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
-  parameter int unsigned NbInstr = 9; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+  parameter int unsigned NbInstr = 8; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
                                        // +1 custom load
                                        // +1 custom store
                                        // +1 custom xor_r
@@ -89,13 +89,13 @@ package crypto_instr_pkg;
             resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
             opcode : PRNG
         },
-        '{
-            instr:
-            32'b00001_10_00000_00000_0_01_00000_1111011,  // custom3 opcode
-            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
-            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
-            opcode : PRNG
-        },
+        //'{
+        //    instr:
+        //    32'b00001_10_00000_00000_0_01_00000_1111011,  // custom3 opcode
+        //    mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+        //    resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+        //    opcode : PRNG
+        //},
         '{
             instr:
             32'b00001_11_00000_00000_0_01_00000_1111011,  // custom3 opcode

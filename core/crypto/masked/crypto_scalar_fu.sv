@@ -32,10 +32,9 @@ module crypto_scalar_fu
   logic [4:0] rd_n, rd_q;
   logic we_n, we_q;
 
-  logic prng_global_en, prng_aes_en;
+  logic prng_global_en;// prng_aes_en;
 
-  assign prng_global_en = prng_en || prng_aes_en || prng_aes_en_q1 || prng_aes_en_q2 ||
-                          prng_aes_en_q3 || prng_aes_en_q4 || prng_aes_en_q5;
+  assign prng_global_en = prng_en;// || prng_aes_en || prng_aes_en_q1 || prng_aes_en_q2 || prng_aes_en_q3 || prng_aes_en_q4 || prng_aes_en_q5;
 
   ///////////////////////////////////////////// PRNG ///////////////////////////////////////
   logic [143:0]  prng_result_o;
@@ -47,9 +46,23 @@ module crypto_scalar_fu
   generate 
     if (XLEN==64 && crypto_instr_pkg::RANDOM == 1) begin: M_PRNG
 
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+      if (~rst_ni) begin
+        prng_en <= 1'b0;
+      end else begin
+        if (opcode_i==PRNG) begin
+          if (instr_i[27:25]==3'b101) begin
+            prng_en <= 1'b1;   // Set enable on SEED
+          end else if (instr_i[27:25]==3'b111) begin
+            prng_en <= 1'b0;   // Clear enable on RESET
+          end
+        end
+      end
+    end
+
     always_comb
       begin
-        prng_en   = 0;
+        //prng_en   = 0;
         prng_op_i = prng64_none;
         prng_seed = 0;
         prng_rst  = 0;
@@ -59,19 +72,19 @@ module crypto_scalar_fu
             if (instr_i[27:25]==3'b101) begin
               prng_op_i = prng64_seed;
               seed      = {registers_i[0], registers_i[1]};
-              prng_en   = 0;
+              //prng_en   = 1'b1;
               prng_seed = 1'b1;
               prng_rst  = 0;
             end
-            else if (instr_i[27:25]==3'b110) begin
-              prng_op_i = prng64_enable;
-              prng_en   = 1'b1;
-              prng_seed = 0;
-              prng_rst  = 0;
-            end
+            //else if (instr_i[27:25]==3'b110) begin
+            //  prng_op_i = prng64_enable;
+            //  //prng_en   = 1'b1;
+            //  prng_seed = 0;
+            //  prng_rst  = 0;
+            //end
             else if (instr_i[27:25]==3'b111) begin
               prng_op_i = prng64_rst;
-              prng_en   = 0;
+              //prng_en   = 0;
               prng_seed = 0;
               prng_rst  = 1'b1;
             end
@@ -136,34 +149,34 @@ module crypto_scalar_fu
   
   logic [4:0] opcode_q1, opcode_q2, opcode_q3, opcode_q4, opcode_q5;
   logic [2:0] instr_q1, instr_q2, instr_q3, instr_q4, instr_q5;
-  logic prng_aes_en_q1, prng_aes_en_q2, prng_aes_en_q3, prng_aes_en_q4, prng_aes_en_q5;
+  //logic prng_aes_en_q1, prng_aes_en_q2, prng_aes_en_q3, prng_aes_en_q4, prng_aes_en_q5;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
       opcode_q1 <= '0;       opcode_q2 <= '0;       opcode_q3 <= '0;       opcode_q4 <= '0;       opcode_q5 <= '0; 
       instr_q1  <= '0;       instr_q2  <= '0;       instr_q3  <= '0;       instr_q4  <= '0;       instr_q5  <= '0;
-      prng_aes_en_q1 <= '0; prng_aes_en_q2 <= '0; prng_aes_en_q3 <= '0; prng_aes_en_q4 <= '0; prng_aes_en_q5 <= '0; 
+      //prng_aes_en_q1 <= '0; prng_aes_en_q2 <= '0; prng_aes_en_q3 <= '0; prng_aes_en_q4 <= '0; prng_aes_en_q5 <= '0; 
       end
       else begin
         opcode_q1 <= opcode_i;
         instr_q1  <= {instr_i[30], instr_i[27:26]};
-        prng_aes_en_q1 <= prng_aes_en;
+        //prng_aes_en_q1 <= prng_aes_en;
 
         opcode_q2 <= opcode_q1;
         instr_q2  <= instr_q1;
-        prng_aes_en_q2 <= prng_aes_en_q1;
+        //prng_aes_en_q2 <= prng_aes_en_q1;
 
         opcode_q3 <= opcode_q2;
         instr_q3  <= instr_q2;
-        prng_aes_en_q3 <= prng_aes_en_q2;
+        //prng_aes_en_q3 <= prng_aes_en_q2;
 
         opcode_q4 <= opcode_q3;
         instr_q4  <= instr_q3;
-        prng_aes_en_q4 <= prng_aes_en_q3;
+        //prng_aes_en_q4 <= prng_aes_en_q3;
 
         opcode_q5 <= opcode_q4;
         instr_q5  <= instr_q4;
-        prng_aes_en_q5 <= prng_aes_en_q4;
+        //prng_aes_en_q5 <= prng_aes_en_q4;
       end
   end
 
@@ -184,7 +197,7 @@ module crypto_scalar_fu
         input_RF_2       = '0;
         input_RF_3       = '0;
 
-        prng_aes_en      = '0;
+        //prng_aes_en      = '0;
 
         //----------------------------------
         // A) READ logic (use opcode_i, instr_i)
@@ -244,7 +257,7 @@ module crypto_scalar_fu
               read_en           = 1'b1;
               write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
 
-              prng_aes_en      = 1'b1;
+              //prng_aes_en      = 1'b1;
             end
           end
 
@@ -255,7 +268,7 @@ module crypto_scalar_fu
             read_en           = 1'b1;
             write_en          = 1'b1;
             aes_key_exp_ks1   = 1'b1;
-            prng_aes_en       = 1'b1;
+            //prng_aes_en       = 1'b1;
           end
 
           default: begin
