@@ -28,7 +28,7 @@ cd ./verif/sim
 python3 -c "
 from cva6 import generate_fpga_files
 # Define parameters
-c_test = '../../additional_files/masked_single_block/aes64-fpga-test/aes_asm_FPGA_masked_single_encryption.c'
+c_test = '../../additional_files/masked_single_block/aes64-fpga-prng-rand-test/aes64-fpga-prng-rand-test.c'
 linker = '../tests/custom/common/test.ld'
 gcc_opts = '-static -mcmodel=medany -fvisibility=hidden -O0 -nostartfiles -g ../tests/custom/common/syscalls.c ../tests/custom/common/crt.S -lgcc -I../tests/custom/env -I../tests/custom/common'
 output_dir = './FPGA_output'

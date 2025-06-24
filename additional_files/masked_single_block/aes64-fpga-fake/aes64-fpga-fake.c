@@ -127,49 +127,107 @@ int main(int argc, char* arg[])
     //);
 
 
-    //while(1){
-        //uint32_t num_traces = read_uint32_from_uart();
-        //print_uart("Okay\n");
 
-        uint32_t num_traces = 5;
 
-        for (uint32_t i = 0; i < num_traces; i++) {
+    uint32_t num_traces = 10;
+
+    /*for (uint32_t i = 0; i < num_traces; i++) {
+        
+        AES_Encrypt(&ctx, plaintext, ciphertext); 
+        int lsb_check = ciphertext[0] & 0x01; // Check the LSB of the last byte (most significant byte of the 128-bit value)
+        
+        if (lsb_check) {
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
+            asm volatile ("": : : "memory");
+
+            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_STOP;
+            asm volatile ("": : : "memory");
+
+            print_uart("Test done!\n");
+
+        } else {
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
+            asm volatile ("": : : "memory");
+
+            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_fixed, key);
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_STOP;
+            asm volatile ("": : : "memory");
+    
+            print_uart("Test done!\n");
             
-            AES_Encrypt(&ctx, plaintext, ciphertext); 
-            int lsb_check = ciphertext[0] & 0x01; // Check the LSB of the last byte (most significant byte of the 128-bit value)
-            
-            if (lsb_check) {
-                asm volatile ("": : : "memory");
-                *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
-                asm volatile ("": : : "memory");
-
-                //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-                AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
-
-                asm volatile ("": : : "memory");
-                *trigger = 1 << TRIGGER_CTRL_STOP;
-                asm volatile ("": : : "memory");
-            } else {
-
-                asm volatile ("": : : "memory");
-                *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
-                asm volatile ("": : : "memory");
-
-                //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-                AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_fixed, key);
-
-                asm volatile ("": : : "memory");
-                *trigger = 1 << TRIGGER_CTRL_STOP;
-                asm volatile ("": : : "memory");
-            }
-
         }
-    //}
+
+    }
 
     asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+    */
 
-    //print_uart_block(ciphertext, AES_BLOCK_SIZE);
-    //print_uart_block(ct_ref, AES_BLOCK_SIZE);
+    for (uint32_t i = 0; i < num_traces; i++) {
+    
+        AES_Encrypt(&ctx, plaintext, ciphertext); 
+        int lsb_check = ciphertext[0] & 0x01; // Check the LSB of the last byte (most significant byte of the 128-bit value)
+        
+        if (lsb_check) {
+
+            rs1_randomness_seed = getRandom64();
+            rs2_randomness_seed = getRandom64();
+            asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+
+            rs1_randomness_seed = getRandom64();
+            rs2_randomness_seed = getRandom64();
+            asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+            
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
+            asm volatile ("": : : "memory");
+
+            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_STOP;
+            asm volatile ("": : : "memory");
+
+            asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+
+        } else {
+            
+            rs1_randomness_seed = getRandom64();
+            rs2_randomness_seed = getRandom64();
+            asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+            
+            rs1_randomness_seed = getRandom64();
+            rs2_randomness_seed = getRandom64();
+            asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+            
+        
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
+            asm volatile ("": : : "memory");
+
+            //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_fixed, key);
+
+            asm volatile ("": : : "memory");
+            *trigger = 1 << TRIGGER_CTRL_STOP;
+            asm volatile ("": : : "memory");
+
+            asm volatile(".insn r 0x7B, 1, 7, x0, x0, x0\n");  // Prng-rst
+
+        }
+
+    }
 
     return 0;
 }
