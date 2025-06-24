@@ -136,7 +136,12 @@ int main(int argc, char* arg[])
                 rs1_randomness_seed = getRandom64();
                 rs2_randomness_seed = getRandom64();
                 asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+
+                rs1_randomness_seed = getRandom64();
+                rs2_randomness_seed = getRandom64();
+                asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
                 
+
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
                 asm volatile ("": : : "memory");
@@ -156,6 +161,11 @@ int main(int argc, char* arg[])
                 rs2_randomness_seed = getRandom64();
                 asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
                 
+                rs1_randomness_seed = getRandom64();
+                rs2_randomness_seed = getRandom64();
+                asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+                
+            
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_START; //Putting high the trigger
                 asm volatile ("": : : "memory");
