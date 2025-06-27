@@ -38,7 +38,19 @@ static uint32_t xorshift32(void)
 {
     // You can pick any nonzero initial seed.
     static uint32_t state = 0x12345678u;
+    uint32_t x = state;
+    x ^= x << 13;
+    x ^= x >> 17;
+    x ^= x << 5;
+    state = x;
 
+    return x;
+}
+
+static uint32_t xorshift32_2(void)
+{
+    // You can pick any nonzero initial seed.
+    static uint32_t state = 0x87654321u;
     uint32_t x = state;
     x ^= x << 13;
     x ^= x >> 17;
@@ -56,6 +68,13 @@ static uint64_t getRandom64(void)
     return (high << 32) | low;
 }
 
+
+static uint64_t getRandom64_2(void)
+{
+    uint64_t high = (uint64_t)xorshift32_2();
+    uint64_t low  = (uint64_t)xorshift32_2();
+    return (high << 32) | low;
+}
 
 void print_uart_block(uint8_t *block, size_t length) {
     for (size_t i = 0; i < length; i++) {
@@ -109,8 +128,8 @@ int main(int argc, char* arg[])
     rs2_randomness_seed = getRandom64();
     asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
 
-    rs1_randomness_seed = getRandom64();
-    rs2_randomness_seed = getRandom64();
+    rs1_randomness_seed = getRandom64_2();
+    rs2_randomness_seed = getRandom64_2();
     asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
     
     //rs1_randomness_seed = getRandom64();
