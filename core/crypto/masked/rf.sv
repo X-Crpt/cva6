@@ -1,13 +1,14 @@
 module rf (
     input  logic        clk_i,
     input  logic        rst_ni,
-    input  logic [3:0]  addr_i,      // Address for read/write
+    input  logic [4:0]  addr_i,      // Address for read/write
     input  logic [63:0] input0_i,    // Input data 1
     input  logic [63:0] input1_i,    // Input data 2
     input  logic [63:0] input2_i,
     input  logic [63:0] input3_i,
     input  logic        random_i,
     input  logic        add_round_key_i,
+    input  logic        unmasking_i, 
     input  logic        aes_round_i,
     input  logic        aes_key_exp_ks1_i,
     input  logic        aes_key_exp_ks2_i,
@@ -43,6 +44,7 @@ module rf (
         addr_2a = 0;
         addr_3a = 0;
         addr_4a = 0;
+
         addr_1b = 0;
         addr_2b = 0;
         addr_3b = 0;
@@ -54,7 +56,7 @@ module rf (
             addr_3a = addr_i + 2;
             addr_4a = addr_i + 3;
 
-        end else if (write_en_i && add_round_key_i) begin
+        end else if (write_en_i && (add_round_key_i || unmasking_i)) begin
             addr_1a = input0_i[3:0];
             addr_2a = input0_i[3:0] + 1;
             addr_3a = input0_i[3:0] + 2;
@@ -63,6 +65,7 @@ module rf (
             addr_2b = input1_i[3:0] + 1;
             addr_3b = input1_i[3:0] + 2;
             addr_4b = input1_i[3:0] + 3;
+        
 
         end else if (read_en_i && aes_round_i) begin
             addr_1a = input1_i[3:0];
@@ -98,7 +101,7 @@ module rf (
             register_array <= '{default: '0}; // Reset all registers to 0
             register_array[addr_i]      <= input0_i;
 
-        end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
+        end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~unmasking_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
             register_array[addr_i]      <= input0_i;
             register_array[addr_i + 1]  <= input1_i;
 
@@ -109,6 +112,12 @@ module rf (
             register_array[addr_4a] <= input2_i;
 
         end else if (write_en_i && add_round_key_i) begin
+            register_array[addr_1b] <= register_array[addr_1a] ^ register_array[6]; 
+            register_array[addr_2b] <= register_array[addr_2a] ^ register_array[7]; 
+            register_array[addr_3b] <= register_array[addr_3a] ^ register_array[8]; 
+            register_array[addr_4b] <= register_array[addr_4a] ^ register_array[9]; 
+
+        end else if (write_en_i && unmasking_i) begin
             register_array[addr_1a] <= register_array[addr_1a] ^ register_array[addr_1b]; 
             register_array[addr_2a] <= register_array[addr_2a] ^ register_array[addr_2b]; 
             register_array[addr_3a] <= register_array[addr_3a] ^ register_array[addr_3b]; 

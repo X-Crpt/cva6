@@ -93,6 +93,7 @@ int main(int argc, char* arg[])
     uint8_t plaintext[32] = {0};            //Plaintext is always zero
     uint8_t seed_input[16] = {0};
     AES_CTX ctx;
+    uint8_t seed_prng[8] = {0};
 
     uint8_t ciphertext_fixed[16] = {
         0x3C, 0x4F, 0x12, 0xA7,
@@ -119,31 +120,32 @@ int main(int argc, char* arg[])
     //    0x42, 0xc6, 0xd3, 0x9c, 0xbc, 0x8e, 0x23, 0x25
     //};
     memcpy(iv, seed_input, AES_BLOCK_SIZE);
+    memcpy(seed_prng, seed_input, 8);
 
     AES_EncryptInit(&ctx, key, iv);
 
     uint64_t rs1_randomness_seed;
     uint64_t rs2_randomness_seed;
-    rs1_randomness_seed = getRandom64();
+
+    //******* una parte del seed preso da uart ***********************************************************************//
+    rs1_randomness_seed = seed_prng;
     rs2_randomness_seed = getRandom64();
     asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
 
-    rs1_randomness_seed = getRandom64_2();
-    rs2_randomness_seed = getRandom64_2();
-    asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
+    //******* tutto il seed da codice di getRandom64_2 ***********************************************************************//
+    //rs1_randomness_seed = getRandom64_2();
+    //rs2_randomness_seed = getRandom64_2();
+    //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
     
+    //******* tutto il seed da codice di getRandom64 ***********************************************************************//
     //rs1_randomness_seed = getRandom64();
     //rs2_randomness_seed = getRandom64();
     //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_randomness_seed), [input_b] "r" (rs2_randomness_seed) :  );
 
+    //******* seed fissato ***********************************************************************//
     //uint64_t rs1_fixed = 0x1234567812345678;
     //uint64_t rs2_fixed = 0x1234567812345678;
-    //asm volatile (
-    //    ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
-    //    :     
-    //    : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
-    //    : 
-    //);
+    //asm volatile (".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n" : : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) :  );
 
 
     while(1){

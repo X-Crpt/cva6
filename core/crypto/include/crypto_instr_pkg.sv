@@ -23,7 +23,8 @@ package crypto_instr_pkg;
     LOAD      = 5'b01110,  //14
     STORE     = 5'b01111,  //15
     XOR_R     = 5'b10000,  //16
-    ADD_RK    = 5'b10001  //17
+    ADD_RK    = 5'b10001,  //17
+    UNMASK    = 5'b10010   //18
   } opcode_t;
 
   typedef enum {  
@@ -60,11 +61,12 @@ package crypto_instr_pkg;
   // 10 Types Possible instructions 
   //parameter int unsigned NbInstr = 11;
   //parameter int unsigned NbInstr = 14; //+ 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
-  parameter int unsigned NbInstr = 8; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+  parameter int unsigned NbInstr = 9; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
                                        // +1 custom load
                                        // +1 custom store
                                        // +1 custom xor_r
                                        // +1 custom add_rk (add_round_key)
+                                       // +1 unmask
 
   parameter copro_issue_resp_t CoproInstr[NbInstr] = '{
         '{
@@ -130,7 +132,14 @@ package crypto_instr_pkg;
             mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
             resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
             opcode : ADD_RK
-        }
+        },
+        '{
+            instr:
+            32'b00011_00_00000_00000_0_01_00000_1111011,  
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : UNMASK
+        }        
 
   };
 

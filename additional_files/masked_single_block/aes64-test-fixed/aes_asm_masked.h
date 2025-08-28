@@ -21,7 +21,7 @@ uint32_t RoundKey[AES_keyExpSize];
 #define Nk 4        // The number of 32 bit words in a key.
 #define Nr 10       // The number of rounds in AES Cipher.
 
-
+/*
 void AES_ENC_masked_dom_more_rand(uint32_t* state,  uint8_t* Key)
 {
     uint64_t a2, a3, a4, a5, a6;
@@ -339,7 +339,7 @@ void AES_ENC_masked_dom_more_rand(uint32_t* state,  uint8_t* Key)
         : "x15", "x16", "memory"
     );
 
-}
+}*/
 
 void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 {
@@ -380,7 +380,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "li x22, 13\n"
 
         //---- Initial Round Key [key] ------------------------------------------------
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //---- ROUND 1 ---------------------------------------------------------------
         //Key Expansion 1 -----------------------
@@ -406,7 +406,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
 
         //---- ROUND 2 ---------------------------------------------------------------
         //Key Expansion 2 -----------------------
@@ -432,7 +432,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //---- ROUND 3 ---------------------------------------------------------------
         //Key Expansion 3 -----------------------
@@ -458,7 +458,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
 
         //---- ROUND 4 ---------------------------------------------------------------
         //Key Expansion 4 -----------------------
@@ -484,7 +484,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //---- ROUND 5 ---------------------------------------------------------------
         //Key Expansion 5 -----------------------
@@ -510,7 +510,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
 
         //---- ROUND 6 ---------------------------------------------------------------
         //Key Expansion 6 -----------------------
@@ -536,7 +536,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //---- ROUND 7 ---------------------------------------------------------------
         //Key Expansion 7 -----------------------
@@ -562,7 +562,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
 
         //---- ROUND 8 ---------------------------------------------------------------
         //Key Expansion 8 -----------------------
@@ -588,7 +588,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //---- ROUND 9 ---------------------------------------------------------------
         //Key Expansion 9 -----------------------
@@ -614,7 +614,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
 
         //---- ROUND 10 ---------------------------------------------------------------
         //Key Expansion 10 -----------------------
@@ -640,10 +640,10 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x16\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
 
         //unmasking
-        ".insn r 0x7B, 1, 11, x0, x0, x14\n"
+        ".insn r 0x7B, 1, 12, x0, x0, x14\n"
 
         //Store the final-state
         ".insn r 0x7B, 1, 9, x15, x0, x0\n"

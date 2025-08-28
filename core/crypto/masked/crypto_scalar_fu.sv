@@ -140,6 +140,7 @@ module crypto_scalar_fu
   logic             write_en, read_en;
   logic             random;
   logic             add_round_key;
+  logic             unmasking;
   logic             aes_round;
   logic             aes_key_exp_ks1, aes_key_exp_ks2;
 
@@ -188,6 +189,7 @@ module crypto_scalar_fu
         read_en          = 1'b0;
         random           = 1'b0;
         add_round_key    = 1'b0;
+        unmasking        = 1'b0;
         aes_round        = 1'b0;
         aes_key_exp_ks2  = 1'b0;
         aes_key_exp_ks1  = 1'b0;
@@ -226,10 +228,18 @@ module crypto_scalar_fu
           end
 
           ADD_RK: begin
-            input_RF_0        = registers_i[0];  //pt
-            input_RF_1        = registers_i[1];  //key
+            input_RF_0      = registers_i[0];  //pt
+            input_RF_1      = registers_i[1];  //key
+            address_RF      = rd_i;
             write_en        = 1'b1;
             add_round_key   = 1'b1;
+          end
+
+          UNMASK: begin
+            input_RF_0      = registers_i[0];  
+            input_RF_1      = registers_i[1];  
+            write_en        = 1'b1;
+            unmasking       = 1'b1;
           end
 
           // AES64_1 ( = aes64 instruction ) :
@@ -313,13 +323,14 @@ module crypto_scalar_fu
     rf rf_i (
     .clk_i               (clk_i),
     .rst_ni              (rst_ni),
-    .addr_i              (address_RF[3:0]), // Address for read/write
+    .addr_i              (address_RF[4:0]), // Address for read/write
     .input0_i            (input_RF_0), // Input data 0
     .input1_i            (input_RF_1), // Input data 1
     .input2_i            (input_RF_2), // Input data 2
     .input3_i            (input_RF_3),
     .random_i            (random),
     .add_round_key_i     (add_round_key),
+    .unmasking_i         (unmasking),
     .aes_round_i         (aes_round),
     .aes_key_exp_ks1_i   (aes_key_exp_ks1),
     .aes_key_exp_ks2_i   (aes_key_exp_ks2),
@@ -501,6 +512,14 @@ endgenerate
             we_n     = 1'b1;
         end
         ADD_RK: begin
+            result_n = 0;
+            hartid_n = hartid_i;
+            id_n     = id_i;
+            valid_n  = 1'b1;
+            rd_n     = rd_i;
+            we_n     = 1'b1;
+        end
+        UNMASK: begin
             result_n = 0;
             hartid_n = hartid_i;
             id_n     = id_i;
