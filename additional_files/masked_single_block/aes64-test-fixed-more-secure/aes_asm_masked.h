@@ -380,7 +380,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "li x22, 13\n"
 
         //---- Initial Round Key [key] ------------------------------------------------
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 1 ---------------------------------------------------------------
         //Key Expansion 1 -----------------------
@@ -394,19 +394,19 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x19, x0\n"
+        "aes64esm x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x20, x0\n"
+        "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 2 ---------------------------------------------------------------
         //Key Expansion 2 -----------------------
@@ -432,7 +432,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 3 ---------------------------------------------------------------
         //Key Expansion 3 -----------------------
@@ -446,19 +446,19 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x19, x0\n"
+        "aes64esm x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x20, x0\n"
+        "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 4 ---------------------------------------------------------------
         //Key Expansion 4 -----------------------
@@ -484,7 +484,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 5 ---------------------------------------------------------------
         //Key Expansion 5 -----------------------
@@ -498,19 +498,19 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x19, x0\n"
+        "aes64esm x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x20, x0\n"
+        "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 6 ---------------------------------------------------------------
         //Key Expansion 6 -----------------------
@@ -536,7 +536,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 7 ---------------------------------------------------------------
         //Key Expansion 7 -----------------------
@@ -550,19 +550,19 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x19, x0\n"
+        "aes64esm x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x20, x0\n"
+        "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 8 ---------------------------------------------------------------
         //Key Expansion 8 -----------------------
@@ -588,7 +588,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 9 ---------------------------------------------------------------
         //Key Expansion 9 -----------------------
@@ -602,19 +602,19 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x19, x0\n"
+        "aes64esm x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x20, x0\n"
+        "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x19, x19\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //---- ROUND 10 ---------------------------------------------------------------
         //Key Expansion 10 -----------------------
@@ -627,7 +627,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "aes64ks2  x0, x15, x16\n"
         "aes64ks2  x0, x16, x13\n"
 
-        //aes64-es
+        //aes64-esm
         "aes64es x0, x0, x19\n"
         "nop\n"
         "nop\n"
@@ -640,14 +640,14 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         "nop\n"
         "nop\n"
         "nop\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x0\n"
+        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
 
         //unmasking
-        ".insn r 0x7B, 1, 12, x0, x0, x14\n"
+        ".insn r 0x7B, 1, 12, x0, x19, x21\n"
 
         //Store the final-state
-        ".insn r 0x7B, 1, 9, x15, x0, x0\n"
-        ".insn r 0x7B, 1, 9, x16, x10, x10\n"
+        ".insn r 0x7B, 1, 9, x15, x19, x10\n"
+        ".insn r 0x7B, 1, 9, x16, x20, x11\n"
         
         //store
         "sd x15, 0(%[state])\n"
@@ -930,3 +930,5 @@ void AES_ENC_masked(uint32_t* state,  uint8_t* Key)
     //".insn r 0x7B, 1, 9, %[t5], x0, x0\n" 
 
 }
+
+

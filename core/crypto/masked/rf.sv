@@ -70,8 +70,10 @@ module rf (
         end else if (read_en_i && aes_round_i) begin
             addr_1a = input1_i[3:0];
             addr_2a = input1_i[3:0] + 1;
+
             addr_1b = input1_i[3:0] + 2;
             addr_2b = input1_i[3:0] + 3;
+            
             addr_3a = input0_i[3:0];
 
         end else if (read_en_i && aes_key_exp_ks1_i) begin
@@ -120,8 +122,6 @@ module rf (
         end else if (write_en_i && unmasking_i) begin
             register_array[addr_1a] <= register_array[addr_1a] ^ register_array[addr_1b]; 
             register_array[addr_2a] <= register_array[addr_2a] ^ register_array[addr_2b]; 
-            register_array[addr_3a] <= register_array[addr_3a] ^ register_array[addr_3b]; 
-            register_array[addr_4a] <= register_array[addr_4a] ^ register_array[addr_4b]; 
 
         end else if (write_en_i && aes_round_i) begin     
             register_array[addr_2a] <= register_array[addr_1a];

@@ -165,7 +165,7 @@ int main(int argc, char* arg[])
                 asm volatile ("": : : "memory");
 
                 //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-                AES_ENC_masked_dom((uint32_t*)ciphertext, key);
+                AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext, key);
 
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_STOP;
@@ -177,7 +177,7 @@ int main(int argc, char* arg[])
                 asm volatile ("": : : "memory");
 
                 //AES_ENC_masked_dom((uint32_t*)ciphertext, key);
-                AES_ENC_masked_dom((uint32_t*)ciphertext_fixed, key);
+                AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_fixed, key);
 
                 asm volatile ("": : : "memory");
                 *trigger = 1 << TRIGGER_CTRL_STOP;
