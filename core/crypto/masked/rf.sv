@@ -61,6 +61,7 @@ module rf (
             addr_2a = input0_i[3:0] + 1;
             addr_3a = input0_i[3:0] + 2;
             addr_4a = input0_i[3:0] + 3;
+            
             addr_1b = input1_i[3:0];
             addr_2b = input1_i[3:0] + 1;
             addr_3b = input1_i[3:0] + 2;
@@ -70,17 +71,14 @@ module rf (
         end else if (read_en_i && aes_round_i) begin
             addr_1a = input1_i[3:0];
             addr_2a = input1_i[3:0] + 1;
+            addr_3a = input0_i[3:0];
 
             addr_1b = input1_i[3:0] + 2;
             addr_2b = input1_i[3:0] + 3;
             
-            addr_3a = input0_i[3:0];
-
         end else if (read_en_i && aes_key_exp_ks1_i) begin
             addr_1a = input0_i[3:0];
             addr_2a = input0_i[3:0] + 2;
-            addr_3a = input1_i[3:0];
-            addr_4a = input1_i[3:0];
 
         end else if (read_en_i && aes_key_exp_ks2_i) begin
             addr_1a = input0_i[3:0];
@@ -99,11 +97,7 @@ module rf (
 
     // Synchronous write - next clock cycles, of 6-clock cycle after
     always_ff @(posedge clk_i or negedge rst_ni) begin
-        if (!rst_ni) begin
-            register_array <= '{default: '0}; // Reset all registers to 0
-            register_array[addr_i]      <= input0_i;
-
-        end else if (write_en_i && ~random_i &&  ~add_round_key_i && ~unmasking_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
+        if (write_en_i && ~random_i &&  ~add_round_key_i && ~unmasking_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
             register_array[addr_i]      <= input0_i;
             register_array[addr_i + 1]  <= input1_i;
 
