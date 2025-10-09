@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Thu Aug 28 09:25:24 2025
+[*] Mon Sep 29 13:08:08 2025
 [*]
-[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2025-08-28/veri-testharness_sim/aes64-test-fixed-more-secure.cv64a6_imac_crypto.vcd"
-[dumpfile_mtime] "Thu Aug 28 07:50:59 2025"
-[dumpfile_size] 333186042
+[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2025-09-29/veri-testharness_sim/aes64-test-fixed.cv64a6_imac_crypto.vcd"
+[dumpfile_mtime] "Mon Sep 29 12:49:58 2025"
+[dumpfile_size] 334328053
 [savefile] "/home/a.dolmeta/X-Crpt/cva6/additional_files/gtkwave/wave_aes64.gtkw"
-[timestart] 9814
-[size] 1280 729
-[pos] -9 -41
-*-4.221240 9839 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 8596
+[size] 2560 1369
+[pos] 3823 -191
+*-2.910300 8607 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ariane_testharness.
 [treeopen] ariane_testharness.i_ariane.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.
@@ -17,17 +17,17 @@
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.cvxif_req_i.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.
-[treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.
+[treeopen] ariane_testharness.i_ariane.i_cva6.
 [treeopen] ariane_testharness.i_ariane.i_cva6.issue_stage_i.
 [treeopen] ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.
 [treeopen] ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.
 [treeopen] ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.
-[sst_width] 247
-[signals_width] 339
+[sst_width] 417
+[signals_width] 553
 [sst_expanded] 1
-[sst_vpaned_height] 250
+[sst_vpaned_height] 536
 @28
 ariane_testharness.i_trigger.trigger_o
 @200
@@ -37,9 +37,6 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.clk_i
 @24
 [color] 7
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.opcode[4:0]
-@22
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.cvxif_req_i.issue_req.instr[31:0]
 @28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.alu_valid
 @200
@@ -128,25 +125,43 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.address_RF[63:0]
 @200
 -PRNG
+@28
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.clk_i
 @22
+[color] 7
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.seed[127:0]
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_seed
-@22
+[color] 5
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.seed_reg[127:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_result_share0_o[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_result_share1_o[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.opcode_q5[4:0]
 @28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.instr_q5[2:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.aes_round
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_active
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_en
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_global_en
+@22
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_op_i[31:0]
+@28
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_rst
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_rst_global
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_seed
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_update
+@22
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.prng_i.prng_o[143:0]
+@23
+[color] 1
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_result_o[143:0]
+@22
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[0][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[1][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[2][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[3][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[4][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[5][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[6][17:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.randombits_i[7][17:0]
 @200
 -RF
 @22
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_i[4:0]
-@25
+@24
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_1a[3:0]
 [color] 2
@@ -176,6 +191,14 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.input_RF_2[63:0]
 [color] 3
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.input_RF_3[63:0]
+@28
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.clk_i
+@22
+ariane_testharness.i_ariane.i_cva6.x_off_instr_id_ex[31:0]
+ariane_testharness.i_ariane.i_cva6.issue_stage_i.x_off_instr_o[31:0]
+ariane_testharness.i_ariane.i_cva6.issue_stage_i.orig_instr_i[0][31:0]
+[color] 5
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.cvxif_req_i.issue_req.instr[31:0]
 @24
 [color] 7
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.opcode[4:0]
@@ -413,12 +436,10 @@ ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.mem[13][63:0]
 [color] 1
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.mem[14][63:0]
-@22
 [color] 1
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.mem[15][63:0]
 [color] 1
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.mem[16][63:0]
-@24
 [color] 1
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.mem[17][63:0]
 [color] 1

@@ -13,6 +13,7 @@
 #include "trigger_auto.h"
 #include "uart.h"
 #include <time.h>
+#include "aes_dom.h"
 
 #define AES_BLOCK_SIZE 16
 
@@ -68,12 +69,16 @@ int main(int argc, char* arg[])
  
     AES_ENC_masked_dom((uint32_t*)pt, key);
     //AES_ENC((uint32_t*)pt, key);
-
+    //AES_ENC_masked_asm((uint32_t*)pt, key);
     *trigger = 1 << TRIGGER_CTRL_STOP;
     //reverse_pt(pt);
 
     print_uart_block(pt, AES_BLOCK_SIZE);
     print_uart_block(ct_ref, AES_BLOCK_SIZE);
+
+    //*trigger = 1 << TRIGGER_CTRL_START;
+    //AES_ENC_masked_dom((uint32_t*)pt, key);
+    //*trigger = 1 << TRIGGER_CTRL_STOP;
 
     return 0;
 }

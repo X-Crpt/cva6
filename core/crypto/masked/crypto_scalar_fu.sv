@@ -100,11 +100,11 @@ module crypto_scalar_fu
           seed_reg    <= seed;
           prng_active <= 1'b1;
           prng_update <= '0;  
-        end else if (prng_en) begin
+        end else if (prng_en && ~prng_rst) begin
           seed_reg    <= seed_reg;
           prng_active <= '0;
           prng_update <= 1'b1; 
-        end else if (prng_rst) begin
+        end else if (prng_en && prng_rst) begin
           seed_reg    <= 128'b0;
           prng_active <= '0; 
           prng_update <= '0;

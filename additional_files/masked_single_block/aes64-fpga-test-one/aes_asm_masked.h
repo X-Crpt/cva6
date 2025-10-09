@@ -20,6 +20,8 @@ uint32_t RoundKey[AES_keyExpSize];
 #define Nb 4
 #define Nk 4        // The number of 32 bit words in a key.
 #define Nr 10       // The number of rounds in AES Cipher.
+
+
 void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 {
     uint64_t a2, a3, a4, a5, a6;
@@ -43,8 +45,9 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
         ".insn r 0x7B, 1, 8, x0, x10, x11\n" // Load the state into reg0-reg1
         ".insn r 0x7B, 1, 8, x6, x12, x13\n" // Load the key   into reg6-reg7
         
-
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x0, x0\n"
+        //".insn r 0x7B, 1, 6, x0, x0, x0\n"   // Prng-enable
         ".insn r 0x7B, 1, 10, x0, x16, x16\n"
 
         "li x10, 1\n"
@@ -73,6 +76,11 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
@@ -120,6 +128,11 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
@@ -167,6 +180,11 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
@@ -214,6 +232,11 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
@@ -261,6 +284,11 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //aes64-esm
         "aes64esm x0, x0, x19\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
         "aes64esm x0, x10, x19\n"
         "nop\n"
         "nop\n"
@@ -308,10 +336,7 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         : [a2] "+r" (a2), [a3] "+r" (a3), [a4] "+r" (a4), [a5] "+r" (a5), [a6] "+r" (a6), [t0] "+r" (t0)
         : [key] "r" (Key), [state] "r" (state)
-        : "x6","x7",
-          "x10","x11","x12","x13","x14","x15","x16","x17",
-          "x18","x19","x20","x21","x22",
-          "cc","memory"
+        : "x15", "x16", "memory"
     );
 
 }
