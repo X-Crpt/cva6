@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Fri Mar 21 14:57:42 2025
+[*] Fri Oct 10 08:37:59 2025
 [*]
-[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2025-03-21/veri-testharness_sim/aes_asm_masked_single_encryption.cv64a6_imafdc_sv39.vcd"
-[dumpfile_mtime] "Fri Mar 21 14:45:23 2025"
-[dumpfile_size] 79875339
-[savefile] "/home/a.dolmeta/X-Crpt/cva6/additional_files/gtkwave/wave_iso_crypto.gtkw"
-[timestart] 7574
-[size] 1536 793
-[pos] -9 -41
-*-4.000000 7611 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2025-10-10/veri-testharness_sim/aes64-test-fixed.cv64a6_imac_crypto.vcd"
+[dumpfile_mtime] "Fri Oct 10 08:08:37 2025"
+[dumpfile_size] 325796198
+[savefile] "/home/a.dolmeta/X-Crpt/cva6/additional_files/gtkwave/wave_masked_crypto.gtkw"
+[timestart] 9172
+[size] 1280 729
+[pos] 1903 -8
+*-4.304820 9201 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ariane_testharness.
 [treeopen] ariane_testharness.i_ariane.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.
@@ -18,11 +18,11 @@
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.
 [treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.
-[treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.
+[treeopen] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.
 [sst_width] 266
 [signals_width] 345
 [sst_expanded] 1
-[sst_vpaned_height] 442
+[sst_vpaned_height] 450
 @28
 ariane_testharness.i_trigger.trigger_o
 @200
@@ -113,7 +113,6 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.instr
 -XOR
 @28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.random
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.random_i
 @24
 [color] 3
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.address_RF[63:0]
@@ -129,109 +128,81 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs2_i[63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.registers_i[1][63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rnum_i[3:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_result_o[63:0]
 @200
 -PRNG
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.en_i
 @22
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.seed[127:0]
 @28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.prng_seed
 @22
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.seed_reg[127:0]
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.init_i
-@22
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.lfsr[127:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.seed_i[127:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.prng_o[127:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rd_q[4:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rd_o[4:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rd_n[4:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rd_i[4:0]
 @200
 -RF
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.clk_i
 @24
 [color] 7
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.opcode[4:0]
 @28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.rst_ni
-@22
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_i[3:0]
-@28
 [color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.read_en_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.write_en_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.add_round_key_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_key_exp_ks1_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_key_exp_ks2_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.random_i
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.aes_round
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_round_q6
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_key_exp_ks1_q6
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.write_en_q6
-@24
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_1a[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_2a[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_3a[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_4a[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_1b[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_2b[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_3b[4:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.addr_4b[4:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.add_round_key_i
 @22
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.input0_i[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.input1_i[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.input2_i[63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[0][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[1][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[2][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[3][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_i[4:0]
+@25
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_1a[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_1b[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_2a[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_2b[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_3a[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_3b[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_4a[3:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_4b[3:0]
+@22
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.addr_i[4:0]
+@28
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.aes64ks2_first
+@22
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[0][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[1][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[2][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[3][63:0]
 [color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[4][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[4][63:0]
 [color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[5][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[5][63:0]
 [color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[6][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[6][63:0]
 [color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[7][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[7][63:0]
 [color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[8][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[8][63:0]
 [color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[9][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[10][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[11][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[12][63:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[13][63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[14][63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[15][63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_comb_out0_o[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.aes_comb_out1_o[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.output_o[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[9][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[10][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[11][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[12][63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.register_array[13][63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.aes_comb_out0_o[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.aes_comb_out1_o[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.aes_comb_out2_o[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.aes_comb_out3_o[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.input2_i[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.input3_i[63:0]
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.output_o[63:0]
+@28
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.random_i
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_RF.rf_i.read_en_i
 @200
 -AES64
 @22
@@ -239,38 +210,13 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs1_i[63:0]
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs2_i[63:0]
-@23
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs3_i[63:0]
-@22
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.d_sbout[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.e_sbout[63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.enc_rcon[3:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.f_col_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.f_col_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_2[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_3[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_col_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_col_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ish_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ish_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ish_2[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ish_3[31:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb0[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb1[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb2[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb3[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sbout[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_dec_i0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_dec_i1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_dec_o0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_dec_o1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_enc_i0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_enc_i1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_enc_o0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.mix_enc_o1[31:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rcon[0][7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rcon[1][7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rcon[2][7:0]
@@ -294,63 +240,11 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rcon_rot
 @22
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rconst[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_dec[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_enc[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_imix[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_ks1[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_ks2[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_2[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_3[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[0][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[1][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[2][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[3][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[4][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[5][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[6][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[7][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[0][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[1][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[2][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[3][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[4][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[5][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[6][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[7][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[0][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[1][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[2][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[3][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[4][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[5][7:0]
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.rst
-@22
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[6][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_in[7][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[0][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[1][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[2][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[3][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[4][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[5][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[6][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_inv_out[7][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.shiftrows_dec[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.shiftrows_enc[63:0]
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.clk
 @24
 +{ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.XLEN[31:0]} ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.XLEN[31:0]
 @22
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.registers_i[0][63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.registers_i[1][63:0]
-@28
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.clk
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.en_i
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_PRNG.co_simple_prng.rst
 @200
 -RF
 @22
@@ -405,83 +299,20 @@ ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.raddr_i[1][4:0]
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.rdata_o[0][63:0]
 ariane_testharness.i_ariane.i_cva6.issue_stage_i.i_issue_read_operands.gen_asic_regfile.i_ariane_regfile.rdata_o[1][63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.rf_i.register_array[10][63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox0.fx[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox0.in[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox0.t1[20:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox0.t2[17:0]
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs1_i[63:0]
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_rs2_i[63:0]
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_0[31:0]
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_1[31:0]
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_2[31:0]
-[color] 3
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.row_3[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_0[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_1[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_2[31:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.fsh_3[31:0]
 [color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.f_col_0[31:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.f_col_1[31:0]
-[color] 5
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.shiftrows_enc[63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_op_i[31:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[0][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[1][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[2][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[3][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[4][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[5][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[6][7:0]
-[color] 2
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in[7][7:0]
 [color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[0][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[1][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[2][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[3][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[4][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[5][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[6][7:0]
-[color] 7
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_out[7][7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.e_sbout[63:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rconst[7:0]
 @28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.rcon_rot
 @22
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sbout[31:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb0[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb1[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb2[7:0]
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.ks1_sb3[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_ks1[63:0]
-[color] 1
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.result_ks2[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox0.in[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox1.in[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_sbox2.in[7:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.shiftrows_enc[63:0]
-ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.shiftrows_dec[63:0]
 [pattern_trace] 1
 [pattern_trace] 0

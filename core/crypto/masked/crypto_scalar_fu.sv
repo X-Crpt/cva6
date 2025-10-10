@@ -260,7 +260,7 @@ module crypto_scalar_fu
             //   The *write* part will happen 5 cycles later (see below).
             else if ( (instr_i[27:26] == 2'b00) || (instr_i[27:26] == 2'b01) ) begin
               // READ side of aes64_es / aes64_esm
-              address_RF        = '0;
+              address_RF        = rd_i;
               input_RF_0        = registers_i[0];  
               input_RF_1        = registers_i[1];  
               aes_round         = 1'b1;

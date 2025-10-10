@@ -29,12 +29,20 @@ module rf (
 
     logic [63:0] temp1, temp2, temp3, temp4;
     logic aes64ks2_first;
+    logic aes64_round_first;
 
     always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni)
         aes64ks2_first <= 1'b0; // Initialize to 0 on reset
     else if (aes_key_exp_ks2_i)
         aes64ks2_first <= ~aes64ks2_first; // Toggle when aes_key_exp_ks2_i is 1
+    end
+
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni)
+        aes64_round_first <= 1'b0; // Initialize to 0 on reset
+    else if (aes_round_i)
+        aes64_round_first <= ~aes64_round_first; // Toggle when aes_key_exp_ks2_i is 1
     end
 
     //Synchronous read - combinatorial 
@@ -69,13 +77,23 @@ module rf (
         
 
         end else if (read_en_i && aes_round_i) begin
-            addr_1a = input1_i[3:0];
-            addr_2a = input1_i[3:0] + 1;
-            addr_3a = input0_i[3:0];
-
-            addr_1b = input1_i[3:0] + 2;
-            addr_2b = input1_i[3:0] + 3;
-            
+            //addr_1a = input1_i[3:0];
+            //addr_2a = input1_i[3:0] + 1;
+            //addr_3a = input0_i[3:0];
+            //addr_1b = input1_i[3:0] + 2;
+            //addr_2b = input1_i[3:0] + 3;
+            if (aes64_round_first == 1'b0) begin
+                addr_1a = 4'd10;
+                addr_2a = 4'd11;
+                addr_1b = 4'd12;
+                addr_2b = 4'd13;
+            end else begin
+                addr_1a = 4'd11;
+                addr_2a = 4'd10;
+                addr_1b = 4'd13;
+                addr_2b = 4'd12;
+            end
+                        
         end else if (read_en_i && aes_key_exp_ks1_i) begin
             addr_1a = input0_i[3:0];
             addr_2a = input0_i[3:0] + 2;
@@ -117,11 +135,11 @@ module rf (
             register_array[addr_1a] <= register_array[addr_1a] ^ register_array[addr_1b]; 
             register_array[addr_2a] <= register_array[addr_2a] ^ register_array[addr_2b]; 
 
-        end else if (write_en_i && aes_round_i) begin     
-            register_array[addr_2a] <= register_array[addr_1a];
-            register_array[addr_1a] <= register_array[addr_2a];
-            register_array[addr_2b] <= register_array[addr_1b];
-            register_array[addr_1b] <= register_array[addr_2b];
+        //end else if (write_en_i && aes_round_i) begin     
+        //    register_array[addr_2a] <= register_array[addr_1a];
+        //    register_array[addr_1a] <= register_array[addr_2a];
+        //    register_array[addr_2b] <= register_array[addr_1b];
+        //    register_array[addr_1b] <= register_array[addr_2b];
 
         end else if (write_en_q5 && aes_round_q5) begin    
             register_array[input0_q5]      <= input2_i; 
