@@ -21,7 +21,7 @@ module rf (
     output logic [63:0] output_o     // Output data
 );
 
-    parameter NUM_REGS = 14;  // 14 registers
+    parameter NUM_REGS = 16;  // 16 registers
     
     logic [63:0] register_array [0:NUM_REGS-1];
     logic [3:0] addr_1a, addr_2a, addr_3a, addr_4a;
