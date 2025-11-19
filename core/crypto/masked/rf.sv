@@ -114,7 +114,7 @@ module rf (
     end
 
     // Synchronous write - next clock cycles, of 6-clock cycle after
-    always_ff @(posedge clk_i or negedge rst_ni) begin
+    always_ff @(posedge clk_i) begin
         if (write_en_i && ~random_i &&  ~add_round_key_i && ~unmasking_i && ~aes_round_i && ~aes_key_exp_ks1_i && ~aes_key_exp_ks2_i) begin
             register_array[addr_i]      <= input0_i;
             register_array[addr_i + 1]  <= input1_i;
