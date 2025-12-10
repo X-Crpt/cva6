@@ -52,18 +52,18 @@ int main(int argc, char* arg[])
     
     uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
 
-    uint64_t rs1_fixed = 0x1234567812345678;
-    uint64_t rs2_fixed = 0x1234567812345678;
+    //uint64_t rs1_fixed = 0x1234567812345678;
+    //uint64_t rs2_fixed = 0x1234567812345678;
     //uint64_t rs1_fixed = 0xdeadbeefdeadbeaf;
     //uint64_t rs2_fixed = 0x1234567812345678;
 
     //cv_xif_prng_init
-    asm volatile (
-        ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
-        :     
-        : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
-        : 
-    );
+    //asm volatile (
+    //    ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
+    //    :     
+    //    : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
+    //    : 
+    //);
 
     *trigger = 1 << TRIGGER_CTRL_START;
  
