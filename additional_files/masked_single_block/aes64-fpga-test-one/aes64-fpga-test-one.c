@@ -107,8 +107,6 @@ int main(int argc, char* arg[])
     memcpy(&base_seed, seed_prng, 8);
     prng_seed64(base_seed);   // call once before the loop
 
-
-
     uint32_t num_traces = 3;
 
     for (uint32_t i = 0; i < num_traces; i++) {

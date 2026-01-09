@@ -16,14 +16,11 @@ export DV_TARGET=cv64a6_imafdc_sv39
 cd ./verif/sim
 
 # Generate VCD waveforms
-#export TRACE_FAST=1 
-export TRACE_SIDE=1
-export TRACE_TRIGGER=${TRACE_TRIGGER:-trigger_data_q}     
-export TRACE_MODULES=${TRACE_MODULES:-"i_ariane,co_crypto_aes64"}
+export TRACE_FAST=1 
 
 
 python3 cva6.py --target $DV_TARGET --iss=$DV_SIMULATORS --iss_yaml=cva6.yaml \
-    --c_tests ../../additional_files/aes-single_block-aes_seed/aes-single_block-aes_seed.c \
+    --c_tests ../../additional_files/sim/aes_single_block/aes_asm_iso_single_encryption.c \
     --isa_extension zbkb_zbkc_zbkx_zknd_zkne_zknh_zksed_zksh \
     --linker=../tests/custom/common/test.ld \
     --gcc_opts="-static -mcmodel=medany -fvisibility=hidden -nostdlib \

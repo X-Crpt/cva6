@@ -108,7 +108,14 @@ int main(int argc, char* arg[])
         0xAA, 0x90, 0x33, 0x76
     };  
 
-    uint8_t key_dev[16] = {0x00, 0xff, 0x00, 0xff, 0x11, 0xee, 0x22, 0xdd, 0x33, 0xcc, 0x44, 0xbb, 0x55, 0xaa, 0x66, 0x99};
+    uint8_t ciphertext_useless[16];
+    uint8_t  key_useless [16] = {
+        0xC9, 0x1A, 0x7E, 0xD3,
+        0x04, 0xB8, 0x6F, 0x2D,
+        0x9F, 0x55, 0xA0, 0x1C,
+        0xE7, 0x38, 0x12, 0x6B
+    };
+
     uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
 
     //Initialization UART
@@ -141,10 +148,17 @@ int main(int argc, char* arg[])
             AES_Encrypt(&ctx, plaintext, ciphertext); 
             // Check the LSB of the last byte (most significant byte of the 128-bit value)
             int lsb_check = ciphertext[0] & 0x01; 
+
+            uint64_t r0 = getRandom64_2();
+            uint64_t r1 = getRandom64_2();
+            memcpy(&ciphertext_useless[0],  &r0, 8);
+            memcpy(&ciphertext_useless[8],  &r1, 8);
             
             //if (lsb_check) {
 
             memcpy(plaintext, ciphertext, 16);
+
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_useless, key_useless);
 
             asm volatile ("": : : "memory");
             *trigger = 1 << TRIGGER_CTRL_START; 
@@ -159,6 +173,11 @@ int main(int argc, char* arg[])
             //} else {
 
             memcpy(ciphertext_fixed, fixed, 16);
+            r0 = getRandom64_2();
+            r1 = getRandom64_2();
+            memcpy(&ciphertext_useless[0],  &r0, 8);
+            memcpy(&ciphertext_useless[8],  &r1, 8);
+            AES_ENC_masked_dom_more_rand((uint32_t*)ciphertext_useless, key_useless);
 
             asm volatile ("": : : "memory");
             *trigger = 1 << TRIGGER_CTRL_START; 

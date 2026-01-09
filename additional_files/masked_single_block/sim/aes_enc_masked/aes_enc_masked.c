@@ -1,0 +1,107 @@
+/****************************************************************************************
+# Simple custom test:       aes_asm_single_encryption_masked.c
+# Author:                   Alessandra Dolmeta
+# Description: 
+/****************************************************************************************/
+
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "aes_asm_masked.h"
+#include "trigger_auto.h"
+#include "uart.h"
+#include <time.h>
+#include "AES_128_CBC.h"
+
+
+#define AES_BLOCK_SIZE 16
+
+void reverse_pt(uint32_t *pt) {
+    uint32_t temp[4];  // Temporary buffer for the reversed values
+
+    // Reverse word order AND byte order in each 32-bit word
+    for (int i = 0; i < 4; i++) {
+        uint32_t word = pt[3 - i];  // Reverse word order
+        temp[i] = ((word & 0x000000FF) << 24) | 
+                  ((word & 0x0000FF00) << 8)  | 
+                  ((word & 0x00FF0000) >> 8)  | 
+                  ((word & 0xFF000000) >> 24); // Reverse byte order
+    }
+
+    // Copy back the reversed data into pt
+    memcpy(pt, temp, AES_BLOCK_SIZE);
+}
+
+static uint32_t g_state32 = 0;   // 0 means "not seeded yet"
+
+static void prng_seed64(uint64_t seed) {
+    // Fold 64→32 and avoid zero state
+    uint32_t s = (uint32_t)(seed ^ (seed >> 32)) | 1u;
+    g_state32 = s;
+}
+
+static uint32_t xorshift32_step(void) {
+    uint32_t x = g_state32;
+    x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+    g_state32 = x ? x : 0x9E3779B9u;
+    return x;
+}
+
+static uint64_t getRandom64(void) {
+    uint64_t hi = xorshift32_step();
+    uint64_t lo = xorshift32_step();
+    return (hi << 32) | lo;
+}
+
+
+void print_uart_block(uint8_t *block, size_t length) {
+    for (size_t i = 0; i < length; i++) {
+        print_uart_byte(block[i]);
+    }
+    write_serial('\n'); // Newline after block output
+}
+
+int main(int argc, char* arg[])
+{
+
+print_uart("\r\n[BOOT] Masked AES64 Single Block Encryption Test Started!\r\n");
+
+    uint8_t  key [16] = {0x2b ,0x7e ,0x15 ,0x16 ,0x28 ,0xae ,0xd2 ,0xa6 ,0xab ,0xf7 ,0x15 ,0x88 ,0x09 ,0xcf ,0x4f ,0x3c};
+    //uint8_t  key [16] = {0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00};
+    uint8_t  pt  [16] = {0x32 ,0x43 ,0xf6 ,0xa8 ,0x88 ,0x5a ,0x30 ,0x8d ,0x31 ,0x31 ,0x98 ,0xa2 ,0xe0 ,0x37 ,0x07 ,0x34};
+    uint8_t  ct_ref[16] = {0x39, 0x25, 0x84, 0x1D, 0x02, 0xDC, 0x09, 0xFB, 0xDC, 0x11, 0x85, 0x97, 0x19, 0x6A, 0x0B, 0x32};
+    uint8_t ct[16] = {};
+    
+    uint32_t volatile * trigger = (uint32_t*)TRIGGER_CTRL;
+
+    uint64_t rs1_fixed = 0x1234567812345678;
+    uint64_t rs2_fixed = 0x1234567812345678;
+    //uint64_t rs1_fixed = 0xdeadbeefdeadbeaf;
+    //uint64_t rs2_fixed = 0x1234567812345678;
+
+    print_uart_block(pt, AES_BLOCK_SIZE);
+    print_uart_block(key, AES_BLOCK_SIZE);
+
+    //cv_xif_prng_init
+    asm volatile (
+        ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
+        :     
+        : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
+        : 
+    );
+
+
+    *trigger = 1 << TRIGGER_CTRL_START;
+ 
+    AES_ENC_masked_dom((uint32_t*)pt, key);
+
+    *trigger = 1 << TRIGGER_CTRL_STOP;
+
+    print_uart_block(pt, AES_BLOCK_SIZE);
+    print_uart_block(ct_ref, AES_BLOCK_SIZE);
+
+
+    return 0;
+}
