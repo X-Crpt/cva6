@@ -244,11 +244,25 @@ module crypto_scalar_fu
             unmasking       = 1'b1;
           end
 
-          // AES64_1 ( = aes64 instruction ) :
-          AES64_1: begin
-            // - If instr_i[30] == 1 => aes64_ks2
-            if (instr_i[30]) begin
-              // aes64ks2 uses immediate signals
+          AES64_ESM: begin
+              address_RF        = rd_i;
+              input_RF_0        = registers_i[0];  
+              input_RF_1        = registers_i[1];  
+              aes_round         = 1'b1;
+              read_en           = 1'b1;
+              write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
+          end
+
+          AES64_ES: begin
+              address_RF        = rd_i;
+              input_RF_0        = registers_i[0];  
+              input_RF_1        = registers_i[1];  
+              aes_round         = 1'b1;
+              read_en           = 1'b1;
+              write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
+          end
+
+          AES64_KS2: begin
               address_RF      = '0;
               input_RF_0      = registers_i[0];
               input_RF_1      = registers_i[1];
@@ -257,31 +271,16 @@ module crypto_scalar_fu
               aes_key_exp_ks2 = 1'b1;
               read_en         = 1'b1;
               write_en        = 1'b1;
-            end
-            // - If instr_i[27:26]==2'b00 or 2'b01 => aes64_es/aes64_esm => we only do the *read* part now
-            //   The *write* part will happen 5 cycles later (see below).
-            else if ( (instr_i[27:26] == 2'b00) || (instr_i[27:26] == 2'b01) ) begin
-              // READ side of aes64_es / aes64_esm
-              address_RF        = rd_i;
-              input_RF_0        = registers_i[0];  
-              input_RF_1        = registers_i[1];  
-              aes_round         = 1'b1;
-              read_en           = 1'b1;
-              write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
-
-              //prng_aes_en      = 1'b1;
-            end
           end
 
-          // AES64_2 ( = aes64_ks1i instruction ) :
-          AES64_2: begin
+          AES64_KS1: begin
             input_RF_0        = {59'b0, rd_i};  
             input_RF_1        = registers_i[0];  
             read_en           = 1'b1;
             write_en          = 1'b1;
             aes_key_exp_ks1   = 1'b1;
-            //prng_aes_en       = 1'b1;
           end
+
 
           default: begin
             // do nothing, remain at defaults
@@ -297,18 +296,19 @@ module crypto_scalar_fu
         //-------------------------------------------
         unique case (opcode_q5)
 
-          // Delayed AES64_1 => aes64_es / aes64_esm
-          AES64_1: begin
-            // Check if the original instruction was the aes/esm variant:
-            if (!instr_q5[2] && ((instr_q5[1:0] == 2'b00) || (instr_q5[1:0] == 2'b01))) begin
+          //aes64_es / aes64_esm
+          AES64_ESM: begin
               // This is the final write for aes64_es / aes64_esm
               input_RF_2       = aes64_result_share0_o;
               input_RF_3       = aes64_result_share1_o;
-            end
           end
-
+          AES64_ES: begin
+              // This is the final write for aes64_es / aes64_esm
+              input_RF_2       = aes64_result_share0_o;
+              input_RF_3       = aes64_result_share1_o;
+          end
           // Delayed AES64_2 => aes64_ks1i
-          AES64_2: begin
+          AES64_KS1: begin
             // Final write for aes64_ks1i
             input_RF_2       = aes64_result_share0_o;
             input_RF_3       = aes64_result_share1_o;
@@ -371,47 +371,35 @@ endgenerate
         aes64_rs4             = '0;
         valid_i               = 1'b0;
 
-        if (opcode_i == AES64_1) begin
-            aes64_en = 1'b1;
-            if (instr_i[30] == 1'b1) begin  // - If instr_i[30] == 1 => aes64_ks2
-                aes64_op_i = aes64_ks2;
-                valid_i    = 1'b0;
-                aes64_rs1  = aes_comb_out0;
-                aes64_rs2  = aes_comb_out1;
-                aes64_rs3  = aes_comb_out2;
-                aes64_rs4  = aes_comb_out3;
-            end else begin
-                case (instr_i[27:26])
-                    2'b00: begin
-                        aes64_op_i = aes64_es;
-                        aes64_rs1  = aes_comb_out0;
-                        aes64_rs2  = aes_comb_out1;
-                        aes64_rs3  = aes_comb_out2;
-                        aes64_rs4  = aes_comb_out3;
-                        valid_i    = 1'b1;
-                    end
-                    2'b01: begin
-                        aes64_op_i = aes64_esm;
-                        aes64_rs1  = aes_comb_out0;
-                        aes64_rs2  = aes_comb_out1;
-                        aes64_rs3  = aes_comb_out2;
-                        aes64_rs4  = aes_comb_out3;
-                        valid_i    = 1'b1;
-                    end
-                    default: begin
-                        valid_i = 1'b0;
-                    end
-                endcase
-            end
-        end else if (opcode_i == AES64_2) begin
-            aes64_en = 1'b1;
-            if (instr_i[24] == 1'b1) begin
-                aes64_op_i           = aes64_ks1i;
-                aes64_rs1            = aes_comb_out0;
-                aes64_rs2            = registers_i[1];
-                aes64_rs3            = aes_comb_out1;
-                valid_i              = 1'b1;
-            end
+        if (opcode_i == AES64_ESM) begin
+            aes64_op_i = aes64_esm;
+            aes64_rs1  = aes_comb_out0;
+            aes64_rs2  = aes_comb_out1;
+            aes64_rs3  = aes_comb_out2;
+            aes64_rs4  = aes_comb_out3;
+            valid_i    = 1'b1;
+        end else if (opcode_i == AES64_ES) begin
+            aes64_op_i = aes64_es;
+            aes64_rs1  = aes_comb_out0;
+            aes64_rs2  = aes_comb_out1;
+            aes64_rs3  = aes_comb_out2;
+            aes64_rs4  = aes_comb_out3;
+            valid_i    = 1'b1;
+
+        end else if (opcode_i == AES64_KS2) begin
+            aes64_op_i = aes64_ks2;
+            valid_i    = 1'b0;
+            aes64_rs1  = aes_comb_out0;
+            aes64_rs2  = aes_comb_out1;
+            aes64_rs3  = aes_comb_out2;
+            aes64_rs4  = aes_comb_out3;
+
+        end else if (opcode_i == AES64_KS1) begin
+            aes64_op_i           = aes64_ks1i;
+            aes64_rs1            = aes_comb_out0;
+            aes64_rs2            = registers_i[1];
+            aes64_rs3            = aes_comb_out1;
+            valid_i              = 1'b1;
         end
     end
 
@@ -466,7 +454,7 @@ endgenerate
   //////////////////////////////////////////////////////////////////////////////////////
   always_comb begin
     case (opcode_i)
-        AES64_1: begin
+        AES64_ESM: begin
             result_n = aes64_result_o;
             hartid_n = hartid_i;
             id_n     = id_i;
@@ -474,7 +462,23 @@ endgenerate
             rd_n     = rd_i;
             we_n     = 1'b1;
         end
-        AES64_2: begin
+        AES64_ES: begin
+            result_n = aes64_result_o;
+            hartid_n = hartid_i;
+            id_n     = id_i;
+            valid_n  = 1'b1;
+            rd_n     = rd_i;
+            we_n     = 1'b1;
+        end
+        AES64_KS2: begin
+            result_n = aes64_result_o;
+            hartid_n = hartid_i;
+            id_n     = id_i;
+            valid_n  = 1'b1;
+            rd_n     = rd_i;
+            we_n     = 1'b1;
+        end
+        AES64_KS1: begin
             result_n = aes64_result_o;
             hartid_n = hartid_i;
             id_n     = id_i;

@@ -24,7 +24,11 @@ package crypto_instr_pkg;
     STORE     = 5'b01111,  //15
     XOR_R     = 5'b10000,  //16
     ADD_RK    = 5'b10001,  //17
-    UNMASK    = 5'b10010   //18
+    UNMASK    = 5'b10010,   //18
+    AES64_ESM = 5'b10011, //19
+    AES64_ES  = 5'b10100, //20
+    AES64_KS2 = 5'b10101, //21
+    AES64_KS1 = 5'b10110 //22     
   } opcode_t;
 
   typedef enum {  
@@ -61,7 +65,7 @@ package crypto_instr_pkg;
   // 10 Types Possible instructions 
   //parameter int unsigned NbInstr = 11;
   //parameter int unsigned NbInstr = 14; //+ 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
-  parameter int unsigned NbInstr = 9; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
+  parameter int unsigned NbInstr = 12; // + 3 custom instructions for PRNG (same opcode and funct3, but change funct7)
                                        // +1 custom load
                                        // +1 custom store
                                        // +1 custom xor_r
@@ -93,18 +97,11 @@ package crypto_instr_pkg;
         },
         //'{
         //    instr:
-        //    32'b00001_10_00000_00000_0_01_00000_1111011,  // custom3 opcode
+        //    32'b00001_11_00000_00000_0_01_00000_1111011,  // custom3 opcode
         //    mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
         //    resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
         //    opcode : PRNG
         //},
-        '{
-            instr:
-            32'b00001_11_00000_00000_0_01_00000_1111011,  // custom3 opcode
-            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
-            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
-            opcode : PRNG
-        },
         '{
             instr:
             32'b00010_00_00000_00000_0_01_00000_1111011,  // custom3 opcode
@@ -139,8 +136,37 @@ package crypto_instr_pkg;
             mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
             resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
             opcode : UNMASK
-        }        
+        },
 
+        //AES64 Instruction
+        '{
+            instr:
+            32'b00000_00_00000_00000_0_10_00000_1111011,  
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : AES64_ESM    //AES64esm
+        }, 
+        '{
+            instr:
+            32'b00000_01_00000_00000_0_10_00000_1111011,  
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : AES64_ES   //AES64es
+        },   
+        '{
+            instr:
+            32'b00000_10_00000_00000_0_10_00000_1111011,  
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : AES64_KS2    //AES64ks2
+        }, 
+        '{
+            instr:
+            32'b00000_11_00000_00000_0_10_00000_1111011,  
+            mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
+            resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
+            opcode : AES64_KS1    //AES64ks1
+        }
   };
 
 endpackage

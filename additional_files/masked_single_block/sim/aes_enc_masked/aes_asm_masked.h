@@ -65,23 +65,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 1 ---------------------------------------------------------------
         //Key Expansion 1 -----------------------
-        "aes64ks1i x7, x15, 0\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 0\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -91,23 +91,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 2 ---------------------------------------------------------------
         //Key Expansion 2 -----------------------
-        "aes64ks1i x7, x15, 1\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 1\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -117,23 +117,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 3 ---------------------------------------------------------------
         //Key Expansion 3 -----------------------
-        "aes64ks1i x7, x15, 2\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 2\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -143,23 +143,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 4 ---------------------------------------------------------------
         //Key Expansion 4 -----------------------
-        "aes64ks1i x7, x15, 3\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 3\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -169,23 +169,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 5 ---------------------------------------------------------------
         //Key Expansion 5 -----------------------
-        "aes64ks1i x7, x15, 4\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 4\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -195,23 +195,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 6 ---------------------------------------------------------------
         //Key Expansion 6 -----------------------
-        "aes64ks1i x7, x15, 5\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 5\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -221,23 +221,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 7 ---------------------------------------------------------------
         //Key Expansion 7 -----------------------
-        "aes64ks1i x7, x15, 6\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 6\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -247,23 +247,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 8 ---------------------------------------------------------------
         //Key Expansion 8 -----------------------
-        "aes64ks1i x7, x15, 7\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 7\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -273,23 +273,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 9 ---------------------------------------------------------------
         //Key Expansion 9 -----------------------
-        "aes64ks1i x7, x15, 8\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 8\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64esm x0, x0, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64esm x0, x10, x19\n"
+        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
@@ -299,23 +299,23 @@ void AES_ENC_masked_dom(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 10 ---------------------------------------------------------------
         //Key Expansion 10 -----------------------
-        "aes64ks1i x7, x15, 9\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, 9\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
 
         //aes64-esm
-        "aes64es x0, x0, x19\n"
+        ".insn r 0x7B, 2, 1, x0, x0, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
         "nop\n"
-        "aes64es x0, x10, x19\n"
+        ".insn r 0x7B, 2, 1, x0, x10, x19\n"
         "nop\n"
         "nop\n"
         "nop\n"

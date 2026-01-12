@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "aes_asm_masked.h"
+#include "aes_asm_masked_more_rand.h"
 #include "trigger_auto.h"
 #include "uart.h"
 #include <time.h>
@@ -103,7 +104,7 @@ int main(int argc, char* arg[])
 
     *trigger = 1 << TRIGGER_CTRL_START;
  
-    AES_ENC_masked_dom((uint32_t*)pt, key);
+    AES_ENC_masked_dom_more_rand((uint32_t*)pt, key);
 
     *trigger = 1 << TRIGGER_CTRL_STOP;
 

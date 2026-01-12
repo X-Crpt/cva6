@@ -136,12 +136,10 @@ module rf (
             register_array[addr_1a] <= register_array[addr_1a] ^ register_array[addr_1b]; 
             register_array[addr_2a] <= register_array[addr_2a] ^ register_array[addr_2b]; 
 
-        //end else if (write_en_i && aes_round_i) begin     
-        //    register_array[addr_2a] <= register_array[addr_1a];
-        //    register_array[addr_1a] <= register_array[addr_2a];
-        //    register_array[addr_2b] <= register_array[addr_1b];
-        //    register_array[addr_1b] <= register_array[addr_2b];
-
+        end else if (write_en_i && aes_key_exp_ks2_i) begin
+            register_array[addr_2a] <= input2_i;
+            register_array[addr_2b] <= input3_i;
+            
         end else if (write_en_q5 && aes_round_q5 && valid_i) begin    
             register_array[input0_q5]      <= input2_i; 
             register_array[input0_q5 + 2 ] <= input3_i; 
@@ -149,10 +147,6 @@ module rf (
         end else if (write_en_q5 && aes_key_exp_ks1_q5 && valid_i) begin
             register_array[input1_q5]     <= input2_i;
             register_array[input1_q5 + 1] <= input3_i;
-        
-        end else if (write_en_i && aes_key_exp_ks2_i) begin
-            register_array[addr_2a] <= input2_i;
-            register_array[addr_2b] <= input3_i;
         end 
     end
 
