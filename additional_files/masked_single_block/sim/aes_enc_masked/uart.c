@@ -5,43 +5,15 @@
 #include <stdio.h>
 #include "uart.h"
 
-
-void read_seed_input_from_uart(uint8_t *seed_input, size_t size) {
-    //print_uart("Please send the seed input (");
-    //print_uart_int(size);
-    //print_uart(" bytes in hexadecimal format):\n");
-
-    for (size_t i = 0; i < size; i++) {
-        uint8_t byte_received;
-        while (!read_serial(&byte_received)) {
-            // Wait for data
-        }
-        seed_input[i] = byte_received;
-
-        // Echo received byte as hexadecimal for confirmation
-        //print_uart("Received byte ");
-        //print_uart_byte(byte_received);
-        //print_uart("\n");
+uint8_t uart_read_byte_blocking(void)
+{
+    uint8_t c;
+    while (!read_serial(&c)) {
+        // busy-wait; optionally you can add a timeout or WFI
     }
+    return c;
 }
 
-// Function to read a 32-bit integer (uint32_t) from UART
-uint32_t read_uint32_from_uart() {
-    uint32_t value = 0;
-    for (int i = 0; i < 4; i++) {
-        uint8_t byte_received;
-        while (!read_serial(&byte_received)) {
-            // Wait for data
-        }
-        value |= (byte_received << (i * 8));
-        //print_uart("Received byte for num_traces: ");
-        //print_uart_byte(byte_received);
-        //print_uart("\n");
-    }
-    return value;
-}
-
-/********************************ORIGINAL FILE***************************************/
 void write_reg_u8(uintptr_t addr, uint8_t value)
 {
     volatile uint8_t *loc_addr = (volatile uint8_t *)addr;
@@ -82,7 +54,7 @@ int read_serial(uint8_t *res)
 
 void init_uart(uint32_t freq, uint32_t baud)
 {
-    uint32_t divisor = freq / (baud << 4);
+    uint32_t divisor = 27;//freq / (baud << 4);
 
     write_reg_u8(UART_INTERRUPT_ENABLE, 0x00); // Disable all interrupts
     write_reg_u8(UART_LINE_CONTROL, 0x80);     // Enable DLAB (set baud rate divisor)
@@ -108,41 +80,55 @@ uint8_t bin_to_hex_table[16] = {
 
 void bin_to_hex(uint8_t inp, uint8_t res[2])
 {
-    res[1] = bin_to_hex_table[inp & 0xf];
-    res[0] = bin_to_hex_table[(inp >> 4) & 0xf];
+    res[0] = bin_to_hex_table[(inp >> 4) & 0xf]; // high nibble
+    res[1] = bin_to_hex_table[inp & 0xf];        // low nibble
     return;
 }
 
-void print_uart_int(uint32_t addr)
+void print_uart_int(uint32_t value)
 {
-    int i;
-    for (i = 3; i > -1; i--)
+    const char hex_table[] = "0123456789ABCDEF";
+    char s[4];
+    for (int i = 3; i >= 0; i--)
     {
-        uint8_t cur = (addr >> (i * 8)) & 0xff;
-        uint8_t hex[2];
-        bin_to_hex(cur, hex);
-        write_serial(hex[0]);
-        write_serial(hex[1]);
+        uint8_t byte = (value >> (i * 8)) & 0xFF;
+        s[0] = hex_table[(byte >> 4) & 0xF];
+        s[1] = hex_table[byte & 0xF];
+        s[2] = ' ';
+        s[3] = '\0';
+        print_uart(s);
     }
 }
 
 void print_uart_addr(uint64_t addr)
 {
-    int i;
-    for (i = 7; i > -1; i--)
+    const char hex_table[] = "0123456789ABCDEF";
+    char s[4];
+    for (int i = 7; i >= 0; i--)
     {
-        uint8_t cur = (addr >> (i * 8)) & 0xff;
-        uint8_t hex[2];
-        bin_to_hex(cur, hex);
-        write_serial(hex[0]);
-        write_serial(hex[1]);
+        uint8_t byte = (addr >> (i * 8)) & 0xFF;
+        s[0] = hex_table[(byte >> 4) & 0xF];
+        s[1] = hex_table[byte & 0xF];
+        s[2] = ' ';
+        s[3] = '\0';
+        print_uart(s);
     }
 }
 
+// void print_uart_byte(uint8_t byte)
+// {
+//     uint8_t hex[2];
+//     bin_to_hex(byte, hex);
+//     write_serial(hex[0]);
+//     write_serial(hex[1]);
+// }
 void print_uart_byte(uint8_t byte)
 {
-    uint8_t hex[2];
-    bin_to_hex(byte, hex);
-    write_serial(hex[0]);
-    write_serial(hex[1]);
+    const char hex_table[] = "0123456789ABCDEF";
+    char s[4];
+    s[0] = hex_table[(byte >> 4) & 0xF];
+    s[1] = hex_table[byte & 0xF];
+    s[2] = ' ';
+    s[3] = '\0';
+    print_uart(s);   // print_uart will call write_serial for each char reliably
 }

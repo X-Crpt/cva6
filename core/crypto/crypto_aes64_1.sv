@@ -84,13 +84,18 @@ module crypto_aes64
     input logic              valid_i,
     input  logic [3:0]       aes64_rnum_i,
     input  logic [17:0]      randombits_i [7:0],
-    //output logic             valid_o,
     output logic [XLEN-1:0]  aes64_result_share0_o, 
     output logic [XLEN-1:0]  aes64_result_share1_o
 );
 
     // Select I'th byte of X.
     `define BY(X,I) X[7+8*I:8*I]
+
+    logic ready_for_sbox_i;
+    logic valid_o_sbox [7:0];
+    logic ready_for_sbox_o [7:0];
+
+    assign ready_for_sbox_i = 1'b1;
 
     logic [XLEN-1:0] input0_share0, input0_share1, input1_share0, input1_share1;
 
@@ -228,30 +233,16 @@ module crypto_aes64
     assign      sb_fwd_in_share0[7]=                                        `BY(shiftrows_enc_share0, 7);
     assign      sb_fwd_in_share1[7]=                                        `BY(shiftrows_enc_share1, 7);
 
-
-    logic ready_for_sbox_i;
-    logic valid_o_sbox [7:0];
-    logic ready_for_sbox_o [7:0];
-
-    assign ready_for_sbox_i = 1'b1;
-
-    logic sbox_valid_i;
-    assign sbox_valid_i = valid_i & aes64_en_i;   // or just aes64_en_i if valid_i is redundant
-
-    logic sbox_valid_o_all;
-    assign sbox_valid_o_all = &valid_o_sbox;  // all 8 bytes ready same cycle (common for AES)
-    //assign valid_o = sbox_valid_o_all;
-
     dom_sbox i_fwd_dom_sbox0 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[0]),
         .shareB_in        (sb_fwd_in_share1[0]),
         .randombits_i     (randombits_i[0]),
         .valid_o          (valid_o_sbox[0]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[0]),
         .shareA_out       (sb_fwd_out_share0[0]),
         .shareB_out       (sb_fwd_out_share1[0])
       );
@@ -259,13 +250,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox1 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[1]),
         .shareB_in        (sb_fwd_in_share1[1]),
         .randombits_i     (randombits_i[1]),
         .valid_o          (valid_o_sbox[1]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[1]),
         .shareA_out       (sb_fwd_out_share0[1]),
         .shareB_out       (sb_fwd_out_share1[1])
       );
@@ -273,13 +264,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox2 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[2]),
         .shareB_in        (sb_fwd_in_share1[2]),
         .randombits_i     (randombits_i[2]),
         .valid_o          (valid_o_sbox[2]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[2]),
         .shareA_out       (sb_fwd_out_share0[2]),
         .shareB_out       (sb_fwd_out_share1[2])
       );
@@ -288,13 +279,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox3 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[3]),
         .shareB_in        (sb_fwd_in_share1[3]),
         .randombits_i     (randombits_i[3]),
         .valid_o          (valid_o_sbox[3]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[3]),
         .shareA_out       (sb_fwd_out_share0[3]),
         .shareB_out       (sb_fwd_out_share1[3])
       );
@@ -302,13 +293,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox4 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[4]),
         .shareB_in        (sb_fwd_in_share1[4]),
         .randombits_i     (randombits_i[4]),
         .valid_o          (valid_o_sbox[4]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[4]),
         .shareA_out       (sb_fwd_out_share0[4]),
         .shareB_out       (sb_fwd_out_share1[4])
       );
@@ -316,13 +307,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox5 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[5]),
         .shareB_in        (sb_fwd_in_share1[5]),
         .randombits_i     (randombits_i[5]),
         .valid_o          (valid_o_sbox[5]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[5]),
         .shareA_out       (sb_fwd_out_share0[5]),
         .shareB_out       (sb_fwd_out_share1[5])
       );
@@ -330,13 +321,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox6 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[6]),
         .shareB_in        (sb_fwd_in_share1[6]),
         .randombits_i     (randombits_i[6]),
         .valid_o          (valid_o_sbox[6]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[6]),
         .shareA_out       (sb_fwd_out_share0[6]),
         .shareB_out       (sb_fwd_out_share1[6])
       );
@@ -345,13 +336,13 @@ module crypto_aes64
     dom_sbox i_fwd_dom_sbox7 (
         .clk_i            (clk_i),
         .rst_n            (rst_ni),
-        .valid_i          (sbox_valid_i),
+        .valid_i          (valid_i),
         .ready_for_sbox_i (ready_for_sbox_i),
         .shareA_in        (sb_fwd_in_share0[7]),
         .shareB_in        (sb_fwd_in_share1[7]),
         .randombits_i     (randombits_i[7]),
         .valid_o          (valid_o_sbox[7]),
-        .ready_for_sbox_o (aes64_en_q4),
+        .ready_for_sbox_o (ready_for_sbox_o[7]),
         .shareA_out       (sb_fwd_out_share0[7]),
         .shareB_out       (sb_fwd_out_share1[7])
       );

@@ -61,12 +61,14 @@ void print_uart_block(uint8_t *block, size_t length) {
         print_uart_byte(block[i]);
     }
     write_serial('\n'); // Newline after block output
+    write_serial('\r'); 
+
 }
 
 int main(int argc, char* arg[])
 {
 
-print_uart("\r\n[BOOT] Masked AES64 Single Block Encryption Test Started!\r\n");
+    print_uart("\r\n[BOOT] Masked AES64 Single Block Encryption Test Started!\r\n");
 
     uint8_t  key [16] = {0x2b ,0x7e ,0x15 ,0x16 ,0x28 ,0xae ,0xd2 ,0xa6 ,0xab ,0xf7 ,0x15 ,0x88 ,0x09 ,0xcf ,0x4f ,0x3c};
     //uint8_t  key [16] = {0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00};
@@ -81,16 +83,22 @@ print_uart("\r\n[BOOT] Masked AES64 Single Block Encryption Test Started!\r\n");
     //uint64_t rs1_fixed = 0xdeadbeefdeadbeaf;
     //uint64_t rs2_fixed = 0x1234567812345678;
 
+    
+    uint32_t freq, baud;  //TO BE SET
+    freq = 25000000;    //25 MHz
+    baud = 57600;      //57600 bps
+    init_uart(freq, baud);
+
     print_uart_block(pt, AES_BLOCK_SIZE);
     print_uart_block(key, AES_BLOCK_SIZE);
 
     //cv_xif_prng_init
-    asm volatile (
-        ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
-        :     
-        : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
-        : 
-    );
+    //asm volatile (
+    //    ".insn r 0x7B, 1, 5, x0, %[input_a], %[input_b]\n"  
+    //    :     
+    //    : [input_a] "r" (rs1_fixed), [input_b] "r" (rs2_fixed) // Input operands
+    //    : 
+    //);
 
 
     *trigger = 1 << TRIGGER_CTRL_START;

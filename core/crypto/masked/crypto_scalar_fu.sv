@@ -152,6 +152,8 @@ module crypto_scalar_fu
   logic [2:0] instr_q1, instr_q2, instr_q3, instr_q4, instr_q5;
   //logic prng_aes_en_q1, prng_aes_en_q2, prng_aes_en_q3, prng_aes_en_q4, prng_aes_en_q5;
 
+  logic valid_i_sbox;
+
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
       opcode_q1 <= '0;       opcode_q2 <= '0;       opcode_q3 <= '0;       opcode_q4 <= '0;       opcode_q5 <= '0; 
@@ -319,7 +321,6 @@ module crypto_scalar_fu
         endcase
       end
 
-
     rf rf_i (
     .clk_i               (clk_i),
     .rst_ni              (rst_ni),
@@ -334,6 +335,7 @@ module crypto_scalar_fu
     .aes_round_i         (aes_round),
     .aes_key_exp_ks1_i   (aes_key_exp_ks1),
     .aes_key_exp_ks2_i   (aes_key_exp_ks2),
+    //.valid_i             (valid_i_sbox),
     .write_en_i          (write_en),// Enable signal for writing
     .read_en_i           (read_en),   // Enable signal for reading
     .aes_comb_out0_o     (aes_comb_out0),
@@ -453,6 +455,7 @@ endgenerate
     .valid_i(valid_i),
     .aes64_rnum_i(instr_i[23:20]),
     .randombits_i(randombits_i),
+    //.valid_o(valid_i_sbox),
     .aes64_result_share0_o(aes64_result_share0_o),
     .aes64_result_share1_o(aes64_result_share1_o)
     );
