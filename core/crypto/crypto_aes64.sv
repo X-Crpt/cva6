@@ -84,7 +84,7 @@ module crypto_aes64
     input logic              valid_i,
     input  logic [3:0]       aes64_rnum_i,
     input  logic [17:0]      randombits_i [7:0],
-    //output logic             valid_o,
+    output logic             valid_o,
     output logic [XLEN-1:0]  aes64_result_share0_o, 
     output logic [XLEN-1:0]  aes64_result_share1_o
 );
@@ -239,8 +239,9 @@ module crypto_aes64
     assign sbox_valid_i = valid_i & aes64_en_i;   // or just aes64_en_i if valid_i is redundant
 
     logic sbox_valid_o_all;
-    assign sbox_valid_o_all = &valid_o_sbox;  // all 8 bytes ready same cycle (common for AES)
-    //assign valid_o = sbox_valid_o_all;
+    assign sbox_valid_o_all = valid_o_sbox[0] & valid_o_sbox[1] & valid_o_sbox[2] & valid_o_sbox[3] & 
+                              valid_o_sbox[4] & valid_o_sbox[5] & valid_o_sbox[6] & valid_o_sbox[7];
+    assign valid_o = sbox_valid_o_all;
 
     dom_sbox i_fwd_dom_sbox0 (
         .clk_i            (clk_i),

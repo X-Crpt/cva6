@@ -335,7 +335,7 @@ module crypto_scalar_fu
     .aes_round_i         (aes_round),
     .aes_key_exp_ks1_i   (aes_key_exp_ks1),
     .aes_key_exp_ks2_i   (aes_key_exp_ks2),
-    //.valid_i             (valid_i_sbox),
+    .valid_i             (valid_i_sbox),
     .write_en_i          (write_en),// Enable signal for writing
     .read_en_i           (read_en),   // Enable signal for reading
     .aes_comb_out0_o     (aes_comb_out0),
@@ -455,7 +455,7 @@ endgenerate
     .valid_i(valid_i),
     .aes64_rnum_i(instr_i[23:20]),
     .randombits_i(randombits_i),
-    //.valid_o(valid_i_sbox),
+    .valid_o(valid_i_sbox),
     .aes64_result_share0_o(aes64_result_share0_o),
     .aes64_result_share1_o(aes64_result_share1_o)
     );

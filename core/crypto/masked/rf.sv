@@ -12,7 +12,7 @@ module rf (
     input  logic        aes_round_i,
     input  logic        aes_key_exp_ks1_i,
     input  logic        aes_key_exp_ks2_i,
-    //input  logic        valid_i,
+    input  logic        valid_i,
     input  logic        write_en_i,  // Enable signal for writing
     input  logic        read_en_i,   // Enable signal for reading
     output logic [63:0] aes_comb_out0_o,
@@ -142,11 +142,11 @@ module rf (
         //    register_array[addr_2b] <= register_array[addr_1b];
         //    register_array[addr_1b] <= register_array[addr_2b];
 
-        end else if (write_en_q5 && aes_round_q5 ) begin    
+        end else if (write_en_q5 && aes_round_q5 && valid_i) begin    
             register_array[input0_q5]      <= input2_i; 
             register_array[input0_q5 + 2 ] <= input3_i; 
 
-        end else if (write_en_q5 && aes_key_exp_ks1_q5) begin
+        end else if (write_en_q5 && aes_key_exp_ks1_q5 && valid_i) begin
             register_array[input1_q5]     <= input2_i;
             register_array[input1_q5 + 1] <= input3_i;
         
