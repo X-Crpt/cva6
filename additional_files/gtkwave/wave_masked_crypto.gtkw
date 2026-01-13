@@ -1,14 +1,14 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Jan 12 07:39:50 2026
+[*] Tue Jan 13 10:56:58 2026
 [*]
-[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2026-01-12/veri-testharness_sim/aes_enc_masked.cv64a6_imac_crypto.vcd"
-[dumpfile_mtime] "Mon Jan 12 07:19:47 2026"
-[dumpfile_size] 685087842
+[dumpfile] "/home/a.dolmeta/X-Crpt/cva6/verif/sim/out_2026-01-13/veri-testharness_sim/aes_enc_masked.cv64a6_imac_crypto.vcd"
+[dumpfile_mtime] "Tue Jan 13 10:54:01 2026"
+[dumpfile_size] 685088072
 [savefile] "/home/a.dolmeta/X-Crpt/cva6/additional_files/gtkwave/wave_masked_crypto.gtkw"
 [timestart] 45678
 [size] 2560 1369
-[pos] 1920 -8
+[pos] 1920 0
 *-4.429546 45747 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ariane_testharness.
 [treeopen] ariane_testharness.i_ariane.
@@ -199,9 +199,7 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.ready_for_sbox_o
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.stage2_valid
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.stage3_valid
-@29
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.stage4_valid
-@28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.stage5_valid
 [color] 7
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.i_fwd_dom_sbox1.stage6_valid
@@ -210,6 +208,11 @@ ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_cop
 #{ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[0:7]} ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[0] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[1] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[2] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[3] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[4] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[5] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[6] ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.valid_o_sbox[7]
 @28
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sbox_valid_o_all
+@23
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_result_share0_o[63:0]
+[color] 6
+ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.aes64_result_share1_o[63:0]
 @22
 [color] 2
 ariane_testharness.i_ariane.cvxif_example_coprocessor.i_crypto_coprocessor.i_copro_alu.M_AES64.co_crypto_aes64.sb_fwd_in_share0[0][7:0]

@@ -135,7 +135,8 @@ module crypto_scalar_fu
   //////////////////////////////////////////////////////////////////////////////////////////
   logic [XLEN-1:0]  store_result_o;
   logic [127:0]     xor_r_result_o;
-  logic [XLEN-1:0]  input_RF_0, input_RF_1, input_RF_2, input_RF_3;
+  logic [XLEN-1:0]  input_RF_0_q, input_RF_1_q, input_RF_2_q, input_RF_3_q;
+  logic [XLEN-1:0]  input_RF_0_d, input_RF_1_d, input_RF_2_d, input_RF_3_d;
   logic [XLEN-1:0]  address_RF;
   logic             write_en, read_en;
   logic             random;
@@ -158,28 +159,29 @@ module crypto_scalar_fu
     if (~rst_ni) begin
       opcode_q1 <= '0;       opcode_q2 <= '0;       opcode_q3 <= '0;       opcode_q4 <= '0;       opcode_q5 <= '0; 
       instr_q1  <= '0;       instr_q2  <= '0;       instr_q3  <= '0;       instr_q4  <= '0;       instr_q5  <= '0;
-      //prng_aes_en_q1 <= '0; prng_aes_en_q2 <= '0; prng_aes_en_q3 <= '0; prng_aes_en_q4 <= '0; prng_aes_en_q5 <= '0; 
+      input_RF_0_q <= '0;    input_RF_1_q <= '0;    input_RF_2_q<= '0;     input_RF_3_q <= '0;
       end
       else begin
         opcode_q1 <= opcode_i;
         instr_q1  <= {instr_i[30], instr_i[27:26]};
-        //prng_aes_en_q1 <= prng_aes_en;
 
         opcode_q2 <= opcode_q1;
         instr_q2  <= instr_q1;
-        //prng_aes_en_q2 <= prng_aes_en_q1;
 
         opcode_q3 <= opcode_q2;
         instr_q3  <= instr_q2;
-        //prng_aes_en_q3 <= prng_aes_en_q2;
 
         opcode_q4 <= opcode_q3;
         instr_q4  <= instr_q3;
-        //prng_aes_en_q4 <= prng_aes_en_q3;
 
         opcode_q5 <= opcode_q4;
         instr_q5  <= instr_q4;
-        //prng_aes_en_q5 <= prng_aes_en_q4;
+
+        input_RF_0_q <= input_RF_0_d;
+        input_RF_1_q <= input_RF_1_d;
+        input_RF_2_q <= input_RF_2_d;
+        input_RF_3_q <= input_RF_3_d;
+
       end
   end
 
@@ -196,10 +198,10 @@ module crypto_scalar_fu
         aes_key_exp_ks2  = 1'b0;
         aes_key_exp_ks1  = 1'b0;
         address_RF       = '0;
-        input_RF_0       = '0;
-        input_RF_1       = '0;
-        input_RF_2       = '0;
-        input_RF_3       = '0;
+        input_RF_0_d     = input_RF_0_q;
+        input_RF_1_d     = input_RF_1_q;
+        input_RF_2_d     = input_RF_2_q;
+        input_RF_3_d     = input_RF_3_q;
 
         //prng_aes_en      = '0;
 
@@ -210,8 +212,8 @@ module crypto_scalar_fu
 
           LOAD: begin
             address_RF      = rd_i;
-            input_RF_0      = registers_i[0];
-            input_RF_1      = registers_i[1];
+            input_RF_0_d    = registers_i[0];
+            input_RF_1_d    = registers_i[1];
             write_en        = 1'b1;   
           end
 
@@ -222,24 +224,24 @@ module crypto_scalar_fu
 
           XOR_R: begin
             address_RF      = registers_i[0][4:0];
-            input_RF_0        = {59'b0, registers_i[1][4:0]};
-            input_RF_1        = prng_result_o[63:0];
-            input_RF_2        = prng_result_o[127:64];
+            input_RF_0_d    = {59'b0, registers_i[1][4:0]};
+            input_RF_1_d    = prng_result_o[63:0];
+            input_RF_2_d    = prng_result_o[127:64];
             random          = 1'b1;
             write_en        = 1'b1;
           end
 
           ADD_RK: begin
-            input_RF_0      = registers_i[0];  //pt
-            input_RF_1      = registers_i[1];  //key
+            input_RF_0_d    = registers_i[0];  //pt
+            input_RF_1_d    = registers_i[1];  //key
             address_RF      = rd_i;
             write_en        = 1'b1;
             add_round_key   = 1'b1;
           end
 
           UNMASK: begin
-            input_RF_0      = registers_i[0];  
-            input_RF_1      = registers_i[1];  
+            input_RF_0_d    = registers_i[0];  
+            input_RF_1_d    = registers_i[1];  
             write_en        = 1'b1;
             unmasking       = 1'b1;
           end
@@ -250,10 +252,10 @@ module crypto_scalar_fu
             if (instr_i[30]) begin
               // aes64ks2 uses immediate signals
               address_RF      = '0;
-              input_RF_0      = registers_i[0];
-              input_RF_1      = registers_i[1];
-              input_RF_2      = aes64_result_share0_o;  
-              input_RF_3      = aes64_result_share1_o;  
+              input_RF_0_d    = registers_i[0];
+              input_RF_1_d    = registers_i[1];
+              input_RF_2_d    = aes64_result_share0_o;  
+              input_RF_3_d    = aes64_result_share1_o;  
               aes_key_exp_ks2 = 1'b1;
               read_en         = 1'b1;
               write_en        = 1'b1;
@@ -263,8 +265,8 @@ module crypto_scalar_fu
             else if ( (instr_i[27:26] == 2'b00) || (instr_i[27:26] == 2'b01) ) begin
               // READ side of aes64_es / aes64_esm
               address_RF        = rd_i;
-              input_RF_0        = registers_i[0];  
-              input_RF_1        = registers_i[1];  
+              input_RF_0_d      = registers_i[0];  
+              input_RF_1_d      = registers_i[1];  
               aes_round         = 1'b1;
               read_en           = 1'b1;
               write_en          = 1'b1; //TBD: maybe we can avoid the pipeline inside
@@ -275,8 +277,8 @@ module crypto_scalar_fu
 
           // AES64_2 ( = aes64_ks1i instruction ) :
           AES64_2: begin
-            input_RF_0        = {59'b0, rd_i};  
-            input_RF_1        = registers_i[0];  
+            input_RF_0_d      = {59'b0, rd_i};  
+            input_RF_1_d      = registers_i[0];  
             read_en           = 1'b1;
             write_en          = 1'b1;
             aes_key_exp_ks1   = 1'b1;
@@ -302,16 +304,16 @@ module crypto_scalar_fu
             // Check if the original instruction was the aes/esm variant:
             if (!instr_q5[2] && ((instr_q5[1:0] == 2'b00) || (instr_q5[1:0] == 2'b01))) begin
               // This is the final write for aes64_es / aes64_esm
-              input_RF_2       = aes64_result_share0_o;
-              input_RF_3       = aes64_result_share1_o;
+              input_RF_2_d       = aes64_result_share0_o;
+              input_RF_3_d       = aes64_result_share1_o;
             end
           end
 
           // Delayed AES64_2 => aes64_ks1i
           AES64_2: begin
             // Final write for aes64_ks1i
-            input_RF_2       = aes64_result_share0_o;
-            input_RF_3       = aes64_result_share1_o;
+            input_RF_2_d       = aes64_result_share0_o;
+            input_RF_3_d       = aes64_result_share1_o;
           end
 
           default: begin
@@ -325,10 +327,10 @@ module crypto_scalar_fu
     .clk_i               (clk_i),
     .rst_ni              (rst_ni),
     .addr_i              (address_RF[4:0]), // Address for read/write
-    .input0_i            (input_RF_0), // Input data 0
-    .input1_i            (input_RF_1), // Input data 1
-    .input2_i            (input_RF_2), // Input data 2
-    .input3_i            (input_RF_3),
+    .input0_i            (input_RF_0_d), // Input data 0
+    .input1_i            (input_RF_1_d), // Input data 1
+    .input2_i            (input_RF_2_d), // Input data 2
+    .input3_i            (input_RF_3_d),
     .random_i            (random),
     .add_round_key_i     (add_round_key),
     .unmasking_i         (unmasking),
@@ -416,32 +418,15 @@ endgenerate
     end
 
 
-  assign randombits_i[0] = prng_result_o[143:126];  // Bits 143 down to 126
-  assign randombits_i[1] = prng_result_o[125:108];  // Bits 125 down to 108
-  assign randombits_i[2] = prng_result_o[107:90];   // Bits 107 down to 90
-  assign randombits_i[3] = prng_result_o[89:72];    // Bits 89 down to 72
-  assign randombits_i[4] = prng_result_o[71:54];    // Bits 71 down to 54
-  assign randombits_i[5] = prng_result_o[53:36];    // Bits 53 down to 36
-  assign randombits_i[6] = prng_result_o[35:18];    // Bits 35 down to 18
-  assign randombits_i[7] = prng_result_o[17:0];     // Bits 17 down to 0
+    assign randombits_i[0] = prng_result_o[143:126];  // Bits 143 down to 126
+    assign randombits_i[1] = prng_result_o[125:108];  // Bits 125 down to 108
+    assign randombits_i[2] = prng_result_o[107:90];   // Bits 107 down to 90
+    assign randombits_i[3] = prng_result_o[89:72];    // Bits 89 down to 72
+    assign randombits_i[4] = prng_result_o[71:54];    // Bits 71 down to 54
+    assign randombits_i[5] = prng_result_o[53:36];    // Bits 53 down to 36
+    assign randombits_i[6] = prng_result_o[35:18];    // Bits 35 down to 18
+    assign randombits_i[7] = prng_result_o[17:0];     // Bits 17 down to 0
 
-
-    //assign randombits_i[0] = '0;
-    //assign randombits_i[1] = '0;
-    //assign randombits_i[2] = '0;
-    //assign randombits_i[3] = '0;
-    //assign randombits_i[4] = '0;
-    //assign randombits_i[5] = '0;
-    //assign randombits_i[6] = '0;
-    //assign randombits_i[7] = '0;
-    //assign randombits_i[0] = 18'h12345;
-    //assign randombits_i[1] = 18'h1A2B3;
-    //assign randombits_i[2] = 18'h2BCD0;
-    //assign randombits_i[3] = 18'h17DEF;
-    //assign randombits_i[4] = 18'h0ACE5;
-    //assign randombits_i[5] = 18'h3F3F3;
-    //assign randombits_i[6] = 18'h15555;
-    //assign randombits_i[7] = 18'h3ABCD;
 
     crypto_aes64 co_crypto_aes64(
     .clk_i(clk_i),
