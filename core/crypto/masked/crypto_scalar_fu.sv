@@ -153,6 +153,7 @@ module crypto_scalar_fu
   //logic prng_aes_en_q1, prng_aes_en_q2, prng_aes_en_q3, prng_aes_en_q4, prng_aes_en_q5;
 
   logic valid_i_sbox;
+  logic [63:0] rcon_index;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
@@ -275,7 +276,8 @@ module crypto_scalar_fu
 
           AES64_KS1: begin
             input_RF_0        = {59'b0, rd_i};  
-            input_RF_1        = registers_i[0];  
+            input_RF_1        = registers_i[0];
+            rcon_index        = registers_i[1];  
             read_en           = 1'b1;
             write_en          = 1'b1;
             aes_key_exp_ks1   = 1'b1;
@@ -441,7 +443,8 @@ endgenerate
     .aes64_rs3_i(aes64_rs3),
     .aes64_rs4_i(aes64_rs4),
     .valid_i(valid_i),
-    .aes64_rnum_i(instr_i[23:20]),
+    //.aes64_rnum_i(instr_i[23:20]),
+    .aes64_rnum_i(rcon_index[3:0]),
     .randombits_i(randombits_i),
     .valid_o(valid_i_sbox),
     .aes64_result_share0_o(aes64_result_share0_o),

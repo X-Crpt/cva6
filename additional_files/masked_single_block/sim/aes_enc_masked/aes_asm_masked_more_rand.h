@@ -65,8 +65,8 @@ void AES_ENC_masked_dom_more_rand(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 1 ---------------------------------------------------------------
         //Key Expansion 1 -----------------------
-//        "li x2, 0\n"
-//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+        //"li x2, 0\n"
+        ".insn r 0x7B, 2, 3, x7, x15, x0\n"
         "add x0, x0, x0\n"
         "xor x0, x0, x0\n"
         "and x0, x0, x0\n"
