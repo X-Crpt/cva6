@@ -65,270 +65,280 @@ void AES_ENC_masked_dom_more_rand(uint32_t* state,  uint8_t* Key)
 
         //---- ROUND 1 ---------------------------------------------------------------
         //Key Expansion 1 -----------------------
-        "aes64ks1i x7, x15, 0\n"
+//        "li x2, 0\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
         "add x0, x0, x0\n"
         "xor x0, x0, x0\n"
         "and x0, x0, x0\n"
         "or x0, x0, x0\n"
         "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 2 ---------------------------------------------------------------
-        //Key Expansion 2 -----------------------
-        "aes64ks1i x7, x15, 1\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 3 ---------------------------------------------------------------
-        //Key Expansion 3 -----------------------
-        "aes64ks1i x7, x15, 2\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 4 ---------------------------------------------------------------
-        //Key Expansion 4 -----------------------
-        "aes64ks1i x7, x15, 3\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 5 ---------------------------------------------------------------
-        //Key Expansion 5 -----------------------
-        "aes64ks1i x7, x15, 4\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 6 ---------------------------------------------------------------
-        //Key Expansion 6 -----------------------
-        "aes64ks1i x7, x15, 5\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 7 ---------------------------------------------------------------
-        //Key Expansion 7 -----------------------
-        "aes64ks1i x7, x15, 6\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 8 ---------------------------------------------------------------
-        //Key Expansion 8 -----------------------
-        "aes64ks1i x7, x15, 7\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 9 ---------------------------------------------------------------
-        //Key Expansion 9 -----------------------
-        "aes64ks1i x7, x15, 8\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64esm x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64esm x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //---- ROUND 10 ---------------------------------------------------------------
-        //Key Expansion 10 -----------------------
-        "aes64ks1i x7, x15, 9\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64ks2  x0, x15, x16\n"
-        "aes64ks2  x0, x16, x13\n"
-
-        //aes64-esm
-        "aes64es x0, x0, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        "aes64es x0, x10, x19\n"
-        "add x0, x0, x0\n"
-        "xor x0, x0, x0\n"
-        "and x0, x0, x0\n"
-        "or x0, x0, x0\n"
-        "sll x0, x0, x0\n"
-        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
-
-        //unmasking
-        ".insn r 0x7B, 1, 12, x0, x19, x21\n"
-
-        //Store the final-state
-        ".insn r 0x7B, 1, 9, x15, x19, x10\n"
-        ".insn r 0x7B, 1, 9, x16, x20, x11\n"
+        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 2 ---------------------------------------------------------------
+//        //Key Expansion 2 -----------------------
+//        "li x2, 1\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 3 ---------------------------------------------------------------
+//        //Key Expansion 3 -----------------------
+//        "li x2, 2\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 4 ---------------------------------------------------------------
+//        //Key Expansion 4 -----------------------
+//        "li x2, 3\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 5 ---------------------------------------------------------------
+//        //Key Expansion 5 -----------------------
+//        "li x2, 4\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 6 ---------------------------------------------------------------
+//        //Key Expansion 6 -----------------------
+//        "li x2, 5\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 7 ---------------------------------------------------------------
+//        //Key Expansion 7 -----------------------
+//        "li x2, 6\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 8 ---------------------------------------------------------------
+//        //Key Expansion 8 -----------------------
+//        "li x2, 7\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 9 ---------------------------------------------------------------
+//        //Key Expansion 9 -----------------------
+//        "li x2, 8\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 0, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 0, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //---- ROUND 10 ---------------------------------------------------------------
+//        //Key Expansion 10 -----------------------
+//        "li x2, 9\n"
+//        ".insn r 0x7B, 2, 3, x7, x15, x2\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 2,  x0, x15, x16\n"
+//        ".insn r 0x7B, 2, 2,  x0, x16, x13\n"
+//
+//        //aes64-esm
+//        ".insn r 0x7B, 2, 1, x0, x0, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 2, 1, x0, x10, x19\n"
+//        "add x0, x0, x0\n"
+//        "xor x0, x0, x0\n"
+//        "and x0, x0, x0\n"
+//        "or x0, x0, x0\n"
+//        "sll x0, x0, x0\n"
+//        ".insn r 0x7B, 1, 11, x0, x0, x19\n"
+//
+//        //unmasking
+//        ".insn r 0x7B, 1, 12, x0, x19, x21\n"
+//
+//        //Store the final-state
+//        ".insn r 0x7B, 1, 9, x15, x19, x10\n"
+//        ".insn r 0x7B, 1, 9, x16, x20, x11\n"
         
         //store
         "sd x15, 0(%[state])\n"

@@ -162,7 +162,7 @@ package crypto_instr_pkg;
         }, 
         '{
             instr:
-            32'b00000_11_00000_00000_0_10_00000_1111011,  
+            32'b00000_11_00000_00000_0_00_00000_1111011,  
             mask: 32'b11111_11_00000_00000_1_11_00000_1111111,
             resp : '{accept : 1'b1, writeback : 1'b0, register_read : {1'b0, 1'b1, 1'b1}},
             opcode : AES64_KS1    //AES64ks1
