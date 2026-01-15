@@ -116,6 +116,9 @@ module crypto_aes64
 
     logic [31:0] ks1_sbout_share0, ks1_sbout_share1;
 
+    logic [5:0] aes64_op_q1, aes64_op_q2, aes64_op_q3, aes64_op_q4, aes64_op_q5;
+    logic aes64_en_q1, aes64_en_q2, aes64_en_q3, aes64_en_q4, aes64_en_q5;
+
     assign enc_rcon = aes64_rnum_i;
     assign rcon_rot = enc_rcon != 4'hA;
     assign rconst = rcon_rot ? rcon[enc_rcon] : 8'b0;
@@ -424,9 +427,6 @@ module crypto_aes64
 
     assign result_enc_share0 = { mix_enc_o0_share1, mix_enc_o0_share0 };
     assign result_enc_share1 = { mix_enc_o1_share1, mix_enc_o1_share0 };
-
-    logic [5:0] aes64_op_q1, aes64_op_q2, aes64_op_q3, aes64_op_q4, aes64_op_q5;
-    logic aes64_en_q1, aes64_en_q2, aes64_en_q3, aes64_en_q4, aes64_en_q5;
   
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (~rst_ni) begin

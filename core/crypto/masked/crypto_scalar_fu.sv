@@ -252,10 +252,10 @@ module crypto_scalar_fu
               address_RF      = '0;
               input_RF_0      = registers_i[0];
               input_RF_1      = registers_i[1];
-              //input_RF_2      = aes64_result_share0_o;  
-              //input_RF_3      = aes64_result_share1_o;  
-              input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
-              input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
+              input_RF_2      = aes64_result_share0_o;  
+              input_RF_3      = aes64_result_share1_o;  
+              //input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
+              //input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
               aes_key_exp_ks2 = 1'b1;
               read_en         = 1'b1;
               write_en        = 1'b1;
@@ -304,20 +304,20 @@ module crypto_scalar_fu
             // Check if the original instruction was the aes/esm variant:
             if (!instr_q5[2] && ((instr_q5[1:0] == 2'b00) || (instr_q5[1:0] == 2'b01))) begin
               // This is the final write for aes64_es / aes64_esm
-              //input_RF_2      = aes64_result_share0_o;  
-              //input_RF_3      = aes64_result_share1_o;  
-              input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
-              input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
+              input_RF_2      = aes64_result_share0_o;  
+              input_RF_3      = aes64_result_share1_o;  
+              //input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
+              //input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
             end
           end
 
           // Delayed AES64_2 => aes64_ks1i
           AES64_2: begin
             // Final write for aes64_ks1i
-              //input_RF_2      = aes64_result_share0_o;  
-              //input_RF_3      = aes64_result_share1_o;  
-              input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
-              input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
+              input_RF_2      = aes64_result_share0_o;  
+              input_RF_3      = aes64_result_share1_o;  
+              //input_RF_2      =  64'hA3F5_1C9D_7E20_B4D8;
+              //input_RF_3      =  64'hA3F5_1C9D_7E20_B4D8;
           end
 
           default: begin
@@ -473,7 +473,7 @@ endgenerate
   always_comb begin
     case (opcode_i)
         AES64_1: begin
-            result_n = aes64_result_o;
+            result_n = '0;
             hartid_n = hartid_i;
             id_n     = id_i;
             valid_n  = 1'b1;
@@ -481,7 +481,7 @@ endgenerate
             we_n     = 1'b1;
         end
         AES64_2: begin
-            result_n = aes64_result_o;
+            result_n = '0;
             hartid_n = hartid_i;
             id_n     = id_i;
             valid_n  = 1'b1;
